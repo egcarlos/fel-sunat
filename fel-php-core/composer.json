@@ -1,0 +1,9 @@
+{
+    "require": {
+        "spipu/html2pdf": "^4.5",
+        "neitanod/forceutf8": "dev-master"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
