@@ -45,3 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+xmlsec/xmlsec-bin/bin/**
+xmlsec/xmlsec-bin/obj/**
+xmlsec/xmlsec-lib/bin/**
+xmlsec/xmlsec-lib/obj/**
+fel-php-core/vendor/**
