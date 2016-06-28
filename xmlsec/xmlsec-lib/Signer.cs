@@ -3,6 +3,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 
 namespace org.nutria.sunat.xmldsig.lib
 {
@@ -70,7 +72,25 @@ namespace org.nutria.sunat.xmldsig.lib
             //configura los parametros del xmldsig
             this.ConfigureAttributes();
         }
-        
+
+        public string SaveResponse(string file)
+        {
+            var response = new Dictionary<string, string>();
+            response["name"] = file;
+            response["date"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            response["signatureValue"] = this.SignatureValue;
+            response["digestValue"] = this.DigestValue;
+            var serializer = new JavaScriptSerializer();
+            var json = serializer.Serialize(response);
+
+            using (StreamWriter sw = new StreamWriter(file,false))
+            {
+                sw.Write(json);
+            }
+
+            return json;
+        }
+
         public void AtachSignature()
         {
             //generacion de la firma digital

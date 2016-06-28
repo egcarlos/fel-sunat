@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
-using System.Web.Script.Serialization;
 using System.Xml;
 using org.nutria.sunat.xmldsig.lib;
 
@@ -50,15 +48,8 @@ namespace org.nutria.sunat.xmldsig.bin
             //genera el zip
             signer.SaveToZip(workdir + "\\documents\\" + name + ".zip", name + ".xml");
 
+            var json = signer.SaveResponse(workdir + "\\documents\\" + name + ".json");
             
-            var response = new Dictionary<string, string>();
-            response["name"] = name;
-            response["date"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            response["signatureValue"] = name;
-            response["digestValue"] = name;
-            var serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(response);
-
             Console.WriteLine(json);
 
 
