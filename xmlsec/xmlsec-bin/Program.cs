@@ -3,58 +3,38 @@ using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using org.nutria.sunat.xmldsig.lib;
+using RestSharp;
 
 namespace org.nutria.sunat.xmldsig.bin
 {
     class Program
     {
-        static string PatchTemplate(string key, string ruc, string tipo, string numero)
+        static string PatchTemplate(string key, params object[] args)
         {
-            string text = ConfigurationManager.AppSettings.Get(key);
-            text = text.Replace("{ruc}", ruc);
-            text = text.Replace("{tipo}", tipo);
-            text = text.Replace("{numero}", numero);
-            return text;
+            string template = ConfigurationManager.AppSettings.Get(key);
+            return string.Format(template, args);
         }
         
         static void Main(string[] args)
         {
-            //parametros de operacion del comando
-            string ruc = args[0], tipo = args[1], numero = args[2];
-            string url = PatchTemplate("document.url.template", ruc, tipo, numero);
-            string name = PatchTemplate("document.name.template", ruc, tipo, numero);
-            string workdir = ConfigurationManager.AppSettings.Get(ruc + ".workdir");
-            string certPath = workdir + "\\identity.pfx";
-            string certPass = ConfigurationManager.AppSettings.Get(ruc + ".keystore.pass");
-
+            var conf = new lib.Configuration(ConfigurationManager.AppSettings, args);
             //cargar el certificado digital
-            var pk12 = new X509Certificate2(certPath, certPass);
+            var pk12 = new X509Certificate2(conf.KSPath, conf.KSPass);
             KeyManager keyManager = new PKCS12KeyManager(pk12);
 
-            //cargar el xml
-            var doc = new XmlDocument();
-            doc.PreserveWhitespace = true;
-            doc.Load(url);
-            
-            //crear el firmador
-            Signer signer = new Signer(doc, keyManager);
-            signer.Configure();
-            //guarda archivo sin firmar
-            signer.Save(workdir + "\\documents\\" + name + ".unsigned.xml");
-            //firma el archivo
-            signer.AtachSignature();
-            //guarda archivo firmado
-            signer.Save(workdir + "\\documents\\" + name + ".xml");
-            //genera el zip
-            signer.SaveToZip(workdir + "\\documents\\" + name + ".zip", name + ".xml");
+            var sign = new SignProcess(conf, keyManager);
 
-            var json = signer.SaveResponse(workdir + "\\documents\\" + name + ".json");
-            
-            Console.WriteLine(json);
+            sign.Execute();
 
+            //Console.WriteLine(sign.JSONResponse);
+
+            var client = new RestClient(conf.UpdateSignatureURL);
+            var request = new RestRequest(Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddParameter("application/json; charset=utf-8", sign.JSONResponse, ParameterType.RequestBody);
+            var response = client.Execute(request);
 
             //Console.ReadLine();
-            
             /*
             //validar el documento recien firmado
             var document = new XmlDocument();

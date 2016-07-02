@@ -1,7 +1,9 @@
 {
     "require": {
         "spipu/html2pdf": "^4.5",
-        "neitanod/forceutf8": "dev-master"
+        "neitanod/forceutf8": "dev-master",
+        "bigfish/pdf417": "^0.2.0",
+        "doctrine/dbal": "^2.5"
     },
     "config": {
         "preferred-install": "dist"

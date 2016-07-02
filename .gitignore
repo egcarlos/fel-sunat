@@ -50,3 +50,5 @@ xmlsec/xmlsec-bin/obj/**
 xmlsec/xmlsec-lib/bin/**
 xmlsec/xmlsec-lib/obj/**
 fel-php-core/vendor/**
+xmlsec/packages/**
+xmlsec/.vs/xmlsec/v14/.suo

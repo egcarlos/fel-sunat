@@ -1,6 +1,6 @@
 <?php
 require_once 'MDB2.php';
-require_once dirname(__FILE__).'/../vendor/autoload.php';
+require_once dirname(__FILE__).'/../../vendor/autoload.php';
 
 use \ForceUTF8\Encoding;
 
@@ -39,6 +39,12 @@ function db_execute($stm, $arguments) {
     return $res;
 }
 
+function db_exec($stm, $arguments) {
+    $res = $stm->exec($arguments);
+    db_check($res);
+    return $res;
+}
+
 function db_map_resultset($res, $columns) {
     $result = array();
     while ($row = $res->fetchRow()) {
@@ -49,7 +55,7 @@ function db_map_resultset($res, $columns) {
             while (count($tags) > 1){
                 $tag = $tags[0];
                 array_shift($tags);
-                if (!$current_holder[$tag]){
+                if (!isset($current_holder[$tag])){
                     $current_holder[$tag] = array();
                 }
                 $current_holder = &$current_holder[$tag];
@@ -64,14 +70,14 @@ function db_map_resultset($res, $columns) {
 
 function db_load_query($file) {
     ob_start();
-    include $file;
+    include dirname(__FILE__) . '/queries/' . $file;
     $content = ob_get_clean();
     return $content;
 }
 
 function db_load_mapping($file) {
     ob_start();
-    include $file;
+    include dirname(__FILE__) . '/queries/' . $file;
     $content = ob_get_clean();
     $mapping = json_decode($content, true);
     return $mapping;

@@ -5,6 +5,7 @@ using System.Security.Cryptography.Xml;
 using System.Xml;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using RestSharp;
 
 namespace org.nutria.sunat.xmldsig.lib
 {
@@ -73,22 +74,41 @@ namespace org.nutria.sunat.xmldsig.lib
             this.ConfigureAttributes();
         }
 
-        public string SaveResponse(string file)
+        public Dictionary<string, string> GetResponse(string name)
         {
             var response = new Dictionary<string, string>();
-            response["name"] = file;
+            response["name"] = name;
             response["date"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            response["signatureValue"] = this.SignatureValue;
             response["digestValue"] = this.DigestValue;
+            response["signatureValue"] = this.SignatureValue;
+            return response;
+        }
+
+        public String GetJSONResponse(string name)
+        {
+            var response = GetResponse(name);
             var serializer = new JavaScriptSerializer();
             var json = serializer.Serialize(response);
-
-            using (StreamWriter sw = new StreamWriter(file,false))
-            {
-                sw.Write(json);
-            }
-
             return json;
+        }
+        
+        public void RelayResponse(string target, string name)
+        {
+            var client = new RestClient(target);
+            var request = new RestRequest("", Method.POST);
+            request.AddParameter("name", name);
+            request.AddParameter("digest", this.DigestValue);
+            request.AddParameter("signature", this.SignatureValue);
+            request.AddParameter("date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            var response = client.Execute(request);
+        }
+
+        public void SaveJSONResponse(string name, string file)
+        {
+            using (StreamWriter sw = new StreamWriter(file, false))
+            {
+                sw.Write(GetJSONResponse(name));
+            }
         }
 
         public void AtachSignature()
@@ -97,7 +117,7 @@ namespace org.nutria.sunat.xmldsig.lib
             this.signedXml.ComputeSignature();
 
             //agrega la firma digital al contenido
-            this.signatureContainer.AppendChild(signedXml.GetXml());
+            this.signatureContainer.AppendChild(this.document.ImportNode(signedXml.GetXml(),true));
         }
 
         public void SetKeyElements()
@@ -113,7 +133,7 @@ namespace org.nutria.sunat.xmldsig.lib
             extensions.AppendChild(extension);
             var content = document.CreateElement(ext.Prefix + PrefixSeparator + ContentTag, ext.URI);
             extension.AppendChild(content);
-            signatureContainer = extension;
+            signatureContainer = content;
         }
 
         public void ConfigureAttributes()
