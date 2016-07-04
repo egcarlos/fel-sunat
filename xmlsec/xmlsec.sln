@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xmlsec-bin", "xmlsec-bin\xm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xmlsec-lib", "xmlsec-lib\xmlsec-lib.csproj", "{D97C2F56-DB02-4C23-8E72-7F2627CBE112}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillServiceClient", "BillServiceClient\BillServiceClient.csproj", "{A49D8C3D-A2EA-4CA9-A327-F09E50528AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillServiceClientTest", "BillServiceClientTest\BillServiceClientTest.csproj", "{846EFF90-B36E-4C93-B367-E57C4FFE317B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A49D8C3D-A2EA-4CA9-A327-F09E50528AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49D8C3D-A2EA-4CA9-A327-F09E50528AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49D8C3D-A2EA-4CA9-A327-F09E50528AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A49D8C3D-A2EA-4CA9-A327-F09E50528AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{846EFF90-B36E-4C93-B367-E57C4FFE317B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{846EFF90-B36E-4C93-B367-E57C4FFE317B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{846EFF90-B36E-4C93-B367-E57C4FFE317B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{846EFF90-B36E-4C93-B367-E57C4FFE317B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
