@@ -61,7 +61,9 @@ function db_map_resultset($res, $columns) {
                 $current_holder = &$current_holder[$tag];
             }
             $tag = $tags[0];
-            $current_holder[$tag] = Encoding::fixUTF8($row[$key]);
+            //$current_holder[$tag] = Encoding::toISO8859($row[$key]);
+            $current_holder[$tag] = Encoding::toUTF8($row[$key]);
+            //$current_holder[$tag] = $row[$key];
         }
         $result[] = $data;
     }

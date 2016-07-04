@@ -15,6 +15,7 @@ if (count($documento)==0) {
 }
 
 //formate la salida
-$retention = new RetentionBuilder($documento);
-Header('Content-type: text/xml');
-echo $retention->save();
+$retention = new RetentionBuilder($documento, false);
+Header('Content-type: text/xml; charset=iso-8859-1');
+
+echo $retention->dom->saveXml();

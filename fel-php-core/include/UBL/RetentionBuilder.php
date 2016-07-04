@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__).'/../../vendor/autoload.php';
+use \archon810\SmartDOMDocument;
 
 class RetentionBuilder {
     var $namespaces = [
@@ -12,7 +14,7 @@ class RetentionBuilder {
         'udt'=>'urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2',
         'xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
     ];
-    var $dom = NULL;
+    public $dom = NULL;
     var $root;
     var $current;
     var $stack = array();
@@ -23,7 +25,7 @@ class RetentionBuilder {
         $this->file_name = $data['emisor']['documento']['numero'].'-20-'.$data['documento']['numero'];
 
 
-        $this->dom = new DOMDocument('1.0', 'utf-8');
+        $this->dom = new SmartDOMDocument('1.0', 'iso-8859-1');
         $this->root = $this->dom->createElementNS('urn:sunat:names:specification:ubl:peru:schema:xsd:Retention-1', 'Retention');
         foreach ($this->namespaces as $pfx => $namespace) {
             $this->root->setAttributeNS('http://www.w3.org/2000/xmlns/','xmlns:'.$pfx,$namespace);
@@ -36,22 +38,6 @@ class RetentionBuilder {
             $this
                 ->append_fw('ext:UBLExtension')
                     ->append_fw('ext:ExtensionContent')
-                        ->append_fw('ds:Signature')->attribute('Id', 'signatureKG')
-                            ->append_fw('ds:SignedInfo')
-                                ->append('ds:CanonicalizationMethod')->attribute('Algorithm', 'http://www.w3.org/TR/2001/REC-xml-c14n20010315#WithComments')
-                                ->append('ds:SignatureMethod')->attribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#dsa-sha1')
-                                ->append_fw('ds:Reference')->attribute('URI', '')
-                                    ->append_fw('ds:Transforms')
-                                        ->append('ds:Transform')->attribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#enveloped-signature')
-                                        ->pop()
-                                    ->append('ds:DigestMethod')->attribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#sha1')
-                                    ->append('ds:DigestValue')
-                                    ->pop()
-                                ->pop()
-                            ->append('ds:SignatureValue')
-                            ->append_fw('ds:KeyInfo')
-                                ->append_fw('ds:X509Data')
-                                    ->append_fw('ds:X509Certificate')
             ;
         }
         $this
@@ -81,7 +67,7 @@ class RetentionBuilder {
                     ->append_nnv('cbc:CityName',$data['emisor']['ubicacion']['provincia'])
                     ->append_nnv('cbc:CountrySubentity',$data['emisor']['ubicacion']['departamento'])
                     ->append_nnv('cbc:District',$data['emisor']['ubicacion']['distrito'])
-                    ->append_fw('cbc:Country')->append_nnv('cbc:IdentificationCode',$data['emisor']['ubicacion']['pais'])->pop()
+                    ->append_fw('cac:Country')->append_nnv('cbc:IdentificationCode',$data['emisor']['ubicacion']['pais'])->pop()
                     ->pop()
                 ->append_fw('cac:PartyLegalEntity')->append_fw('cbc:RegistrationName',$data['emisor']['datos']['razon_social'],true)->pop()
                 ->reset()
@@ -96,7 +82,7 @@ class RetentionBuilder {
                     ->append_nnv('cbc:CityName',$data['proveedor']['ubicacion']['provincia'])
                     ->append_nnv('cbc:CountrySubentity',$data['proveedor']['ubicacion']['departamento'])
                     ->append_nnv('cbc:District',$data['proveedor']['ubicacion']['distrito'])
-                    ->append_fw('cbc:Country')->append_nnv('cbc:IdentificationCode',$data['proveedor']['ubicacion']['pais'])->pop()
+                    ->append_fw('cac:Country')->append_nnv('cbc:IdentificationCode',$data['proveedor']['ubicacion']['pais'])->pop()
                     ->pop()
                 ->append_fw('cac:PartyLegalEntity')->append_fw('cbc:RegistrationName',$data['proveedor']['datos']['razon_social'],true)
                 ->reset()

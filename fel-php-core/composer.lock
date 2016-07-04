@@ -4,9 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "201f34daac543675c0de2721a68188f3",
-    "content-hash": "8f8877d0960fff0ec5d52fa4b98dde98",
+    "hash": "374da776a6a61f12203279e372d95423",
+    "content-hash": "57b4076bc7da0238b5da88bb91bfbecf",
     "packages": [
+        {
+            "name": "archon810/smartdomdocument",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/archon810/smartdomdocument.git",
+                "reference": "fd4c92a8e1fac4ce9a89b54ad1a6beafbda27fd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/archon810/smartdomdocument/get/fd4c92a8e1fac4ce9a89b54ad1a6beafbda27fd9.zip",
+                "reference": "fd4c92a8e1fac4ce9a89b54ad1a6beafbda27fd9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "archon810\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "archon810\\": "test"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Artem Russakovskii",
+                    "email": "artem@androidpolice.com"
+                }
+            ],
+            "description": "Overcomes a few common annoyances with the DOMDocument class",
+            "time": "2015-11-03 17:23:49"
+        },
         {
             "name": "bigfish/pdf417",
             "version": "0.2.0",
@@ -836,7 +873,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "neitanod/forceutf8": 20
+        "neitanod/forceutf8": 20,
+        "archon810/smartdomdocument": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
