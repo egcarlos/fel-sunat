@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xmlsec-lib\xmlsec-lib.csproj">
+    <ProjectReference Include="..\xmlsec-lib\SunatCPELib.csproj">
       <Project>{d97c2f56-db02-4c23-8e72-7f2627cbe112}</Project>
-      <Name>xmlsec-lib</Name>
+      <Name>SunatCPELib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
