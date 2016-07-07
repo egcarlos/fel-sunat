@@ -1,5 +1,6 @@
 <?php 
 require_once dirname(__FILE__).'/../../include/all.php';
+require_once dirname(__FILE__).'/../../include/tools/numeroLetras.php';
 //for pdf417 generation
 use BigFish\PDF417\PDF417;
 use BigFish\PDF417\Renderers\ImageRenderer;
@@ -63,6 +64,11 @@ function fel_document_type($type) {
     return 'DOCUMENTO';
 }
 
+function fel_fix_exchange_rate($rate) {
+    $toks = explode('.', $rate . '000');
+    return $toks[0].'.'.substr($toks[1], 0, 3);
+}
+
 $db = db_connect();
 $id = fel_request_name_as_id($_REQUEST);
 $tipoDocumento = $id['documento_tipo'];
@@ -70,9 +76,6 @@ $documento = fel_find_from_id($db, $tipoDocumento, $id);
 
 $logo = dirname(__FILE__) . '/../res/' . $documento['emisor']['documento']['numero'] . '/logo.jpg';
 $logo = base64_encode_image ($logo);
-
-$codigo_barras = 'generar el codigo de barras aqui';
-$codigo_barras = (new ImageRenderer(['format'=>'data-url','padding' => 20, 'scale' => 2]))->render((new PDF417())->encode($codigo_barras))->encoded;
 
 //SPOOF Obtener el tipo de cambio de la primera linea y convertirlo en el tipo de cambio del documento
 $tdc = null;
@@ -82,7 +85,40 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
         'moneda' => $documento['items']['0']['tipo_cambio']['moneda']['destino']
     ];
 }
+$tasa = $documento['retencion']['tasa'];
 
+
+//speed patch to get signature and hash and response sunat
+$name = $_REQUEST['name'];
+$res = $db->query("SELECT hash, firma, mensaje_sunat FROM t_documento where identificador = '$name'");
+$hash = null;
+$firma = null;
+$sunat = null;
+if ($row = $res->fetchRow()) {
+    $hash = $row[0];
+    $firma = $row[1];
+    $sunat = $row[2];
+}
+$res->free();
+
+
+
+$ruc = $documento['emisor']['documento']['numero'];
+$td = '20';
+$num = $documento['documento']['numero'];
+$total = fel_document_currency_text($documento['retencion']['total']['pago']['moneda']);
+$fecha = fel_fix_date($documento['documento']['fecha_emision']);
+$tda = $documento['proveedor']['documento']['tipo'];
+$nda = $documento['proveedor']['documento']['numero'];
+$codigo_barras = "$ruc|$td|$num||$total|$fecha|$tda|$nda|$hash|$firma";
+$pdf417 = new PDF417();
+$pdf417->setColumns(16);
+$codigo_barras = (new ImageRenderer(['format'=>'data-url','padding' => 0, 'scale' => 1]))->render($pdf417->encode($codigo_barras))->encoded;
+
+
+$total=$documento['retencion']['total']['retencion']['monto']; 
+$V=new EnLetras();
+$con_letra = strtoupper($V->ValorEnLetras($total,"")); 
 
 ?><page backtop="65mm" backbottom="25mm" style="font-family:Arial">
     <page_header>
@@ -112,15 +148,16 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
             </tr>
             <tr>
                 <td style="font-weight:bold;width:15%;">Dirección:</td>
-                <td style="width:85%;" colspan="3"><?=$documento['proveedor']['ubicacion']['direccion']?></td>
+                <td style="width:35%;" ><?=$documento['proveedor']['ubicacion']['direccion']?></td>
+                <td style="font-weight:bold;width:15%;">Tasa:</td>
+                <td style="width:35%;" ><?=$tasa?> %</td>
             </tr>
-            <tr><td>&nbsp;</td></tr>
             <tr>
                 <td style="width: 15%;font-weight:bold;">Fecha de emisión:</td>
-                <td style="width: 35%"><?=fel_fix_date($documento['documento']['fecha_emision'])?></td>
+                <td style="width: 35%"><?=($documento['documento']['fecha_emision'])?></td>
                 <?php if (isset($tdc)) { ?>
                 <td style="width: 15%;font-weight:bold;">Tipo de cambio:</td>
-                <td style="width: 35%"><?= fel_document_currency_text($tdc['moneda'])?> <?=$tdc['tasa']?></td>
+                <td style="width: 35%"><?= fel_document_currency_text($tdc['moneda'])?> <?=fel_fix_exchange_rate($tdc['tasa'])?></td>
                 <?php } ?>
             </tr>
         </table>
@@ -128,8 +165,8 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
     <page_footer><table style="width: 100%" cellspacing="0"><tr>
         <td style="width:50%;font-size:11;">
             <span>COMPROBANTE DE RETENCIÓN ELECTRÓNICO <?=$documento['documento']['numero'];?></span><br/>
-            <span>Código de seguridad (hash): <?php print $document['data']['hash'];?></span><br/>
-            <span>Autorizado mediante RI - N° 018-005-0001983/SUNAT</span><br/>
+            <span>Código de seguridad (hash): <?=$hash?></span><br/>
+            <span>Autorizado mediante RI - N° 018-005-0001643/SUNAT</span><br/>
             <span>Consulte su factura electrónica en</span> <a href="http://www.hvcontratistas.com.pe">http://www.hvcontratistas.com.pe</a><br/>
             <span>Página [[page_cu]] de [[page_nb]]</span>
         </td>
@@ -137,7 +174,7 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
             <img src="<?=$codigo_barras?>" />            
         </td>
     </tr></table></page_footer>
-    <div>Comprobantes de pago que dan origen a la retencion:</div>
+    <div>Comprobantes de pago que dan origen a la retención:</div>
     <br/>
     <table cellspacing="0" style="width:100%;font-size:11;">
         <thead style="color:white;">
@@ -147,7 +184,7 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
                 <th style="border:solid 1px #000000;width:10%;">Pago</th>
                 <th style="border:solid 1px #000000;">Cuota</th>
                 <th style="border:solid 1px #000000;" colspan="2">Monto total</th>
-                <th style="border:solid 1px #000000;" colspan="2">Retencion</th>
+                <th style="border:solid 1px #000000;" colspan="2">Retención</th>
                 <th style="border:solid 1px #000000;" colspan="2">Total a pagar</th>
             </tr>
         </thead>
@@ -173,9 +210,9 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
                 <td style="width:10%;text-align:center;border-left:solid 1px #000000;"><?=fel_document_type_text($item['referencia']['documento']['tipo'])?></td>
                 <td style="width:15%;text-align:center"><?=fel_fix_document_number($item['referencia']['documento']['serie_numero'])?></td>
                 <!-- comprobante -->
-                <td style="width:10%;text-align:center"><?=fel_fix_date($item['referencia']['documento']['fecha_emision'])?></td>
+                <td style="width:10%;text-align:center"><?=($item['referencia']['documento']['fecha_emision'])?></td>
                 <!-- comprobante -->
-                <td style="width:10%;text-align:center"><?=fel_fix_date($item['pago']['fecha'])?></td>
+                <td style="width:10%;text-align:center"><?=($item['pago']['fecha'])?></td>
                 <!-- comprobante -->
                 <td style="width:10%;text-align:center"><?=$item['pago']['numero']?></td>
                 <!-- comprobante -->
@@ -197,9 +234,10 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
 
     
     <br />
-    <?php if (isset($document['retencion']['observaciones'])) {?>
+    <?php if (isset($documento['retencion']['observaciones'])) {?>
     <div style="width:100%"><strong>Observaciones:</strong>&nbsp;"<?=$documento['retencion']['observaciones']?>"</div>
     <?php }?>
-    <div style="width:100%"><strong>Mensaje de Sunat:</strong>&nbsp;"TBD"</div>
-    <?php if (isset($_REQUEST['debug']) && $_REQUEST['debug'] ==='true') {?><pre style="width:100%"><?php var_dump($document);?></pre><?php }?>
+    <div style="width:100%"><strong>SON:</strong>&nbsp;<?=$con_letra?> SOLES</div>
+    <div style="width:100%"><strong>MENSAJE DE SUNAT:</strong>&nbsp;"<?=$sunat?>"</div>
+    
 </page>

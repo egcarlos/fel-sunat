@@ -8,7 +8,7 @@ function db_connect () {
         'user' => 'fel-hv',
         'password' => 'fel-hv',
         'host' => '127.0.0.1',
-        'driver' => 'pdo_sqlsrv',
+        'driver' => 'pdo_sqlsrv'
     );
     $config = new \Doctrine\DBAL\Configuration();
     $conn = DriverManager::getConnection($connectionParams, $config);

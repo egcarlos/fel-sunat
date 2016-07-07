@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "374da776a6a61f12203279e372d95423",
-    "content-hash": "57b4076bc7da0238b5da88bb91bfbecf",
+    "hash": "d8339b567c712715152409f3811ced14",
+    "content-hash": "497282b223f7d0a2f65265bd710a2a4a",
     "packages": [
         {
             "name": "archon810/smartdomdocument",
@@ -670,6 +670,54 @@
             "time": "2016-04-26 14:08:40"
         },
         {
+            "name": "jacwright/restserver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacwright/RestServer.git",
+                "reference": "adfa1460e61178d53d63e72b2e65ab68d53b8ad7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacwright/RestServer/zipball/adfa1460e61178d53d63e72b2e65ab68d53b8ad7",
+                "reference": "adfa1460e61178d53d63e72b2e65ab68d53b8ad7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Jacwright\\RestServer": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Wright",
+                    "email": "jacwright@gmail.com",
+                    "homepage": "http://jacwright.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "php rest server for very light-weight REST APIs",
+            "homepage": "https://github.com/jacwright/RestServer",
+            "keywords": [
+                "http",
+                "json",
+                "light-weight",
+                "mit",
+                "php",
+                "rest",
+                "rest-server"
+            ],
+            "time": "2016-06-21 14:05:17"
+        },
+        {
             "name": "neitanod/forceutf8",
             "version": "dev-master",
             "source": {
@@ -874,7 +922,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "neitanod/forceutf8": 20,
-        "archon810/smartdomdocument": 20
+        "archon810/smartdomdocument": 20,
+        "jacwright/restserver": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
