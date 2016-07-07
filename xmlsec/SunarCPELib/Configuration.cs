@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace org.nutria.sunat.xmldsig.lib
+namespace Nutria.CPE.Tools
 {
     public class Configuration
     {
 
-        public Configuration(NameValueCollection settings, string[] args)
+        public Configuration(NameValueCollection settings, string name)
         {
             var ds = Path.DirectorySeparatorChar;
-            this.Name = args[0];
+            this.Name = name;
             this.RUC = this.Name.Split('-')[0];
 
             this.Workdir = string.Format(settings[Keys.Workdir], this.RUC);
@@ -30,7 +30,7 @@ namespace org.nutria.sunat.xmldsig.lib
 
             this.DocumentURL = string.Format(settings[Keys.DocumentURL], this.Name);
             this.PdfURL = string.Format(settings[Keys.PdfURL], this.Name);
-            this.UpdateSignatureURL = settings[Keys.UpdateSignatureURL];
+            this.PlatformApiURL = settings[Keys.PlatformApiURL];
         }
 
         public string Name { get; private set; }
@@ -38,7 +38,7 @@ namespace org.nutria.sunat.xmldsig.lib
 
         public string DocumentURL { get; private set; }
         public string PdfURL { get; private set; }
-        public string UpdateSignatureURL { get; private set; }
+        public string PlatformApiURL { get; private set; }
 
         public string Workdir { get; private set; }
         public string KSPath { get; private set; }
@@ -49,11 +49,12 @@ namespace org.nutria.sunat.xmldsig.lib
         public string SignedDataPath { get; private set; }
         public string SunatZipPath { get; private set; }
         public string ZipEntryName { get; private set; }
+        
     }
 
     public class Keys
     {
-
+        public const string PlatformApiURL = "platform.api_url";
         public const string DocumentURL = "template.document_url";
         public const string PdfURL = "template.pdf_url";
         public const string UpdateSignatureURL = "update.signature_url";

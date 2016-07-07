@@ -2,14 +2,14 @@
 using System.Security.Cryptography.X509Certificates;
 using System;
 
-namespace org.nutria.sunat.xmldsig.lib
+namespace Nutria.CPE.Tools.Security
 {
-    public interface KeyManager
+    public interface IKeyManager
     {
         void SetKeyInfo(SignedXml signedXml);
     }
 
-    public class PKCS12KeyManager : KeyManager
+    public class PKCS12KeyManager : IKeyManager
     {
         private X509Certificate2 certificate;
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using RestSharp;
 
-namespace org.nutria.sunat.xmldsig.lib
+namespace Nutria.CPE.Tools.Security
 {
 
     public class Signer
@@ -20,13 +20,13 @@ namespace org.nutria.sunat.xmldsig.lib
         const string PrefixSeparator = ":";
         const string DefaultSignatureID = "IDSignKG";
 
-        private KeyManager keyManager;
+        private IKeyManager keyManager;
         private XmlDocument document;
         private XmlElement signatureContainer;
         private SignedXml signedXml;
         private string signatureId;
 
-        public Signer(XmlDocument document, KeyManager keyManager, string signatureId = DefaultSignatureID)
+        public Signer(XmlDocument document, IKeyManager keyManager, string signatureId = DefaultSignatureID)
         {
             this.document = document;
             this.keyManager = keyManager;
@@ -34,19 +34,64 @@ namespace org.nutria.sunat.xmldsig.lib
             this.signedXml = new SignedXml(this.document);
         }
 
+        /// <summary>
+        /// Configura el firmador.
+        /// </summary>
+        public void Configure()
+        {
+            //seteo de la llave de firma
+            this.SetKeyElements();
+
+            //agrega el contenedor para la firma digital al documento
+            this.AddSignatureContainer();
+
+            //configura los parametros del xmldsig
+            this.ConfigureAttributes();
+        }
+
+        /// <summary>
+        /// Agrega la firma digital. y recupera los datos de respuesta.
+        /// </summary>
+        public void AtachSignature()
+        {
+            //generacion de la firma digital
+            this.signedXml.ComputeSignature();
+
+            //agrega la firma digital al contenido
+            this.signatureContainer.AppendChild(this.document.ImportNode(signedXml.GetXml(), true));
+
+            //firma, hash y fecha
+            this.DigestValue = this.document.GetElementsByTagName(DigestValueTag, Namespaces.Ds.URI)[0].InnerText;
+            this.SignatureValue = this.document.GetElementsByTagName(SignatureValueTag, Namespaces.Ds.URI)[0].InnerText;
+            this.Date = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Guarda el documento XML a una ruta en el disco.
+        /// </summary>
+        /// <param name="fileName">Nombre del archivo donde guardar el XML</param>
         public void Save(String fileName)
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
-                document.Save(fs);
+                this.Save(fs);
             }
         }
 
+        /// <summary>
+        /// Guarda el documento XML en un stream.
+        /// </summary>
+        /// <param name="target"></param>
         public void Save(Stream target)
         {
             document.Save(target);
         }
 
+        /// <summary>
+        /// Guarda el documento XML en un archivo ZIP. El XML es la unica entrada y es necesario especificar el nombre.
+        /// </summary>
+        /// <param name="zipFile"></param>
+        /// <param name="entryName"></param>
         public void SaveToZip(string zipFile, string entryName)
         {
             using (var zip = new FileStream(zipFile, FileMode.Create))
@@ -62,23 +107,14 @@ namespace org.nutria.sunat.xmldsig.lib
             }
         }
 
-        public void Configure()
-        {
-            //seteo de la llave de firma
-            this.SetKeyElements();
 
-            //agrega el contenedor para la firma digital al documento
-            this.AddSignatureContainer();
 
-            //configura los parametros del xmldsig
-            this.ConfigureAttributes();
-        }
 
         public Dictionary<string, string> GetResponse(string name)
         {
             var response = new Dictionary<string, string>();
             response["name"] = name;
-            response["date"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            response["date"] = this.Date.ToString("yyyy-MM-dd HH:mm:ss");
             response["digestValue"] = this.DigestValue;
             response["signatureValue"] = this.SignatureValue;
             return response;
@@ -91,15 +127,13 @@ namespace org.nutria.sunat.xmldsig.lib
             var json = serializer.Serialize(response);
             return json;
         }
-        
+
         public void RelayResponse(string target, string name)
         {
             var client = new RestClient(target);
-            var request = new RestRequest("", Method.POST);
-            request.AddParameter("name", name);
-            request.AddParameter("digest", this.DigestValue);
-            request.AddParameter("signature", this.SignatureValue);
-            request.AddParameter("date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            var request = new RestRequest(Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(this.GetResponse(name));
             var response = client.Execute(request);
         }
 
@@ -111,14 +145,7 @@ namespace org.nutria.sunat.xmldsig.lib
             }
         }
 
-        public void AtachSignature()
-        {
-            //generacion de la firma digital
-            this.signedXml.ComputeSignature();
 
-            //agrega la firma digital al contenido
-            this.signatureContainer.AppendChild(this.document.ImportNode(signedXml.GetXml(),true));
-        }
 
         public void SetKeyElements()
         {
@@ -148,21 +175,11 @@ namespace org.nutria.sunat.xmldsig.lib
             signedXml.SignedInfo.AddReference(reference);
         }
 
-        public string DigestValue
-        {
-            get
-            {
-                return this.document.GetElementsByTagName(DigestValueTag, Namespaces.Ds.URI)[0].InnerText;
-            }
-        }
+        public DateTime Date { get; private set; }
 
-        public string SignatureValue
-        {
-            get
-            {
-                return this.document.GetElementsByTagName(SignatureValueTag, Namespaces.Ds.URI)[0].InnerText;
-            }
-        }
+        public string DigestValue { get; private set; }
+
+        public string SignatureValue { get; private set; }
     }
 
     public class Namespaces
