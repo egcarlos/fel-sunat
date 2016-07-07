@@ -6,7 +6,7 @@
     <ProjectGuid>{846EFF90-B36E-4C93-B367-E57C4FFE317B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>org.nutria.sunat.service</RootNamespace>
+    <RootNamespace>Nutria.CPE.SunatClient</RootNamespace>
     <AssemblyName>BillServiceClientTest</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

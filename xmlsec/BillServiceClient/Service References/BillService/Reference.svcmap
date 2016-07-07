@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0b397c09-6484-4cd4-a6fb-1320ab7a0c4c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6d9499dd-15ac-481e-87f2-474ebe52824e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,9 +22,9 @@
     <MetadataSource Address="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="billService.wsdl" MetadataType="Wsdl" ID="453bce94-733b-4ba6-a12a-b298ed325afe" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?ns1.wsdl" />
-    <MetadataFile FileName="billService.xsd" MetadataType="Schema" ID="87ad27c9-5759-449f-9a36-e9488b75cc04" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService.xsd2.xsd" />
-    <MetadataFile FileName="billService1.wsdl" MetadataType="Wsdl" ID="14e524e6-63d6-4242-ae6e-fa2d015e2572" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?wsdl" />
+    <MetadataFile FileName="billService.wsdl" MetadataType="Wsdl" ID="d6f7fed0-af76-4eca-96b7-40e0b84033f1" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?ns1.wsdl" />
+    <MetadataFile FileName="billService.xsd" MetadataType="Schema" ID="bfaf8690-e4be-44fb-bde2-40b8ebd22cf0" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService.xsd2.xsd" />
+    <MetadataFile FileName="billService1.wsdl" MetadataType="Wsdl" ID="c953c615-2e80-4a7c-b73e-1fbe34b98fd2" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

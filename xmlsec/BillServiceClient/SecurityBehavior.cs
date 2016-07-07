@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace org.nutria.sunat.service
+namespace Nutria.CPE.SunatClient
 {
     public class SecurityBehavior : IEndpointBehavior
     {
@@ -23,34 +23,26 @@ namespace org.nutria.sunat.service
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
         {
 
-            clientRuntime.ClientMessageInspectors.Add(new AddMessageHeaderInspector()
-            {
-                Header = new SecurityHeader { Username = this.Username, Password = this.Password }
-            }
-            );
+            clientRuntime.ClientMessageInspectors.Add(new AddMessageHeaderInspector() { Header = new SecurityHeader { Username = this.Username, Password = this.Password } });
         }
 
-        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
-        {
-        }
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }
 
-        public void Validate(ServiceEndpoint endpoint)
-        {
-        }
+        public void Validate(ServiceEndpoint endpoint) { }
     }
 
     class AddMessageHeaderInspector : IClientMessageInspector
     {
         public MessageHeader Header { get; set; }
 
-        public void AfterReceiveReply(ref Message reply, object correlationState)
-        {
-            return;
-        }
+        public void AfterReceiveReply(ref Message reply, object correlationState) { }
 
         public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-            request.Headers.Add(this.Header);
+            if (this.Header != null)
+            {
+                request.Headers.Add(this.Header);
+            }
             return null;
         }
     }
@@ -66,15 +58,12 @@ namespace org.nutria.sunat.service
         protected override void OnWriteHeaderContents(XmlDictionaryWriter writer, MessageVersion messageVersion)
         {
             writer.WriteStartElement(Prefix, "UsernameToken", Namespace);
-
             writer.WriteStartElement(Prefix, "Username", Namespace);
             writer.WriteValue(this.Username);
             writer.WriteEndElement();
-
             writer.WriteStartElement(Prefix, "Password", Namespace);
             writer.WriteValue(this.Password);
             writer.WriteEndElement();
-
             writer.WriteEndElement();
         }
     }
