@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
-using org.nutria.sunat.xmldsig.lib;
 using RestSharp;
+using Nutria.CPE.SunatClient;
+using Nutria.CPE.SunatClient.BillService;
 
-namespace org.nutria.sunat.xmldsig.bin
+namespace Nutria.CPE.Bin
 {
     class Program
     {
@@ -14,43 +16,23 @@ namespace org.nutria.sunat.xmldsig.bin
             string template = ConfigurationManager.AppSettings.Get(key);
             return string.Format(template, args);
         }
-        
+
         static void Main(string[] args)
         {
-            var conf = new lib.Configuration(ConfigurationManager.AppSettings, args);
-            //cargar el certificado digital
+            var conf = new Tools.Configuration(ConfigurationManager.AppSettings, args[0]);
             var pk12 = new X509Certificate2(conf.KSPath, conf.KSPass);
-            KeyManager keyManager = new PKCS12KeyManager(pk12);
-
-            var sign = new SignProcess(conf, keyManager);
-
+            var keyManager = new Tools.Security.PKCS12KeyManager(pk12);
+            var client = new Tools.Platform.JSONRestClient(conf.PlatformApiURL);
+            var sign = new Tools.SignProcess(conf, keyManager, client);
             sign.Execute();
 
-            //Console.WriteLine(sign.JSONResponse);
-
-            var client = new RestClient(conf.UpdateSignatureURL);
-            var request = new RestRequest(Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddParameter("application/json; charset=utf-8", sign.JSONResponse, ParameterType.RequestBody);
-            var response = client.Execute(request);
-
-            //Console.ReadLine();
-            /*
-            //validar el documento recien firmado
-            var document = new XmlDocument();
-
-            document.PreserveWhitespace = true;
-            document.Load(workdir + "\\documents\\" + name + ".xml");
-            var signedXml = new SignedXml(document);
-            XmlNodeList nodeList = document.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#");
-            signedXml.LoadXml((XmlElement)nodeList[0]);
-
-            var valid = signedXml.CheckSignature();
-            System.Console.WriteLine(valid);
-            System.Console.ReadLine();
-            */
+            var sclient = new billServiceClient("BillServicePort");
+            sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = "20100318696MODDATOS", Password = "moddatos" });
+            byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatZipPath));
+            File.WriteAllBytes(conf.SignedXmlPath + ".zip", response);
         }
     }
 }
+
 
 
