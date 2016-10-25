@@ -7,8 +7,8 @@ use \ForceUTF8\Encoding;
 function db_connect() {
     $dsn = array(
         'phptype'  => 'sqlsrv',
-        'username' => 'fel-hv',
-        'password' => 'fel-hv',
+        'username' => 'sunat_desa',
+        'password' => 'sunat_desa',
         'hostspec' => '127.0.0.1',
         'database' => 'sunat_desa'
     );

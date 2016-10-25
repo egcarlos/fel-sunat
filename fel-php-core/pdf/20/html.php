@@ -125,12 +125,14 @@ $res = $db->query("SELECT hash, firma, mensaje_sunat FROM t_documento where iden
 $hash = null;
 $firma = null;
 $sunat = null;
-if ($row = $res->fetchRow()) {
-    $hash = $row[0];
-    $firma = $row[1];
-    $sunat = $row[2];
+if (!PEAR::isError($res)) {
+    if ($row = $res->fetchRow()) {
+        $hash = $row[0];
+        $firma = $row[1];
+        $sunat = $row[2];
+        $res->free();
+    }
 }
-$res->free();
 
 $ruc = $documento['emisor']['documento']['numero'];
 $td = '20';

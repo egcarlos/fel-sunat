@@ -5,8 +5,8 @@ use \Doctrine\DBAL\DriverManager;
 function db_connect () {
     $connectionParams = array(
         'dbname' => 'sunat_desa',
-        'user' => 'fel-hv',
-        'password' => 'fel-hv',
+        'user' => 'sunat_desa',
+        'password' => 'sunat_desa',
         'host' => '127.0.0.1',
         'driver' => 'pdo_sqlsrv'
     );
