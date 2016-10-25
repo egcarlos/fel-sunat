@@ -204,7 +204,5 @@ class RetentionBuilder {
         } else {
             return $this->dom->save($file);
         }
-        
     }
-
 }
