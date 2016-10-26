@@ -26,10 +26,17 @@ namespace Nutria.CPE.Bin
             var sign = new Tools.SignProcess(conf, keyManager, client);
             sign.Execute();
 
+            //descarga de la respuesta de sunat
             var sclient = new billServiceClient("BillServicePort");
             sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = "20100318696MODDATOS", Password = "moddatos" });
             byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatZipPath));
             File.WriteAllBytes(conf.SignedXmlPath + ".zip", response);
+            //TODO leer el archivo descargado
+
+            //Descarga del PDF
+            var pdfclient = new System.Net.WebClient();
+            pdfclient.DownloadFile(conf.PdfURL, conf.PdfPath);
+
         }
     }
 }

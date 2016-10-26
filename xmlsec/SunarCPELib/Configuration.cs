@@ -26,6 +26,7 @@ namespace Nutria.CPE.Tools
             this.SignedXmlPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".signed.xml";
             this.SignedDataPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".signature.json";
             this.SunatZipPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".sunat.zip";
+            this.PdfPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".pdf";
             this.ZipEntryName = this.Name + ".xml";
 
             this.DocumentURL = string.Format(settings[Keys.DocumentURL], this.Name);
@@ -48,7 +49,9 @@ namespace Nutria.CPE.Tools
         public string SignedXmlPath { get; private set; }
         public string SignedDataPath { get; private set; }
         public string SunatZipPath { get; private set; }
+        public string PdfPath { get; private set; }
         public string ZipEntryName { get; private set; }
+
         
     }
 
