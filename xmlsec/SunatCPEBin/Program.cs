@@ -33,6 +33,9 @@ namespace Nutria.CPE.Bin
             File.WriteAllBytes(conf.SignedXmlPath + ".zip", response);
             //TODO leer el archivo descargado
 
+            //ENVIO DEL MENSAJE DE SUNAT
+            client.UpdateSunatResponse(args[0], DateTime.Now, "declarado", "El documento ha sido aeptado");
+
             //Descarga del PDF
             var pdfclient = new System.Net.WebClient();
             pdfclient.DownloadFile(conf.PdfURL, conf.PdfPath);

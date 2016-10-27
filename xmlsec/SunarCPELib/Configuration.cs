@@ -22,17 +22,19 @@ namespace Nutria.CPE.Tools
             this.KSPath = this.Workdir + ds + settings[this.RUC + Keys.KSPathSuffix];
             this.KSPass = settings[this.RUC + Keys.KSPassSuffix];
 
-            this.UnsignedXmlPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".unsigned.xml";
-            this.SignedXmlPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".signed.xml";
-            this.SignedDataPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".signature.json";
-            this.SunatZipPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".sunat.zip";
-            this.PdfPath = this.Workdir + ds + Keys.FilesFolderName + ds + this.Name + ".pdf";
+            this.UnsignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".unsigned.xml";
+            this.SignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".signed.xml";
+            this.SignedDataPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".signature.json";
+            this.SunatZipPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".sunat.zip";
+            this.PdfPath = this.Workdir + ds + settings[Keys.FolderPdf] + ds + this.Name + ".pdf";
             this.ZipEntryName = this.Name + ".xml";
 
             this.DocumentURL = string.Format(settings[Keys.DocumentURL], this.Name);
             this.PdfURL = string.Format(settings[Keys.PdfURL], this.Name);
             this.PlatformApiURL = settings[Keys.PlatformApiURL];
         }
+
+        
 
         public string Name { get; private set; }
         public string RUC { get; private set; }
@@ -57,14 +59,20 @@ namespace Nutria.CPE.Tools
 
     public class Keys
     {
-        public const string PlatformApiURL = "platform.api_url";
-        public const string DocumentURL = "template.document_url";
-        public const string PdfURL = "template.pdf_url";
-        public const string UpdateSignatureURL = "update.signature_url";
+        public const string DocumentURL = "template.document.url";
+        public const string PdfURL      = "template.pdf.url";
+
+        public const string PlatformApiURL = "platform.api.url";
+
         public const string Workdir = "workdir";
+
+        public const string FolderXML = "folder.xml";
+        public const string FolderPdf = "folder.pdf";
+
         public const string KSPathSuffix = ".keystore.name";
         public const string KSPassSuffix = ".keystore.pass";
-        public const string FilesFolderName = "documentos";
+
+        
     }
 }
 
