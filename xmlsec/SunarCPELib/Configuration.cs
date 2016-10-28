@@ -23,9 +23,11 @@ namespace Nutria.CPE.Tools
             this.KSPass = settings[this.RUC + Keys.KSPassSuffix];
 
             this.UnsignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".unsigned.xml";
-            this.SignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".signed.xml";
+            this.SignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".request.xml";
             this.SignedDataPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".signature.json";
-            this.SunatZipPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".sunat.zip";
+            this.SunatRequestZipPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".request.zip";
+            this.SunatResponseZipPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".response.zip";
+            this.SunatResponseXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".response.xml";
             this.PdfPath = this.Workdir + ds + settings[Keys.FolderPdf] + ds + this.Name + ".pdf";
             this.ZipEntryName = this.Name + ".xml";
 
@@ -50,7 +52,9 @@ namespace Nutria.CPE.Tools
         public string UnsignedXmlPath { get; private set; }
         public string SignedXmlPath { get; private set; }
         public string SignedDataPath { get; private set; }
-        public string SunatZipPath { get; private set; }
+        public string SunatRequestZipPath { get; private set; }
+        public string SunatResponseZipPath { get; private set; }
+        public string SunatResponseXmlPath { get; private set; }
         public string PdfPath { get; private set; }
         public string ZipEntryName { get; private set; }
 

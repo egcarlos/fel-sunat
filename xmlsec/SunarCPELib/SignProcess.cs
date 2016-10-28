@@ -55,7 +55,7 @@ namespace Nutria.CPE.Tools
 
             //grabado condicional de resultados
             if (this.SaveUnsignedDocument) signer.Save(this.Configuration.SignedXmlPath);
-            if (this.SaveSunatZIP) signer.SaveToZip(this.Configuration.SunatZipPath, this.Configuration.ZipEntryName);
+            if (this.SaveSunatZIP) signer.SaveToZip(this.Configuration.SunatRequestZipPath, this.Configuration.ZipEntryName);
             if (this.SaveJSONResponse) signer.SaveJSONResponse(this.Configuration.Name, this.Configuration.SignedDataPath);
 
             //envio de la respuesta al servidor

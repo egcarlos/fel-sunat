@@ -24,17 +24,21 @@ namespace Nutria.CPE.Bin
             var keyManager = new Tools.Security.PKCS12KeyManager(pk12);
             var client = new Tools.Platform.JSONRestClient(conf.PlatformApiURL);
             var sign = new Tools.SignProcess(conf, keyManager, client);
+            var sunatzip = new Tools.SUNATResponse();
             sign.Execute();
 
             //descarga de la respuesta de sunat
             var sclient = new billServiceClient("BillServicePort");
             sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = "20100318696MODDATOS", Password = "moddatos" });
-            byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatZipPath));
-            File.WriteAllBytes(conf.SignedXmlPath + ".zip", response);
-            //TODO leer el archivo descargado
+            byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatRequestZipPath));
+            File.WriteAllBytes(conf.SunatResponseZipPath, response);
 
+            //TODO leer el archivo descargado
+            sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
+            sunatzip.Load(conf.SunatResponseXmlPath);
+            
             //ENVIO DEL MENSAJE DE SUNAT
-            client.UpdateSunatResponse(args[0], DateTime.Now, "declarado", "El documento ha sido aeptado");
+            client.UpdateSunatResponse(args[0], DateTime.Now, "0".Equals(sunatzip.ResponseCode)?"declarado":"rechazado", sunatzip.Description);
 
             //Descarga del PDF
             var pdfclient = new System.Net.WebClient();

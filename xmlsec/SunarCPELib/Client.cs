@@ -1,26 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RestSharp;
 
 namespace Nutria.CPE.Tools.Platform
 {
+    /// <summary>
+    /// Contrato para actualizacion de datos en la plataforma
+    /// </summary>
     public interface IPlatformClient
     {
 
+        /// <summary>
+        /// Consulta documentos usando el estado como parametro
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns>resultado de la operacion</returns>
         List<Dictionary<string, string>> Pendings(string status = null);
 
+        /// <summary>
+        /// Envia los resultados del proceso de firma al servidor
+        /// </summary>
+        /// <param name="name">Identificador del documento procesado</param>
+        /// <param name="date">Fecha de ejecucion del proceso</param>
+        /// <param name="signatureValue">Valor de la firma</param>
+        /// <param name="digestValue">Valor del hash</param>
+        /// <returns>resultado de la operacion</returns>
         bool UpdateSignature(string name, DateTime date, string signatureValue, string digestValue);
 
+        /// <summary>
+        /// Envia las respuestas de SUNAT
+        /// </summary>
+        /// <param name="name">Identificador del documento procesado</param>
+        /// <param name="date">Fecha de ejecucon del proceso</param>
+        /// <param name="status">Estado de sunat</param>
+        /// <param name="message">Mensaje de SUNAT</param>
+        /// <returns>resultado de la operacion</returns>
         bool UpdateSunatResponse(string name, DateTime date, string status, string message);
 
     }
 
+    /// <summary>
+    /// Implementacion del cliente de plataforma en formato de requerimiento por Query String y cuerpos JSON.
+    /// </summary>
     public class JSONRestClient : IPlatformClient
     {
-        public string DateFormat { get; set; }
+        public string DateFormat { get; private set; }
 
         public RestClient Client { get; private set; }
 
