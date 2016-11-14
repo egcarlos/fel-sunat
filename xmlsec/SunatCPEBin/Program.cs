@@ -2,8 +2,6 @@
 using System.IO;
 using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
-using System.Xml;
-using RestSharp;
 using Nutria.CPE.SunatClient;
 using Nutria.CPE.SunatClient.BillService;
 
@@ -29,21 +27,30 @@ namespace Nutria.CPE.Bin
 
             //descarga de la respuesta de sunat
             var sclient = new billServiceClient("BillServicePort");
-            sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = "20100318696MODDATOS", Password = "moddatos" });
-            byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatRequestZipPath));
-            File.WriteAllBytes(conf.SunatResponseZipPath, response);
+            sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = conf.SunatUser, Password = conf.SunatPass });
 
-            //TODO leer el archivo descargado
-            sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
-            sunatzip.Load(conf.SunatResponseXmlPath);
             
-            //ENVIO DEL MENSAJE DE SUNAT
-            client.UpdateSunatResponse(args[0], DateTime.Now, "0".Equals(sunatzip.ResponseCode)?"declarado":"rechazado", sunatzip.Description);
+            try
+            {
+                byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatRequestZipPath));
+                File.WriteAllBytes(conf.SunatResponseZipPath, response);
 
-            //Descarga del PDF
-            var pdfclient = new System.Net.WebClient();
-            pdfclient.DownloadFile(conf.PdfURL, conf.PdfPath);
+                //TODO leer el archivo descargado
+                sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
+                sunatzip.Load(conf.SunatResponseXmlPath);
 
+                //ENVIO DEL MENSAJE DE SUNAT
+                client.UpdateSunatResponse(args[0], DateTime.Now, "0".Equals(sunatzip.ResponseCode) ? "declarado" : "rechazado", sunatzip.Description);
+
+                //Descarga del PDF
+                var pdfclient = new System.Net.WebClient();
+                pdfclient.DownloadFile(conf.PdfURL, conf.PdfPath);
+            }
+            catch (System.ServiceModel.FaultException ex)
+            {
+                //TODO Enviar codigo de error
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

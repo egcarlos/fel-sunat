@@ -22,6 +22,9 @@ namespace Nutria.CPE.Tools
             this.KSPath = this.Workdir + ds + settings[this.RUC + Keys.KSPathSuffix];
             this.KSPass = settings[this.RUC + Keys.KSPassSuffix];
 
+            this.SunatUser = this.RUC + settings[this.RUC + Keys.SunatUserSuffix];
+            this.SunatPass = settings[this.RUC + Keys.SunatPassSuffix];
+
             this.UnsignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".unsigned.xml";
             this.SignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".request.xml";
             this.SignedDataPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".signature.json";
@@ -49,6 +52,9 @@ namespace Nutria.CPE.Tools
         public string KSPath { get; private set; }
         public string KSPass { get; private set; }
 
+        public string SunatUser { get; private set; }
+        public string SunatPass { get; private set; }
+
         public string UnsignedXmlPath { get; private set; }
         public string SignedXmlPath { get; private set; }
         public string SignedDataPath { get; private set; }
@@ -75,7 +81,8 @@ namespace Nutria.CPE.Tools
 
         public const string KSPathSuffix = ".keystore.name";
         public const string KSPassSuffix = ".keystore.pass";
-
+        public const string SunatUserSuffix = ".sunat.user";
+        public const string SunatPassSuffix = ".sunat.pass";
         
     }
 }
