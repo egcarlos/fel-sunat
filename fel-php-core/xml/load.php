@@ -8,7 +8,7 @@ $db = db_connect();
 $id = fel_request_name_as_id($_REQUEST);
 $tipoDocumento = $id['documento_tipo'];
 
-$documento = fel_find_from_id($db, $tipoDocumento, $id);
+$documento = $documento = fel_find_from_id($db, $tipoDocumento, $id);
 
 if (count($documento)==0) {
     fel_request_send_xml_error(404, 'Not Found');
