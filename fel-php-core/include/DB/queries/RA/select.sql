@@ -12,6 +12,7 @@ SELECT
     [U].[emisor_ubicacion_direccion],
     [U].[emisor_ubicacion_ubigeo],
 	[B].[baja_fecha_emision],
+    [B].[baja_fecha_referencia],
 	[D].[baja_linea],
 	[D].[referencia_documento_tipo],
 	[D].[referencia_documento_serie],
@@ -29,10 +30,10 @@ INNER JOIN
         [B].[emisor_documento_tipo] = [U].[documento_tipo]
 INNER JOIN
     [dbo].[t_baja_detalle] AS [D] ON
-        [D].[emisor_documento_numero] = [D].[emisor_documento_numero] and
-        [D].[emisor_documento_tipo] = [D].[emisor_documento_tipo] and
-        [D].[baja_serie_numero] = [D].[baja_serie_numero]
+        [B].[emisor_documento_numero] = [D].[emisor_documento_numero] and
+        [B].[emisor_documento_tipo] = [D].[emisor_documento_tipo] and
+        [B].[baja_serie_numero] = [D].[baja_serie_numero]
 WHERE
     [B].[baja_serie_numero] = :documento_serie_numero AND
-    [R].[emisor_documento_tipo] = :emisor_documento_tipo AND
-    [R].[emisor_documento_numero] = :emisor_documento_numero
+    [B].[emisor_documento_tipo] = :emisor_documento_tipo AND
+    [B].[emisor_documento_numero] = :emisor_documento_numero
