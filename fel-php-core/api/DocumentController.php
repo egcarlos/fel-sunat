@@ -66,6 +66,8 @@ class DocumentController
                     'estado_sunat'   => $data['status'],
                     'mensaje_sunat'  => $data['message'],
                     'sunat_fecha'    => $data['date'],
+                    'endpoint'       => $data['endpoint'],
+                    'ticket'         => $data['ticket'],
                     'proceso_estado' => 'enviado'
                 ],
                 [

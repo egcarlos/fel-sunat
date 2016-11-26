@@ -15,15 +15,6 @@ namespace Nutria.CPE.SunatClient.BillService {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://service.sunat.gob.pe", ConfigurationName="BillService.billService")]
     public interface billService {
         
-        // CODEGEN: Parameter 'status' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="urn:getStatus", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="status")]
-        Nutria.CPE.SunatClient.BillService.getStatusResponse getStatus(Nutria.CPE.SunatClient.BillService.getStatusRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:getStatus", ReplyAction="*")]
-        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> getStatusAsync(Nutria.CPE.SunatClient.BillService.getStatusRequest request);
-        
         // CODEGEN: Parameter 'applicationResponse' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="urn:sendBill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -34,15 +25,6 @@ namespace Nutria.CPE.SunatClient.BillService {
         System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.sendBillResponse> sendBillAsync(Nutria.CPE.SunatClient.BillService.sendBillRequest request);
         
         // CODEGEN: Parameter 'ticket' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sendPack", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="ticket")]
-        Nutria.CPE.SunatClient.BillService.sendPackResponse sendPack(Nutria.CPE.SunatClient.BillService.sendPackRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:sendPack", ReplyAction="*")]
-        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.sendPackResponse> sendPackAsync(Nutria.CPE.SunatClient.BillService.sendPackRequest request);
-        
-        // CODEGEN: Parameter 'ticket' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="urn:sendSummary", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [return: System.ServiceModel.MessageParameterAttribute(Name="ticket")]
@@ -50,6 +32,97 @@ namespace Nutria.CPE.SunatClient.BillService {
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:sendSummary", ReplyAction="*")]
         System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.sendSummaryResponse> sendSummaryAsync(Nutria.CPE.SunatClient.BillService.sendSummaryRequest request);
+        
+        // CODEGEN: Parameter 'status' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="urn:getStatus", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="status")]
+        Nutria.CPE.SunatClient.BillService.getStatusResponse getStatus(Nutria.CPE.SunatClient.BillService.getStatusRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:getStatus", ReplyAction="*")]
+        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> getStatusAsync(Nutria.CPE.SunatClient.BillService.getStatusRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="sendBill", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
+    public partial class sendBillRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string fileName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] contentFile;
+        
+        public sendBillRequest() {
+        }
+        
+        public sendBillRequest(string fileName, byte[] contentFile) {
+            this.fileName = fileName;
+            this.contentFile = contentFile;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="sendBillResponse", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
+    public partial class sendBillResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] applicationResponse;
+        
+        public sendBillResponse() {
+        }
+        
+        public sendBillResponse(byte[] applicationResponse) {
+            this.applicationResponse = applicationResponse;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="sendSummary", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
+    public partial class sendSummaryRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string fileName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] contentFile;
+        
+        public sendSummaryRequest() {
+        }
+        
+        public sendSummaryRequest(string fileName, byte[] contentFile) {
+            this.fileName = fileName;
+            this.contentFile = contentFile;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="sendSummaryResponse", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
+    public partial class sendSummaryResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string ticket;
+        
+        public sendSummaryResponse() {
+        }
+        
+        public sendSummaryResponse(string ticket) {
+            this.ticket = ticket;
+        }
     }
     
     /// <remarks/>
@@ -134,129 +207,6 @@ namespace Nutria.CPE.SunatClient.BillService {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendBill", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendBillRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string fileName;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] contentFile;
-        
-        public sendBillRequest() {
-        }
-        
-        public sendBillRequest(string fileName, byte[] contentFile) {
-            this.fileName = fileName;
-            this.contentFile = contentFile;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendBillResponse", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendBillResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] applicationResponse;
-        
-        public sendBillResponse() {
-        }
-        
-        public sendBillResponse(byte[] applicationResponse) {
-            this.applicationResponse = applicationResponse;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendPack", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendPackRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string fileName;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] contentFile;
-        
-        public sendPackRequest() {
-        }
-        
-        public sendPackRequest(string fileName, byte[] contentFile) {
-            this.fileName = fileName;
-            this.contentFile = contentFile;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendPackResponse", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendPackResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ticket;
-        
-        public sendPackResponse() {
-        }
-        
-        public sendPackResponse(string ticket) {
-            this.ticket = ticket;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendSummary", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendSummaryRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string fileName;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] contentFile;
-        
-        public sendSummaryRequest() {
-        }
-        
-        public sendSummaryRequest(string fileName, byte[] contentFile) {
-            this.fileName = fileName;
-            this.contentFile = contentFile;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="sendSummaryResponse", WrapperNamespace="http://service.sunat.gob.pe", IsWrapped=true)]
-    public partial class sendSummaryResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.sunat.gob.pe", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ticket;
-        
-        public sendSummaryResponse() {
-        }
-        
-        public sendSummaryResponse(string ticket) {
-            this.ticket = ticket;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface billServiceChannel : Nutria.CPE.SunatClient.BillService.billService, System.ServiceModel.IClientChannel {
     }
@@ -285,29 +235,6 @@ namespace Nutria.CPE.SunatClient.BillService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Nutria.CPE.SunatClient.BillService.getStatusResponse Nutria.CPE.SunatClient.BillService.billService.getStatus(Nutria.CPE.SunatClient.BillService.getStatusRequest request) {
-            return base.Channel.getStatus(request);
-        }
-        
-        public Nutria.CPE.SunatClient.BillService.statusResponse getStatus(string ticket) {
-            Nutria.CPE.SunatClient.BillService.getStatusRequest inValue = new Nutria.CPE.SunatClient.BillService.getStatusRequest();
-            inValue.ticket = ticket;
-            Nutria.CPE.SunatClient.BillService.getStatusResponse retVal = ((Nutria.CPE.SunatClient.BillService.billService)(this)).getStatus(inValue);
-            return retVal.status;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> Nutria.CPE.SunatClient.BillService.billService.getStatusAsync(Nutria.CPE.SunatClient.BillService.getStatusRequest request) {
-            return base.Channel.getStatusAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> getStatusAsync(string ticket) {
-            Nutria.CPE.SunatClient.BillService.getStatusRequest inValue = new Nutria.CPE.SunatClient.BillService.getStatusRequest();
-            inValue.ticket = ticket;
-            return ((Nutria.CPE.SunatClient.BillService.billService)(this)).getStatusAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         Nutria.CPE.SunatClient.BillService.sendBillResponse Nutria.CPE.SunatClient.BillService.billService.sendBill(Nutria.CPE.SunatClient.BillService.sendBillRequest request) {
             return base.Channel.sendBill(request);
         }
@@ -333,31 +260,6 @@ namespace Nutria.CPE.SunatClient.BillService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Nutria.CPE.SunatClient.BillService.sendPackResponse Nutria.CPE.SunatClient.BillService.billService.sendPack(Nutria.CPE.SunatClient.BillService.sendPackRequest request) {
-            return base.Channel.sendPack(request);
-        }
-        
-        public string sendPack(string fileName, byte[] contentFile) {
-            Nutria.CPE.SunatClient.BillService.sendPackRequest inValue = new Nutria.CPE.SunatClient.BillService.sendPackRequest();
-            inValue.fileName = fileName;
-            inValue.contentFile = contentFile;
-            Nutria.CPE.SunatClient.BillService.sendPackResponse retVal = ((Nutria.CPE.SunatClient.BillService.billService)(this)).sendPack(inValue);
-            return retVal.ticket;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.sendPackResponse> Nutria.CPE.SunatClient.BillService.billService.sendPackAsync(Nutria.CPE.SunatClient.BillService.sendPackRequest request) {
-            return base.Channel.sendPackAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.sendPackResponse> sendPackAsync(string fileName, byte[] contentFile) {
-            Nutria.CPE.SunatClient.BillService.sendPackRequest inValue = new Nutria.CPE.SunatClient.BillService.sendPackRequest();
-            inValue.fileName = fileName;
-            inValue.contentFile = contentFile;
-            return ((Nutria.CPE.SunatClient.BillService.billService)(this)).sendPackAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         Nutria.CPE.SunatClient.BillService.sendSummaryResponse Nutria.CPE.SunatClient.BillService.billService.sendSummary(Nutria.CPE.SunatClient.BillService.sendSummaryRequest request) {
             return base.Channel.sendSummary(request);
         }
@@ -380,6 +282,29 @@ namespace Nutria.CPE.SunatClient.BillService {
             inValue.fileName = fileName;
             inValue.contentFile = contentFile;
             return ((Nutria.CPE.SunatClient.BillService.billService)(this)).sendSummaryAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        Nutria.CPE.SunatClient.BillService.getStatusResponse Nutria.CPE.SunatClient.BillService.billService.getStatus(Nutria.CPE.SunatClient.BillService.getStatusRequest request) {
+            return base.Channel.getStatus(request);
+        }
+        
+        public Nutria.CPE.SunatClient.BillService.statusResponse getStatus(string ticket) {
+            Nutria.CPE.SunatClient.BillService.getStatusRequest inValue = new Nutria.CPE.SunatClient.BillService.getStatusRequest();
+            inValue.ticket = ticket;
+            Nutria.CPE.SunatClient.BillService.getStatusResponse retVal = ((Nutria.CPE.SunatClient.BillService.billService)(this)).getStatus(inValue);
+            return retVal.status;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> Nutria.CPE.SunatClient.BillService.billService.getStatusAsync(Nutria.CPE.SunatClient.BillService.getStatusRequest request) {
+            return base.Channel.getStatusAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Nutria.CPE.SunatClient.BillService.getStatusResponse> getStatusAsync(string ticket) {
+            Nutria.CPE.SunatClient.BillService.getStatusRequest inValue = new Nutria.CPE.SunatClient.BillService.getStatusRequest();
+            inValue.ticket = ticket;
+            return ((Nutria.CPE.SunatClient.BillService.billService)(this)).getStatusAsync(inValue);
         }
     }
 }

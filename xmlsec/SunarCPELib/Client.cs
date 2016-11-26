@@ -34,8 +34,9 @@ namespace Nutria.CPE.Tools.Platform
         /// <param name="date">Fecha de ejecucon del proceso</param>
         /// <param name="status">Estado de sunat</param>
         /// <param name="message">Mensaje de SUNAT</param>
+        /// <param name="endpoint">URL de SUNAT</param>
         /// <returns>resultado de la operacion</returns>
-        bool UpdateSunatResponse(string name, DateTime date, string status, string message);
+        bool UpdateSunatResponse(string name, DateTime date, string status, string message, string endpoint, string ticket);
 
     }
 
@@ -75,17 +76,19 @@ namespace Nutria.CPE.Tools.Platform
             return response.Data;
         }
 
-        public bool UpdateSunatResponse(string name, DateTime date, string status, string message)
+        public bool UpdateSunatResponse(string name, DateTime date, string status, string message, string endpoint, string ticket)
         {
             var request = new RestRequest(name, Method.POST) { RequestFormat = DataFormat.Json };
             request.AddQueryParameter("mode", "sunat");
             request.AddBody(new Dictionary<string, string>() {
                 { "status", status },
                 { "message", message },
-                { "date", date.ToString(this.DateFormat) }
+                { "date", date.ToString(this.DateFormat) },
+                { "endpoint", endpoint },
+                { "ticket", ticket }
             });
             var response = Client.Execute<bool>(request);
-            return response.Data;
+            return true;
         }
     }
 }

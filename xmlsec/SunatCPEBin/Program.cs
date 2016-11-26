@@ -33,34 +33,33 @@ namespace Nutria.CPE.Bin
                 var sunatzip = new Tools.SUNATResponse();
                 sign.Execute();
 
+                System.Net.ServicePointManager.UseNagleAlgorithm = true;
+                System.Net.ServicePointManager.Expect100Continue = false;
+                System.Net.ServicePointManager.CheckCertificateRevocationList = true;
+
+                var sclient = InitClient(type);
+                sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = conf.SunatUser, Password = conf.SunatPass });
+
                 try
                 {
                     if (type.In("RC", "RA"))
                     {
-                        //descarga de la respuesta de sunat
-                        var sclient = new billServiceClient("otroscpe");
-                        sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = conf.SunatUser, Password = conf.SunatPass });
-
-                        //TODO check the voided document type in order to determine if valid
+                        //TODO solo se puede enviar si es para facturas el resto sale rechazado
                         var name = conf.Name + ".zip";
                         var ticket = sclient.sendSummary(name, File.ReadAllBytes(conf.SunatRequestZipPath));
-                        client.UpdateSunatResponse(args[0], DateTime.Now, "ticket", ticket);
+                        client.UpdateSunatResponse(args[0], DateTime.Now, "enviado", "Ticket recibido", sclient.Endpoint.Address.Uri.ToString(), ticket);
                     }
                     else
                     {
                         //descarga de la respuesta de sunat
-                        var sclient = new billServiceClient("otroscpe");
-                        sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = conf.SunatUser, Password = conf.SunatPass });
-
+                        //sclient.Open();
                         byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.SunatRequestZipPath));
+                        //sclient.Close();
                         File.WriteAllBytes(conf.SunatResponseZipPath, response);
-
                         sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
                         sunatzip.Load(conf.SunatResponseXmlPath);
-
                         //ENVIO DEL MENSAJE DE SUNAT
-                        client.UpdateSunatResponse(args[0], DateTime.Now, "0".Equals(sunatzip.ResponseCode) ? "declarado" : "rechazado", sunatzip.Description);
-
+                        client.UpdateSunatResponse(args[0], DateTime.Now, "0".Equals(sunatzip.ResponseCode) ? "declarado" : "rechazado", sunatzip.Description, sclient.Endpoint.Address.Uri.ToString(), null);
                         //Descarga del PDF
                         var pdfclient = new System.Net.WebClient();
                         pdfclient.DownloadFile(conf.PdfURL, conf.PdfPath);
@@ -68,25 +67,46 @@ namespace Nutria.CPE.Bin
                 }
                 catch (System.ServiceModel.FaultException ex)
                 {
-                    //TODO Enviar codigo de error
+                    //mensaje de error aplicativo
                     Console.WriteLine(ex.Message);
-                    client.UpdateSunatResponse(args[0], DateTime.Now, "error", ex.Message);
+                    client.UpdateSunatResponse(args[0], DateTime.Now, "error", ex.Message, sclient.Endpoint.Address.Uri.ToString(), null);
+                }
+                catch (System.ServiceModel.CommunicationException ex)
+                {
+                    //error generico - se puede reintentar
+                    Console.WriteLine(ex.Message);
+                    client.UpdateSunatResponse(args[0], DateTime.Now, "error", ex.Message, sclient.Endpoint.Address.Uri.ToString(), null);
                 }
             }
             else if ("ticket" == args[1])
             {
                 var conf = new Tools.Configuration(ConfigurationManager.AppSettings, args[0]);
-                var sclient = new billServiceClient("emision");
+                var sclient = InitClient("01");
                 var sunatzip = new Tools.SUNATResponse();
-                sclient.Endpoint.EndpointBehaviors.Add(new SecurityBehavior() { Username = conf.SunatUser, Password = conf.SunatPass });
                 var response = sclient.getStatus(args[2]);
                 File.WriteAllBytes(conf.SunatResponseZipPath, response.content);
                 sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
                 Console.WriteLine(response.statusCode);
                 return;
             }
+        }
 
-
+        public static billServiceClient InitClient(string documentType)
+        {
+            string configuration = null;
+            if (documentType.In("01", "03", "07", "08", "RC", "RA"))
+            {
+                configuration = "facturas";
+            }
+            else if (documentType.In("20", "40"))
+            {
+                configuration = "certificados";
+            }
+            else if (documentType.In("09"))
+            {
+                configuration = "guias";
+            }
+            return new billServiceClient(configuration);
         }
     }
 

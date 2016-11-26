@@ -19,12 +19,12 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://www.sunat.gob.pe:443/ol-ti-itcpgem-sqa/billService?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="billService.wsdl" MetadataType="Wsdl" ID="d6f7fed0-af76-4eca-96b7-40e0b84033f1" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?ns1.wsdl" />
-    <MetadataFile FileName="billService.xsd" MetadataType="Schema" ID="bfaf8690-e4be-44fb-bde2-40b8ebd22cf0" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService.xsd2.xsd" />
-    <MetadataFile FileName="billService1.wsdl" MetadataType="Wsdl" ID="c953c615-2e80-4a7c-b73e-1fbe34b98fd2" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService?wsdl" />
+    <MetadataFile FileName="billService1.xsd" MetadataType="Schema" ID="e28b5211-3e6c-4a4a-af71-c1a94ece9ff7" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itcpgem-sqa/billService?xsd=1" />
+    <MetadataFile FileName="billService2.wsdl" MetadataType="Wsdl" ID="3851c500-1ed1-478e-8752-9b7b197d4519" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itcpgem-sqa/billService?wsdl" />
+    <MetadataFile FileName="billService21.wsdl" MetadataType="Wsdl" ID="52bae1f3-fcb3-4a26-8057-fc8ab98b8c1e" SourceId="1" SourceUrl="https://www.sunat.gob.pe/ol-ti-itcpgem-sqa/billService?wsdl=1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

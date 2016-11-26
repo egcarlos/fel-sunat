@@ -13,8 +13,8 @@ if ($tipoDocumento == '01' || $tipoDocumento == '03' || $tipoDocumento == '07' |
         fel_request_send_xml_error(404, 'Not Found');
         return;
     }
-    $documento = $documento[0];
-    foreach (['montos', 'notas', "impuestos"] as $idx => $dato) {
+    $documento = $documento[0];//carga de datos asociados
+    foreach (['montos', 'notas', "impuestos", "items"] as $idx => $dato) {
         $documento[$dato] = fel_execute_and_map($dato, $db, $tipoDocumento, $id);
     }
     

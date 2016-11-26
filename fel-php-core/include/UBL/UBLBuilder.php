@@ -11,7 +11,6 @@ abstract class UBLBuilder {
     var $file_name;
     var $namespaces;
 
-    
     function attribute($name, $value) {
         $this->recent->setAttribute($name, $value);
         return $this;
@@ -101,14 +100,11 @@ abstract class UBLBuilder {
 
 class InvoiceBuilder extends UBLBuilder {
 
-
-
     function __construct($data, $dsSignature = false) {
-
         $montos = $data['montos'];
         $notas = $data['notas'];
         $impuestos = $data['impuestos'];
-
+        $items = $data['items'];
         $this->namespaces = [
             'cac'  => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
             'cbc'  => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -127,30 +123,35 @@ class InvoiceBuilder extends UBLBuilder {
         }
         $this->dom->appendChild($this->root);
         $this->current = $this->root;
-        $this->append_fw('ext:UBLExtensions');
-
         $this
-            ->append_fw('ext:UBLExtension')
-                ->append_fw('ext:ExtensionContent')
-                    ->append_fw('sac:AdditionalInformation');
+            ->append_fw('ext:UBLExtensions');
+        $this   ->append_fw('ext:UBLExtension')
+                    ->append_fw('ext:ExtensionContent')
+                        ->append_fw('sac:AdditionalInformation');
         foreach ($montos as $key => $monto) {
-            $this->append_fw('sac:AdditionalMonetaryTotal')
-                ->append('cbc:ID', $monto['id'])
-                ->append_nnv('cbc:Name', $monto['nombre'])
-                ->append_nnv('sac:ReferenceAmount', $monto['valor']['referencia'])
-                ->append('cbc:PayableAmount', $monto['valor']['pagable'])
-                ->append_nnv('cbc:Percent', $monto['porcentaje'])
-                ->append_nnv('sac:TotalAmount', $monto['valor']['total'])
-                ->pop();
+            $this           ->append_fw('sac:AdditionalMonetaryTotal')
+                                ->append('cbc:ID', $monto['id'])
+                                ->append_nnv('cbc:Name', $monto['nombre']);
+            if (isset($monto['valor']['referencia'])) {
+                $this           ->append_nnv('sac:ReferenceAmount', $monto['valor']['referencia'])->attribute('currencyID', $data['documento']['moneda']);
+            }
+            $this               ->append('cbc:PayableAmount', $monto['valor']['pagable'])->attribute('currencyID', $data['documento']['moneda']);
+            $this               ->append_nnv('cbc:Percent', $monto['porcentaje']);
+            if (isset($monto['valor']['total'])) {
+                $this           ->append_nnv('sac:TotalAmount', $monto['valor']['total'])->attribute('currencyID', $data['documento']['moneda']);
+            }
+            $this           ->pop();
         }
         foreach ($notas as $key => $nota) {
-            $this->append_fw('sac:AdditionalProperty')
-                ->append('cbc:ID', $nota['id'])
-                ->append_nnv('cbc:Name', $nota['nombre'])
-                ->append('cbc:Value', $nota['valor'])
-                ->pop();
+            $this           ->append_fw('sac:AdditionalProperty')
+                                ->append('cbc:ID', $nota['id'])
+                                ->append_nnv('cbc:Name', $nota['nombre'])
+                                ->append('cbc:Value', $nota['valor'])
+                            ->pop();
         }
+        //
         //TODO AGREGAR DATOS DE FACTURA GUIA
+        //
         if (isset($data['documento']['tipo_transaccion'])) {
             $this
                 ->append_fw('sac:SUNATTransaction')
@@ -165,7 +166,6 @@ class InvoiceBuilder extends UBLBuilder {
                     ->append_fw('ext:ExtensionContent')
             ;
         }
-
         $this
             ->reset()
             //cabecera UBL
@@ -190,6 +190,9 @@ class InvoiceBuilder extends UBLBuilder {
                 ->append('cbc:CustomerAssignedAccountID', $data['emisor']['documento']['numero'])
                 ->append('cbc:AdditionalAccountID', $data['emisor']['documento']['tipo'] )
                 ->append_fw('cac:Party')
+                    ->append_fw('cac:PartyName')
+                        ->append('cbc:Name', $data['emisor']['datos']['nombre_comercial'],true)
+                    ->pop()
                     ->append_fw('cac:PostalAddress')
                         ->append_nnv('cbc:ID',$data['emisor']['ubicacion']['ubigeo'])
                         ->append_nnv('cbc:StreetName',$data['emisor']['ubicacion']['direccion'])
@@ -206,6 +209,9 @@ class InvoiceBuilder extends UBLBuilder {
                 ->append('cbc:CustomerAssignedAccountID', $data['cliente']['documento']['numero'])
                 ->append('cbc:AdditionalAccountID', $data['cliente']['documento']['tipo'] )
                 ->append_fw('cac:Party')
+                    ->append_fw('cac:PartyName')
+                        ->append('cbc:Name', $data['cliente']['datos']['nombre_comercial'],true)
+                    ->pop()
                     ->append_fw('cac:PostalAddress')
                         ->append_nnv('cbc:ID',$data['cliente']['ubicacion']['ubigeo'])
                         ->append_nnv('cbc:StreetName',$data['cliente']['ubicacion']['direccion'])
@@ -219,6 +225,9 @@ class InvoiceBuilder extends UBLBuilder {
                         ->append('cbc:RegistrationName',$data['cliente']['datos']['razon_social'],true)
                 ->reset()
             ;
+        //
+        //AGREGAR DATOS DE ANTICIPOS DEVENGADOS
+        //
         foreach($impuestos as $idx => $impuesto) {
             $this
                 ->append_fw('cac:TaxTotal')
@@ -235,13 +244,108 @@ class InvoiceBuilder extends UBLBuilder {
 
         }
         $this->append_fw('cac:LegalMonetaryTotal');
-
         if (isset($data['total']['lineas']))    $this->append('cbc:LineExtensionAmount',  $data['total']['lineas'])    ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['descuento'])) $this->append('cbc:AllowanceTotalAmount', $data['total']['descuento']) ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['cargo']))     $this->append('cbc:ChargeTotalAmount',    $data['total']['cargo'])     ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['prepagado'])) $this->append('cbc:PrepaidAmount',        $data['total']['prepagado']) ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['pagable']))   $this->append('cbc:PayableAmount',        $data['total']['pagable'])   ->attribute('currencyID',$data['documento']['moneda']);
         
+        foreach($items as $idx => $item) {
+            $this->reset()
+                ->append_fw('cac:InvoiceLine');
+            /*
+             * DATOS DEL ITEM
+             */
+            // IDENTIFICADOR
+            $this   ->append('cbc:ID', $item['id'])
+            // CANTIDAD DE ARTICULOS Y UNIDAD DE MEDIDA
+                    ->append('cbc:InvoicedQuantity', $item['cantidad'])->attribute('unitCode',$item['unidad'])
+            // VALOR DE VENTA SIN IMPUESTOS CONSIDERANDO DESCUENTO
+                    ->append('cbc:LineExtensionAmount', $item['valor_venta'])->attribute('currencyID', $data['documento']['moneda']);
+            /*
+             * PRECIOS UNITARIOS
+             */
+            $this   ->append_fw('cac:PricingReference');
+            // CODIGO 01 - Valor de venta unitario
+            $this       ->append_fw('cac:AlternativeConditionPrice')
+                            ->append('cbc:PriceAmount', $item['precio_unitario']['facturado'])->attribute('currencyID', $data['documento']['moneda'])
+                            ->append('cbc:PriceTypeCode', '01')
+                        ->pop();
+            // CODIGO 02 - Valor de mercado/referencial en caso de operaciones no onerosas
+            if (isset($item['precio_unitario']['referencial'])) {
+                $this   ->append_fw('cac:AlternativeConditionPrice')
+                            ->append('cbc:PriceAmount', $item['precio_unitario']['referencial'])->attribute('currencyID', $data['documento']['moneda'])
+                            ->append('cbc:PriceTypeCode', '02')
+                        ->pop();
+            }
+            $this   ->pop();
+            /*
+             * DESCUENTOS DEL ITEM
+             */
+            if (isset($item['descuento'])) {
+                $this
+                    ->append_fw('cac:AllowanceCharge')
+                        ->append('cbc:ChargeIndicator', "false")
+                        ->append('cbc:Amount',$item['descuento'])->attribute('currencyID', $data['documento']['moneda'])
+                    ->pop();
+            }
+            /*
+             * IMPUESTOS
+             */
+            // IGV CODIGO 1000, VAT
+            $this   ->append_fw('cac:TaxTotal')
+                        ->append('cbc:TaxAmount', $item['igv']['monto'])->attribute('currencyID', $data['documento']['moneda'])
+                        ->append_fw('cac:TaxSubtotal')
+                            ->append('cbc:TaxAmount', $item['igv']['monto'])->attribute('currencyID', $data['documento']['moneda'])
+                            ->append_fw('cac:TaxCategory')
+                                ->append('cbc:TaxExemptionReasonCode', $item['igv']['codigo'])
+                                ->append_fw('cac:TaxScheme')
+                                    ->append('cbc:ID','1000')
+                                    ->append('cbc:Name','IGV')
+                                    ->append('cbc:TaxTypeCode','VAT')
+                                ->pop()
+                            ->pop()
+                        ->pop()
+                    ->pop();
+            // ISC CODIGO 2000, 
+            if (isset($item['isc']['monto'])) {
+                $this->append_fw('cac:TaxTotal')
+                        ->append('cbc:TaxAmount', $item['isc']['monto'])->attribute('currencyID', $data['documento']['moneda'])
+                        ->append_fw('cac:TaxSubtotal')
+                            ->append('cbc:TaxAmount', $item['isc']['monto'])->attribute('currencyID', $data['documento']['moneda'])
+                            ->append_fw('cac:TaxCategory')
+                                ->append('cbc:TierRange', $item['isc']['codigo'])
+                                ->append_fw('cac:TaxScheme')
+                                    ->append('cbc:ID','2000')
+                                    ->append('cbc:Name','ISC')
+                                    ->append('cbc:TaxTypeCode','EXC')
+                                ->pop()
+                            ->pop()
+                        ->pop()
+                    ->pop();
+            }
+            
+            /*
+            * DATOS DEL ITEM
+            */
+            $this   ->append_fw('cac:Item');
+            // DESCRIPCION DETALLADA
+            $this       ->append('cbc:Description', $item['datos']['descripcion']);
+            if (isset($item['codigo'])) {
+            // CODIGO DEL ARTICULO 
+                $this   ->append_fw('cac:SellersItemIdentification')
+                            ->append('cbc:ID', $item['datos']['codigo'])
+                        -pop();
+            }
+            $this   ->pop();
+            /*
+            * PRECIO UNITARIO SIN CONSIDERAR IGV NI DESCUENTOS
+            */
+            $this   ->append_fw('cac:Price')
+                        ->append('cbc:PriceAmount',$item['valor_unitario'])->attribute('currencyID', $data['documento']['moneda'])
+                    ->pop();
+            $this->pop();
+        }
     } 
 
 }
@@ -299,7 +403,6 @@ class VoidedDocumentsBuilder extends UBLBuilder {
                     ->append_fw('cac:PartyLegalEntity')
                         ->append('cbc:RegistrationName',$data['emisor']['datos']['razon_social'],true)
                 ->reset();
-        
         foreach ($data['items'] as $idx => $line) {
             $this
                 ->append_fw('sac:VoidedDocumentsLine')
@@ -311,7 +414,6 @@ class VoidedDocumentsBuilder extends UBLBuilder {
                 ->reset();
         }
     }
-
 }
 
 class RetentionBuilder extends UBLBuilder {
@@ -328,10 +430,7 @@ class RetentionBuilder extends UBLBuilder {
             'udt'=>'urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2',
             'xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
         ];
-
         $this->file_name = $data['emisor']['documento']['numero'].'-20-'.$data['documento']['numero'];
-
-
         $this->dom = new SmartDOMDocument('1.0', 'iso-8859-1');
         $this->root = $this->dom->createElementNS('urn:sunat:names:specification:ubl:peru:schema:xsd:Retention-1', 'Retention');
         foreach ($this->namespaces as $pfx => $namespace) {

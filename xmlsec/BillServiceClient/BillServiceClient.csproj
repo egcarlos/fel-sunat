@@ -56,18 +56,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\BillService\billService.wsdl" />
-    <None Include="Service References\BillService\billService.xsd">
+    <None Include="Service References\BillService\billService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\BillService\billService1.wsdl" />
+    <None Include="Service References\BillService\billService2.wsdl" />
+    <None Include="Service References\BillService\billService21.wsdl" />
     <None Include="Service References\BillService\Nutria.CPE.SunatClient.BillService.getStatusResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\BillService\Nutria.CPE.SunatClient.BillService.sendBillResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\BillService\Nutria.CPE.SunatClient.BillService.sendPackResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\BillService\Nutria.CPE.SunatClient.BillService.sendSummaryResponse.datasource">
