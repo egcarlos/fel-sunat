@@ -1,11 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Collections.Specialized;
-using System.Collections.Generic;
+﻿using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestSharp;
+using RestSharp.Deserializers;
+using System.Collections.Generic;
 
 namespace Nutria.CPE.Tools
 {
@@ -19,11 +16,12 @@ namespace Nutria.CPE.Tools
             this.RUC = this.Name.Split('-')[0];
 
             this.Workdir = string.Format(settings[Keys.Workdir], this.RUC);
-            this.KSPath = this.Workdir + ds + settings[this.RUC + Keys.KSPathSuffix];
-            this.KSPass = settings[this.RUC + Keys.KSPassSuffix];
+            this.KSPath = this.Workdir + ds + Keys.IdentityFileName;
 
-            this.SunatUser = this.RUC + settings[this.RUC + Keys.SunatUserSuffix];
-            this.SunatPass = settings[this.RUC + Keys.SunatPassSuffix];
+            var secrets = File.ReadAllText(this.Workdir + ds + Keys.SecretsFileName).Deserialize<Dictionary<string, string>>();
+            this.KSPass = secrets[Keys.KSPass];
+            this.SunatUser = secrets[Keys.SunatUser];
+            this.SunatPass = secrets[Keys.SunatPass];
 
             this.UnsignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".unsigned.xml";
             this.SignedXmlPath = this.Workdir + ds + settings[Keys.FolderXML] + ds + this.Name + ".request.xml";
@@ -67,6 +65,14 @@ namespace Nutria.CPE.Tools
         
     }
 
+    public static class StringExtension
+    {
+        public static T Deserialize<T>(this string str)
+        {
+            return new JsonDeserializer().Deserialize<T>(new RestResponse { Content = str });
+        }
+    }
+
     public class Keys
     {
         public const string DocumentURL = "template.document.url";
@@ -79,11 +85,12 @@ namespace Nutria.CPE.Tools
         public const string FolderXML = "folder.xml";
         public const string FolderPdf = "folder.pdf";
 
-        public const string KSPathSuffix = ".keystore.name";
-        public const string KSPassSuffix = ".keystore.pass";
-        public const string SunatUserSuffix = ".sunat.user";
-        public const string SunatPassSuffix = ".sunat.pass";
-        
+        public const string IdentityFileName = "identity.pfx";
+        public const string SecretsFileName = "secrets.json";
+        public const string KSPass = "keystore.pass";
+        public const string SunatUser = "sunat.user";
+        public const string SunatPass = "sunat.pass";
+
     }
 }
 

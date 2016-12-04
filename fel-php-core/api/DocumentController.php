@@ -74,7 +74,7 @@ class DocumentController
                     'identificador' => $name
                 ]
             );
-            return [$name, $data];
+            return $response == 1;
         }
         return false;
     }

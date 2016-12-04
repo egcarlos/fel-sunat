@@ -57,12 +57,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BillServiceClient\BillServiceClient.csproj">
-      <Project>{a49d8c3d-a2ea-4ca9-a327-f09e50528af9}</Project>
-      <Name>BillServiceClient</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Choose>

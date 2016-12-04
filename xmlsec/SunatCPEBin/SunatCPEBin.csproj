@@ -46,9 +46,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,13 +72,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BillServiceClient\BillServiceClient.csproj">
-      <Project>{a49d8c3d-a2ea-4ca9-a327-f09e50528af9}</Project>
-      <Name>BillServiceClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SunarCPELib\SunatCPELib.csproj">
       <Project>{d97c2f56-db02-4c23-8e72-7f2627cbe112}</Project>
       <Name>SunatCPELib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SunatClient\SunatClient.csproj">
+      <Project>{483b7348-69c0-40e9-97e8-672c20ef6564}</Project>
+      <Name>SunatClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
