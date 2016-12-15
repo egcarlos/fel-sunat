@@ -4,7 +4,6 @@
     "emisor.documento.numero",
     "emisor.datos.razon_social",
     "emisor.datos.nombre_comercial",
-
     "emisor.ubicacion.pais",
     "emisor.ubicacion.departamento",
     "emisor.ubicacion.provincia",
@@ -12,13 +11,6 @@
     "emisor.ubicacion.urbanizacion",
     "emisor.ubicacion.direccion",
     "emisor.ubicacion.ubigeo",
-
     "documento.fecha_emision",
-    "documento.fecha_referencia",
-	
-    "item.id",
-	"item.documento.tipo",
-	"item.documento.serie",
-	"item.documento.numero",
-	"item.motivo"
+    "documento.fecha_referencia"
 ]

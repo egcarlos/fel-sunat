@@ -1,45 +1,45 @@
 <?php
-require_once dirname(__FILE__) . '/../include/all.php';
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
+require_once dirname(__FILE__) . '/../include/DB/doctrine.php';
+require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 
-//identificador del registro desde el request URL
-$id = fel_request_name_as_id($_REQUEST);
-$tipoDocumento = $id['documento_tipo'];
-$db = db_connect();
-
-if ($tipoDocumento == '01' || $tipoDocumento == '03' || $tipoDocumento == '07' || $tipoDocumento == '08') {
-    $tipoDocumentoAjustado = ($tipoDocumento==="03") ? "01" : ($tipoDocumento==="08") ? "07" : $tipoDocumento;
-    $documento = fel_execute_and_map('select', $db, $tipoDocumentoAjustado, $id);
-    if (count($documento)==0) {
-        fel_request_send_xml_error(404, 'Not Found');
-        return;
+function load_document ($id, $conn) {
+    $id_map = split('-', $id);
+    if ($id_map[1]==='01' || $id_map[1]==='03'){
+        return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+    } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
+        return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
+    } elseif ($id_map[1]==='20') {
+        return db_load_document($id_map, $conn, '20', 'select', ['items']);
+    } elseif ($id_map[1]==='RA') {
+        return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
+    } elseif ($id_map[1]==='RC') {
+        return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
     }
-    $documento = $documento[0];//carga de datos asociados
-    foreach (['montos', 'notas', "impuestos", "items"] as $idx => $dato) {
-        $documento[$dato] = fel_execute_and_map($dato, $db, $tipoDocumentoAjustado, $id);
-    }
-    if ($tipoDocumentoAjustado == "01") {
-        //buscar los montos asociados, buscar las notas asociadas, buscar los impuestos asociados
-        $xml = new InvoiceBuilder($documento, false);
-    }
-    if ($tipoDocumentoAjustado == "07") {
-        foreach (["facturas"] as $idx => $dato) {
-            $documento[$dato] = fel_execute_and_map($dato, $db, $tipoDocumentoAjustado, $id);
-        }
-        //buscar los montos asociados, buscar las notas asociadas, buscar los impuestos asociados
-        $xml = new NoteBuilder($documento, false);
-    }
-} else {
-    $documento = fel_find_from_id($db, $tipoDocumento, $id);
-    if (count($documento)==0) {
-        fel_request_send_xml_error(404, 'Not Found');
-        return;
-    }
-    if ($tipoDocumento == "20") {
-        $xml = new RetentionBuilder($documento, false);
-    } elseif ($tipoDocumento == "RA") {
-        $xml = new VoidedDocumentsBuilder($documento, false);
-    } 
 }
 
+function to_ubl ($id, $document) {
+    $id_map = split('-', $id);
+    if ($id_map[1]==='01' || $id_map[1]==='03'){
+        return new InvoiceBuilder($document, false);
+    } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
+        return new NoteBuilder($document, false);
+    } elseif ($id_map[1]==='20') {
+        return new RetentionBuilder($document, false);
+    } elseif ($id_map[1]==='RA') {
+        return new VoidedDocumentsBuilder($document, false);
+    } elseif ($id_map[1]==='RC') {
+        return null;
+    }
+}
+
+$conn = db_connect();
+$id = $_REQUEST["name"];
+$document = load_document($id, $conn);
+if (is_null($document)) {
+    //send error 404
+    return;
+}
+$xml = to_ubl($id, $document);
 Header('Content-type: text/xml; charset=iso-8859-1');
 echo $xml->dom->saveXml();
