@@ -29,11 +29,12 @@ function to_ubl ($id, $document) {
     } elseif ($id_map[1]==='RA') {
         return new VoidedDocumentsBuilder($document, false);
     } elseif ($id_map[1]==='RC') {
-        return null;
+        return new SummaryBuilder($document, false);
     }
 }
 
 $conn = db_connect();
+//$id = '20102097069-RC-20161215-001';
 $id = $_REQUEST["name"];
 $document = load_document($id, $conn);
 if (is_null($document)) {
@@ -41,5 +42,7 @@ if (is_null($document)) {
     return;
 }
 $xml = to_ubl($id, $document);
+//echo '<pre>';
+//var_dump($document);
 Header('Content-type: text/xml; charset=iso-8859-1');
 echo $xml->dom->saveXml();

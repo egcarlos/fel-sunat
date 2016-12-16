@@ -681,6 +681,111 @@ class NoteBuilder extends UBLBuilder {
 
 }
 
+class SummaryBuilder extends UBLBuilder {
+    
+    function __construct($data, $dsSignature = false) {
+        $this->namespaces = [
+            'cac'=>'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2',
+            'cbc'=>'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2',
+            'ds'=>'http://www.w3.org/2000/09/xmldsig#',
+            'ext'=>'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2',
+            'sac'=>'urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1',
+            'xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
+        ];
+        $this->file_name = $data['emisor']['documento']['numero'].'-RA-'.$data['documento']['numero'];
+
+        $this->dom = new SmartDOMDocument('1.0', 'iso-8859-1');
+        $this->root = $this->dom->createElementNS('urn:sunat:names:specification:ubl:peru:schema:xsd:SummaryDocuments-1', 'SummaryDocuments');
+        foreach ($this->namespaces as $pfx => $namespace) {
+            $this->root->setAttributeNS('http://www.w3.org/2000/xmlns/','xmlns:'.$pfx,$namespace);
+        }
+        $this->dom->appendChild($this->root);
+        $this->current = $this->root;
+        $this->append_fw('ext:UBLExtensions');
+        //espacio para el adjunto de la firma
+        if ($dsSignature){
+            $this
+                ->append_fw('ext:UBLExtension')
+                    ->append_fw('ext:ExtensionContent')
+            ;
+        }
+        $this
+           ->reset()
+            //cabecera UBL
+            ->append('cbc:UBLVersionID','2.0')->append('cbc:CustomizationID','1.0')->reset()
+            //datos del documento
+            ->append('cbc:ID','RC-'.$data['documento']['numero'])
+            ->append_fix_date('cbc:ReferenceDate',$data['documento']['fecha_referencia'])
+            ->append_fix_date('cbc:IssueDate',$data['documento']['fecha_emision'])
+            //datos del firmante
+            ->append_fw('cac:Signature')
+                ->append('cbc:ID','IDSignKG')
+                ->append_fw('cac:SignatoryParty')
+                    ->append_fw('cac:PartyIdentification')->append('cbc:ID', $data['emisor']['documento']['numero'])->pop()
+                    ->append_fw('cac:PartyName')->append('cbc:Name', $data['emisor']['datos']['razon_social'], true)->pop()
+                    ->pop()
+                ->append_fw('cac:DigitalSignatureAttachment')->append_fw('cac:ExternalReference')->append('cbc:URI','#signatureKG')->pop(2)
+                ->reset()
+            //datos del emisor
+            ->append_fw('cac:AccountingSupplierParty')
+                ->append('cbc:CustomerAssignedAccountID', $data['emisor']['documento']['numero'])
+                ->append('cbc:AdditionalAccountID', $data['emisor']['documento']['tipo'] )
+                ->append_fw('cac:Party')
+                    ->append_fw('cac:PartyLegalEntity')
+                        ->append('cbc:RegistrationName',$data['emisor']['datos']['razon_social'],true)
+                ->reset();
+        foreach ($data['items'] as $i => $item) {
+            $this
+                ->append_fw('sac:SummaryDocumentsLine')
+                    ->append('cbc:LineID', $item['id'])
+                    ->append('cbc:DocumentTypeCode', $item['rango']['tipo'])
+                    ->append('sac:DocumentSerialID', $item['rango']['serie'])
+                    ->append('sac:StartDocumentNumberID', $item['id'])
+                    ->append('sac:EndDocumentNumberID', $item['id'])
+                    ->append('sac:TotalAmount', $item['total']['venta'])->attribute('currencyID', $item['rango']['moneda'])
+            ;
+            foreach ($item['montos'] as $m => $monto) {
+                if (is_null($monto['valor'])) continue;
+                $this
+                    ->append_fw('sac:BillingPayment')
+                        ->append('cbc:PaidAmount', $monto['valor'])->attribute('currencyID', $item['rango']['moneda'])
+                        ->append('cbc:InstructionID', $monto['codigo'])
+                    ->pop()
+                ;
+            }
+            foreach($item['cargos'] as $c => $cargo) {
+                if (is_null($cargo['valor'])) continue;
+                $this
+                    ->append_fw('cac:AllowanceCharge')
+                        ->append('cbc:ChargeIndicator',$cargo['indicador'])
+                        ->append('cbc:Amount',$cargo['valor'])->attribute('currencyID', $item['rango']['moneda'])
+                    ->pop()
+                ;
+            }
+            foreach($item['impuestos'] as $t => $impuesto) {
+                if (is_null($impuesto['monto'])) continue;
+                $this
+                    ->append_fw('cac:TaxTotal')
+                        ->append('cbc:TaxAmount', $impuesto['monto'])->attribute('currencyID', $item['rango']['moneda'])
+                        ->append_fw('cac:TaxSubtotal')
+                            ->append('cbc:TaxAmount', $impuesto['monto'])->attribute('currencyID', $item['rango']['moneda'])
+                            ->append_fw('cac:TaxCategory')
+                                ->append_fw('cac:TaxScheme')
+                                    ->append('cbc:ID',$impuesto['id'])
+                                    ->append('cbc:Name',$impuesto['nombre'])
+                                    ->append('cbc:TaxTypeCode',$impuesto['codigo'])
+                                ->pop()
+                            ->pop()
+                        ->pop()
+                    ->pop()
+                ;
+            }
+            $this
+                ->reset();
+        }
+    }
+}
+
 class VoidedDocumentsBuilder extends UBLBuilder {
     
     function __construct($data, $dsSignature = false) {

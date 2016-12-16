@@ -40,9 +40,13 @@ namespace Nutria.CPE.Bin
                 {
                     if (type.In("RC", "RA"))
                     {
+                        Console.WriteLine(DateTime.Now);
+                        Console.WriteLine("Declarando Documento");
                         //TODO solo se puede enviar si es para facturas el resto sale rechazado
                         var name = conf.Name + ".zip";
                         var ticket = sclient.sendSummary(name, File.ReadAllBytes(conf.SunatRequestZipPath));
+                        Console.WriteLine(DateTime.Now);
+                        Console.WriteLine("ticket de consultas: " + ticket);
                         client.UpdateSunatResponse(args[0], DateTime.Now, "enviado", "Ticket recibido", sclient.Endpoint.Address.Uri.ToString(), ticket);
                     }
                     else
