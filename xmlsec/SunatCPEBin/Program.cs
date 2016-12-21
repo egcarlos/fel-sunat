@@ -19,13 +19,15 @@ namespace Nutria.CPE.Bin
         {
             if (args.Length == 0)
             {
+                Console.WriteLine("Invalid Usage");
                 return;
             }
-
             var conf = new Tools.Configuration(ConfigurationManager.AppSettings, args[0]);
             //move to configuration
             var type = args[0].Split('-')[1];
-            var sclient = new ClientManager("qa", type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+            var serial = args[0].Split('-')[2];
+            var number = args[0].Split('-')[3];
+            var sclient = new ClientManager("testing", type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
 
             if (args.Length == 1)
             {
@@ -92,6 +94,14 @@ namespace Nutria.CPE.Bin
                     Console.WriteLine(response);
                     client.UpdateSunatResponse(args[0], DateTime.Now, "error", response, sclient.Endpoint.Address.Uri.ToString(), null);
                 }
+            }
+            else if ("query" == args[1])
+            {
+                var qclient = new SunatClient.SunatQuery.ClientManager("live", conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+                var response = qclient.getStatus(conf.RUC, type, serial, int.Parse(number));
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine(response.statusCode);
+                Console.WriteLine(response.statusMessage);
             }
             else if ("ticket" == args[1])
             {

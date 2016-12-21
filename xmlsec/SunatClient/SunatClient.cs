@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using SunatClient.Security;
 
 namespace SunatClient.Sunat
 {
@@ -53,4 +54,23 @@ namespace SunatClient.Sunat
 
     }
 
+}
+
+namespace SunatClient.SunatQuery
+{
+    public class ClientManager
+    {
+        public billServiceClient Proxy { get; private set; }
+
+        public ClientManager(string enviroment, string ruc, string user, string password)
+        {
+            ServicePointManager.UseNagleAlgorithm = true;
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.CheckCertificateRevocationList = true;
+            var endpoint = enviroment + ".query";
+            Proxy = new billServiceClient(endpoint);
+            Proxy.Endpoint.EndpointBehaviors.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+        }
+
+    }
 }

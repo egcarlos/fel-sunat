@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service References\SunatQuery\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="WSSecurity.cs" />
     <Compile Include="SunatClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +66,20 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Service References\SunatQuery\billConsultService.wsdl" />
+    <None Include="Service References\SunatQuery\billConsultService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SunatQuery\billConsultService1.wsdl" />
+    <None Include="Service References\SunatQuery\SunatClient.SunatQuery.getStatusCdrResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SunatQuery\SunatClient.SunatQuery.getStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SunatQuery\SunatClient.SunatQuery.statusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\Sunat\billService.wsdl" />
     <None Include="Service References\Sunat\billService.xsd">
       <SubType>Designer</SubType>
@@ -83,6 +102,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SunatQuery\" />
     <WCFMetadataStorage Include="Service References\Sunat\" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +113,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\Sunat\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SunatQuery\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SunatQuery\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SunatQuery\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

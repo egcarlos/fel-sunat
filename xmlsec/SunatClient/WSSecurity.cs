@@ -5,7 +5,7 @@ using System.ServiceModel.Dispatcher;
 using System.Xml;
 using Microsoft.Web.Services3.Security.Tokens;
 
-namespace SunatClient.Sunat
+namespace SunatClient.Security
 {
 
     public class PasswordDigestBehavior : IEndpointBehavior
