@@ -1,4 +1,5 @@
 [
+    "documento.tipo",
     "documento.numero",
     "emisor.documento.tipo",
     "emisor.documento.numero",

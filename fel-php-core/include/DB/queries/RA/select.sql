@@ -1,4 +1,5 @@
 SELECT
+    [B].[baja_tipo],
 	[B].[baja_serie_numero],
     [B].[emisor_documento_tipo],
 	[B].[emisor_documento_numero],

@@ -7,6 +7,7 @@ SELECT
 FROM
     [dbo].[t_baja_detalle] AS [D]
 WHERE
+    [D].[baja_tipo] = :documento_tipo AND
     [D].[baja_serie_numero] = :documento_serie_numero AND
     [D].[emisor_documento_tipo] = :emisor_documento_tipo AND
     [D].[emisor_documento_numero] = :emisor_documento_numero
