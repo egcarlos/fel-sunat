@@ -1,0 +1,16 @@
+[
+    "documento.numero",
+    "emisor.documento.tipo",
+    "emisor.documento.numero",
+    "emisor.datos.razon_social",
+    "emisor.datos.nombre_comercial",
+    "emisor.ubicacion.pais",
+    "emisor.ubicacion.departamento",
+    "emisor.ubicacion.provincia",
+    "emisor.ubicacion.distrito",
+    "emisor.ubicacion.urbanizacion",
+    "emisor.ubicacion.direccion",
+    "emisor.ubicacion.ubigeo",
+    "documento.fecha_emision",
+    "documento.fecha_referencia"
+]

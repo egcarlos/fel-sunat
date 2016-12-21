@@ -1,0 +1,20 @@
+[
+    "referencia.documento.tipo",
+	"referencia.documento.serie_numero",
+	"referencia.documento.fecha_emision",
+	"referencia.total.moneda",
+	"referencia.total.monto",
+	"pago.fecha",
+	"pago.numero",
+	"pago.moneda",
+	"pago.monto",
+	"retencion.fecha",
+	"retencion.valor_retenido.moneda",
+	"retencion.valor_retenido.monto",
+	"retencion.neto_pagado.moneda",
+	"retencion.neto_pagado.monto",
+	"tipo_cambio.moneda.origen",
+	"tipo_cambio.moneda.destino",
+	"tipo_cambio.tasa",
+	"tipo_cambio.fecha"
+]
