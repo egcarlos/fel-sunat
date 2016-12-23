@@ -25,6 +25,7 @@ INNER JOIN
         [B].[emisor_documento_numero] = [U].[documento_numero] and
         [B].[emisor_documento_tipo] = [U].[documento_tipo]
 WHERE
+	[B].[baja_tipo] = :documento_tipo AND
     [B].[baja_serie_numero] = :documento_serie_numero AND
     [B].[emisor_documento_tipo] = :emisor_documento_tipo AND
     [B].[emisor_documento_numero] = :emisor_documento_numero

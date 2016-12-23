@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using SunatClient.Security;
+using System;
 
 namespace SunatClient.Sunat
 {
@@ -18,7 +19,15 @@ namespace SunatClient.Sunat
             ServicePointManager.CheckCertificateRevocationList = true;
             var endpoint = enviroment + "." + documentType.AsTarget();
             Proxy = new billServiceClient(endpoint);
-            Proxy.Endpoint.EndpointBehaviors.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+            var epb = Proxy.Endpoint.EndpointBehaviors;
+            var binding = Proxy.Endpoint.Binding;
+            binding.OpenTimeout = new TimeSpan(0, 10, 0);
+            binding.CloseTimeout = new TimeSpan(0, 10, 0);
+            binding.SendTimeout = new TimeSpan(0, 10, 0);
+            binding.ReceiveTimeout = new TimeSpan(0, 10, 0);
+
+            epb.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+            epb.Add(new Logging.LogBehavior());
         }
 
     }
@@ -32,7 +41,7 @@ namespace SunatClient.Sunat
             {
                 return "invoice";
             }
-            if (documentType.In("20", "40"))
+            if (documentType.In("20", "40", "RR"))
             {
                 return "certificate";
             }

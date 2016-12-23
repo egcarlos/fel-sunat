@@ -797,7 +797,7 @@ class VoidedDocumentsBuilder extends UBLBuilder {
             'sac'=>'urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1',
             'xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
         ];
-        $this->file_name = $data['emisor']['documento']['numero'].'-RA-'.$data['documento']['numero'];
+        $this->file_name = $data['emisor']['documento']['numero'].'-'.$data['documento']['tipo'].'-'.$data['documento']['numero'];
 
         $this->dom = new SmartDOMDocument('1.0', 'iso-8859-1');
         $this->root = $this->dom->createElementNS('urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1', 'VoidedDocuments');
@@ -819,7 +819,7 @@ class VoidedDocumentsBuilder extends UBLBuilder {
             //cabecera UBL
             ->append('cbc:UBLVersionID','2.0')->append('cbc:CustomizationID','1.0')->reset()
             //datos del documento
-            ->append('cbc:ID','RA-'.$data['documento']['numero'])
+            ->append('cbc:ID',$data['documento']['tipo'].'-'.$data['documento']['numero'])
             ->append_fix_date('cbc:ReferenceDate',$data['documento']['fecha_referencia'])
             ->append_fix_date('cbc:IssueDate',$data['documento']['fecha_emision'])
             //datos del firmante

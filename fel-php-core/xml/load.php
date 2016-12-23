@@ -26,7 +26,7 @@ function to_ubl ($id, $document) {
         return new NoteBuilder($document, false);
     } elseif ($id_map[1]==='20') {
         return new RetentionBuilder($document, false);
-    } elseif ($id_map[1]==='RA') {
+    } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
         return new VoidedDocumentsBuilder($document, false);
     } elseif ($id_map[1]==='RC') {
         return new SummaryBuilder($document, false);
@@ -34,7 +34,7 @@ function to_ubl ($id, $document) {
 }
 
 $conn = db_connect();
-//$id = '20102097069-RC-20161215-001';
+//$id = '20100318696-RR-20161221-001';
 $id = $_REQUEST["name"];
 $document = load_document($id, $conn);
 if (is_null($document)) {

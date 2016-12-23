@@ -17,6 +17,7 @@ namespace Nutria.CPE.Tools
             {
                 using (ZipArchive archive = new ZipArchive(zip, ZipArchiveMode.Read))
                 {
+                    //TODO hay que verificar como identificar el caso de estar con una respuesta de resumen de baja de retenciones
                     var entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith("R-"));
                     entry.ExtractToFile(unzippedResponseFile);
                     return true;

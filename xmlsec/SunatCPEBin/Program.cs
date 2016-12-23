@@ -27,7 +27,7 @@ namespace Nutria.CPE.Bin
             var type = args[0].Split('-')[1];
             var serial = args[0].Split('-')[2];
             var number = args[0].Split('-')[3];
-            var sclient = new ClientManager("testing", type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+            var sclient = new ClientManager("live", type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
 
             if (args.Length == 1)
             {
@@ -40,10 +40,12 @@ namespace Nutria.CPE.Bin
 
                 try
                 {
-                    if (type.In("RC", "RA"))
+                    if (type.In("RC", "RA", "RR"))
                     {
                         Console.WriteLine(DateTime.Now);
                         Console.WriteLine("Declarando Documento");
+                        Console.WriteLine("Endpoint: " + sclient.Endpoint.Address.Uri);
+                        Console.WriteLine();
                         //TODO solo se puede enviar si es para facturas el resto sale rechazado
                         var name = conf.Name + ".zip";
                         var ticket = sclient.sendSummary(name, File.ReadAllBytes(conf.SunatRequestZipPath));
