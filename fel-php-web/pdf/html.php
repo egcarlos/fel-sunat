@@ -14,7 +14,22 @@ function load_document ($id, $conn) {
     return null;
 }
 
-$conn = db_connect();
-$document = load_document($_REQUEST['name'], $conn);
+function get_name(){
+	$name = null;
+	if (array_key_exists('name', $_REQUEST)) {
+		$name = $_REQUEST['name'];
+	} else {
+		$name = $argv[1];
+	}
+	return $name;
+}
 
-var_dump ($document);
+function print_20($name, $documento){
+	include (dirname(__FILE__) . '/20.php');
+}
+
+$conn = db_connect();
+$name = get_name();
+$document = load_document($name, $conn);
+header('Content-Type: text/html; charset=utf-8');
+print_20($name, $document);
