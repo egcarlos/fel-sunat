@@ -1,5 +1,7 @@
 <?php 
-require_once dirname(__FILE__).'/../../include/all.php';
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+require_once dirname(__FILE__) . '/../../include/DB/doctrine.php';
+require_once dirname(__FILE__).'/../../include/tools/request.php';
 require_once dirname(__FILE__).'/../../include/tools/numeroLetras.php';
 //for pdf417 generation
 use BigFish\PDF417\PDF417;
@@ -101,7 +103,8 @@ function cmp_nd($a,$b){
 $db = db_connect();
 $id = fel_request_name_as_id($_REQUEST);
 $tipoDocumento = $id['documento_tipo'];
-$documento = fel_find_from_id($db, $tipoDocumento, $id);
+$id_map = split('-', $id);
+$documento = db_load_document($id_map, $conn, '20', 'select', ['items']);;
 
 $logo = dirname(__FILE__) . '/../res/' . $documento['emisor']['documento']['numero'] . '/logo.jpg';
 $logo = base64_encode_image ($logo);
