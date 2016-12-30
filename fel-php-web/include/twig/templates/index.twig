@@ -1,0 +1,18 @@
+{% extends "main.twig" %}
+{% block content %}
+<header>
+    <h1>{{page.title}}</h1>
+    {% if identity.LoggedIn %}
+        
+    {% else %}
+        <p>
+            Acceda al sistema para consultar sus documentos emitidos.
+        </p>
+        <p>
+            <form method="GET" action="login.php">
+                <input type="submit" name="action" value="Ingresar" class="special" />
+            </form>
+        </p>
+    {% endif %}
+</header>
+{% endblock content %}

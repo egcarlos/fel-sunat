@@ -3,7 +3,8 @@
         "spipu/html2pdf": "^4.6",
         "neitanod/forceutf8": "dev-master",
         "bigfish/pdf417": "^0.2.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "twig/twig": "^1.30"
     },
     "config": {
         "preferred-install": "dist"

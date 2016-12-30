@@ -1,0 +1,30 @@
+{% extends "main.twig" %}
+{% block content %}
+<section>
+    <h2>Ingrese sus datos</h2>
+    <form method="post" action="login.php">
+        <div class="row uniform">
+            <div class="6u 12u$(xsmall)">
+                <input type="text" name="ruc" id="ruc" value="" placeholder="RUC" />
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="email" name="user" id="user" value="" placeholder="Usuario" />
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="password" name="password" id="password" value="" placeholder="Clave" />
+            </div>
+            <div class="6u$ 12u$(small)">
+                <input type="checkbox" id="human" name="human">
+                <label for="human">No soy un robot</label>
+            </div>
+            <div class="12u$">
+                <ul class="actions">
+                    <li><input type="submit" name="action" value="Ingresar" class="special" /></li>
+                    <li><input type="reset" value="Limpiar" /></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+    <pre><code>{{identity}}</code></pre>
+</section>
+{% endblock content %}
