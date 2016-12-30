@@ -104,6 +104,7 @@ $db = db_connect();
 $id = fel_request_name_as_id($_REQUEST);
 $tipoDocumento = $id['documento_tipo'];
 $id_map = split('-', $id);
+$conn = db_connect();
 $documento = db_load_document($id_map, $conn, '20', 'select', ['items']);;
 
 $logo = dirname(__FILE__) . '/../res/' . $documento['emisor']['documento']['numero'] . '/logo.jpg';
@@ -122,20 +123,10 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
 }
 $tasa = $documento['retencion']['tasa'];
 
-//speed patch to get signature and hash and response sunat
-$name = $_REQUEST['name'];
-$res = $db->query("SELECT hash, firma, mensaje_sunat FROM t_documento where identificador = '$name'");
+//speed patch to get signature and hash and response sunat rehacer
 $hash = null;
 $firma = null;
 $sunat = null;
-if (!PEAR::isError($res)) {
-    if ($row = $res->fetchRow()) {
-        $hash = $row[0];
-        $firma = $row[1];
-        $sunat = $row[2];
-        $res->free();
-    }
-}
 
 $ruc = $documento['emisor']['documento']['numero'];
 $td = '20';
