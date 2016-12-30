@@ -28,6 +28,7 @@ namespace Nutria.CPE.Bin
             var serial = args[0].Split('-')[2];
             var number = args[0].Split('-')[3];
             var sclient = new ClientManager("live", type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+            var sunatzip = new Tools.SUNATResponse();
 
             if (args.Length == 1)
             {
@@ -35,7 +36,6 @@ namespace Nutria.CPE.Bin
                 var keyManager = new Tools.Security.PKCS12KeyManager(pk12);
                 var client = new Tools.Platform.JSONRestClient(conf.PlatformApiURL);
                 var sign = new Tools.SignProcess(conf, keyManager, client);
-                var sunatzip = new Tools.SUNATResponse();
                 sign.Execute();
 
                 try
@@ -105,9 +105,21 @@ namespace Nutria.CPE.Bin
                 Console.WriteLine(response.statusCode);
                 Console.WriteLine(response.statusMessage);
             }
+            else if ("sendzip" == args[1])
+            {
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine("Declarando Documento");
+                byte[] response = sclient.sendBill(conf.Name + ".zip", File.ReadAllBytes(conf.Name + ".zip"));
+                //sclient.Close();
+                File.WriteAllBytes(conf.SunatResponseZipPath, response);
+                sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
+                sunatzip.Load(conf.SunatResponseXmlPath);
+                //ENVIO DEL MENSAJE DE SUNAT
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine(sunatzip.Description);
+            }
             else if ("ticket" == args[1])
             {
-                var sunatzip = new Tools.SUNATResponse();
                 sclient.Open();
                 var response = sclient.getStatus(args[2]);
                 sclient.Close();
