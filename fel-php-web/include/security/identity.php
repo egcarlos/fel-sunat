@@ -23,8 +23,12 @@ class Identity extends SecurityBase  {
     public $Credentials;
 
     public function Login () {
+        $connection = db_connect();
+        $query = 'SELECT count(*) FROM USUARIOS WHERE RUC = :ruc and usuario = :usuario and clave = :clave';
+        $count = $connection->fetchColumn($query, [$this->Credentials->RUC, $this->Credentials->User, $this->Credentials->Password], 0);
+        
         //TODO check credentials
-        $this->LoggedIn = true;
+        $this->LoggedIn = $count === 1;
         $this->Credentials->Password = null;
     }
 
