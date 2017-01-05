@@ -55,7 +55,8 @@ if ($_REQUEST['action']==='list') {
             'postback' => 'index.php',
             'query' => $query,
             'list' => $list,
-            'query_text' => var_export($query, true)
+            'query_text' => var_export($query, true),
+            'list_text' => var_export($list, true)
 
         ]
     );

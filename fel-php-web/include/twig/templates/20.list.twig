@@ -5,6 +5,7 @@
     <table>
         <thead>
             <tr>
+                <th>Emisor</th>
                 <th>Certificado de Retencion</th>
                 <th>Monto Retenido</th>
                 <th>&nbsp;</th>
@@ -13,7 +14,8 @@
         <tbody>
             {% for item in list %}
             <tr>
-                <td>{{item.number}}</td>
+                <td>{{item.issuer}}</td>
+                <td>{{item.document}}</td>
                 <td>{{item.amount}}</td>
                 <td><a href="pdf/export.php?name={{item.id}}&provider={{query.provider}}">Ver</a></td>
             </tr>
