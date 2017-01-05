@@ -13,9 +13,6 @@ class Credentials extends SecurityBase {
     public $RUC;
     public $User;
     public $Password;
-    public function __toString () {
-        return ;
-    }
 }
 
 class Identity extends SecurityBase  {

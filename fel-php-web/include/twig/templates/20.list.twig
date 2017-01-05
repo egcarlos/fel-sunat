@@ -1,0 +1,25 @@
+{% extends "main.twig" %}
+{% block content %}
+<section>
+    <p>Mostrando resultados para la factura {{query.document}} del proveedor RUC-{{query.provider}}.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Certificado de Retencion</th>
+                <th>Monto Retenido</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in list %}
+            <tr>
+                <td>{{item.number}}</td>
+                <td>{{item.amount}}</td>
+                <td><a href="pdf/export.php?name={{item.id}}&provider={{query.provider}}">Ver</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <pre><code>{{query_text}}</code></pre>
+</section>
+{% endblock content %}

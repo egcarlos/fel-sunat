@@ -1,0 +1,33 @@
+{% extends "main.twig" %}
+{% block content %}
+<section>
+    <h2>Ingrese los datos de su factura para buscar el certificado de retención.</h2>
+    <form method="GET" action="{{postback}}">
+        <div class="row uniform">
+            <div class="6u 12u$(xsmall)">
+                <input type="text" name="RUC" id="ruc" value="" placeholder="RUC" />
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="text" name="factura" id="factura" value="" placeholder="Nro. de Factura (p.ej. F001-00000001)" />
+            </div>
+            <div class="6u 12u$(xsmall)">
+                <input type="text" name="fecha" id="monto" value="" placeholder="Fecha de Factura (p.ej. 31/12/2016)" />
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="text" name="monto" id="monto" value="" placeholder="Monto Total Facturado (p.ej. 944.00)" />
+            </div>
+            <div class="6u$ 12u$(small)">
+                <input type="checkbox" id="human" name="human">
+                <label for="human">No soy un robot</label>
+            </div>
+            <div class="12u$">
+                <ul class="actions">
+                    <li><input type="submit" name="action" value="Ingresar" class="special" /></li>
+                    <li><input type="reset" value="Limpiar" /></li>
+                </ul>
+            </div>
+        </div>
+        <input type="hidden" name="action" value="list" />
+    </form>
+</section>
+{% endblock content %}
