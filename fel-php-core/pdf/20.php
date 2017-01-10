@@ -1,13 +1,8 @@
 <?php 
-require_once dirname(__FILE__) . '/../../vendor/autoload.php';
-require_once dirname(__FILE__) . '/../../include/DB/doctrine.php';
-require_once dirname(__FILE__).'/../../include/tools/request.php';
-require_once dirname(__FILE__).'/../../include/tools/numeroLetras.php';
-//for pdf417 generation
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
+require_once dirname(__FILE__) . '/NumberToText.php';
 use BigFish\PDF417\PDF417;
 use BigFish\PDF417\Renderers\ImageRenderer;
-
-header('Content-Type: text/html; charset=utf-8');
 
 function base64_encode_image ($filename) {
     if ($filename) {
@@ -100,12 +95,7 @@ function cmp_nd($a,$b){
     return strcmp($at, $bt);
 }
 
-$db = db_connect();
-$id = fel_request_name_as_id($_REQUEST);
-$tipoDocumento = $id['documento_tipo'];
-$id_map = split('-', $id);
-$conn = db_connect();
-$documento = db_load_document($id_map, $conn, '20', 'select', ['items']);;
+$tipoDocumento = '20';
 
 $logo = dirname(__FILE__) . '/../res/' . $documento['emisor']['documento']['numero'] . '/logo.jpg';
 $logo = base64_encode_image ($logo);
@@ -122,11 +112,6 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
     ];
 }
 $tasa = $documento['retencion']['tasa'];
-
-//speed patch to get signature and hash and response sunat rehacer
-$hash = null;
-$firma = null;
-$sunat = null;
 
 $ruc = $documento['emisor']['documento']['numero'];
 $td = '20';

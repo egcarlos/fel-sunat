@@ -113,20 +113,6 @@ if ($documento['items']['0']['tipo_cambio']['moneda']['origen'] !== 'PEN') {
 }
 $tasa = $documento['retencion']['tasa'];
 
-//speed patch to get signature and hash and response sunat
-//$res = $db->query("SELECT hash, firma, mensaje_sunat FROM t_documento where identificador = '$name'");
-$hash = null;
-$firma = null;
-$sunat = null;
-//if (!PEAR::isError($res)) {
-//    if ($row = $res->fetchRow()) {
-//        $hash = $row[0];
-//        $firma = $row[1];
-//        $sunat = $row[2];
-//        $res->free();
-//    }
-//}
-
 $ruc = $documento['emisor']['documento']['numero'];
 $td = '20';
 $num = str_replace('-', '|', $documento['documento']['numero']);
