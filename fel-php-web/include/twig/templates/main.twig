@@ -16,18 +16,12 @@
 		<!-- Header -->
 		<header id="header">
 			<div class="inner">
-				<!-- Logo -->
-				<a href="http://www.hvcontratistas.com.pe" class="logo">
-					<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">CONTRATISTAS S.A.</span>
-				</a>
-
 				<!-- Nav -->
 				<nav>
 					<ul>
 						<li><a href="#menu">Menu</a></li>
 					</ul>
 				</nav>
-
 			</div>
 		</header>
 
@@ -35,14 +29,7 @@
 		<nav id="menu">
 			<h2>Menu</h2>
 			<ul>
-				<li><a href="index.php">Inicio</a></li>
-				{% if identity.LoggedIn %}
-					<li><a href="logout.php">Buscar documentos</a></li>
-					<li><a href="logout.php">Cambiar Clave</a></li>
-					<li><a href="logout.php">Salir</a></li>
-				{% else %}
-					<li><a href="login.php">Acceder</a></li>
-				{% endif %}
+				<li><a href="comprobantes.php">Inicio</a></li>
 			</ul>
 		</nav>
 		
@@ -57,33 +44,6 @@
 				{% endblock content %}
 			</div>
 		</div>
-
-		<!-- Footer -->
-		<footer id="footer">
-			<div class="inner">
-				<section>
-					<h2>Encuéntranos</h2>
-					<p>
-						<b>Edificio Empresarial Cronos</b><br />
-						Av. El Derby 055, Torre 3, Piso 6.<br />
-						Santiago de Surco.
-					</p>
-					<p>
-						<b>Teléfono</b> <a href="tel:+5117127100" >+51 (1) 712-7100</a> | <b>Fax</b> +51 (1) 712-7195<br />
-						<b>E-mail</b> <a href="mailto:info@hvcontratistas.com.pe">info@hvcontratistas.com.pe</a><br />
-					</p>
-				</section>
-				<section>
-					<h2>HV en la web</h2>
-					<ul class="icons">
-						<li><a href="http://www.hvcontratistas.com.pe" class="icon style2 fa-edge"><span class="label">HV en la web</span></a></li>
-					</ul>
-				</section>
-				<ul class="copyright">
-					<li>&copy; HV Contratistas S. A.</li>
-				</ul>
-			</div>
-		</footer>
 	</div>
 
 	<!-- Scripts -->

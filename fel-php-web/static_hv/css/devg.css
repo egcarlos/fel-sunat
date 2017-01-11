@@ -1,0 +1,524 @@
+/* clearfix */
+/* For modern browsers */
+.cf:before, .content-detalle-portafolio .w-encabezado-fancy:before,
+.cf:after,
+.content-detalle-portafolio .w-encabezado-fancy:after {
+  content: "";
+  display: table;
+}
+
+.cf:after, .content-detalle-portafolio .w-encabezado-fancy:after {
+  clear: both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf, .content-detalle-portafolio .w-encabezado-fancy {
+  zoom: 1;
+}
+
+/* end clearfix */
+.w-ancho {
+  max-width: 960px;
+  margin: auto;
+}
+
+.w-google-mapa {
+  width: 100%;
+  height: 315px;
+}
+
+.css-contacto .cnt-contacto .w-formulario .w-completar {
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item {
+  display: inline-block;
+  vertical-align: top;
+  width: 32%;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul li {
+  display: inline-block;
+  vertical-align: top;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre {
+  display: inline-block;
+  vertical-align: top;
+  font-family: 'Oswald', sans-serif;
+  color: #3d3d3f;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-2 {
+  margin-top: 24px;
+  font-family: 'Oswald', sans-serif;
+  color: #3d3d3f;
+  font-size: 12px;
+  font-weight: 400;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-3, .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-4 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #b3272d;
+  padding-left: 45px;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-4 {
+  font-size: 17px;
+  font-weight: 400;
+  color: #000;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-check {
+  margin-top: 23px;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-llenar {
+  width: 98%;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-llenar input {
+  width: 98%;
+  height: 32px;
+  padding-left: 6px;
+  border: 1px solid #d9dbdc;
+  background: #f4f4f5;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-boton {
+  margin-top: 26px;
+  width: 98%;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-boton button {
+  border: none;
+  background: #b3272d;
+  color: #fff;
+  width: 100%;
+  height: 50px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-boton button:hover {
+  background: #802528;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-mensaje {
+  width: 98%;
+}
+.css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-mensaje textarea {
+  width: 98%;
+  height: 86px;
+  padding-left: 6px;
+  border: 1px solid #d9dbdc;
+  background: #f4f4f5;
+}
+.css-contacto .w-title-mapa {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.css-contacto .w-title-mapa .title {
+  background: url("../img/contacto-icon-2.png") center left no-repeat;
+  padding-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+.css-contacto .w-title-mapa .title span {
+  color: #b3272d;
+}
+
+.css-contacto-gracias .cnt-contacto-gracias {
+  background: url("../img/contacto-gracias-bg.png") center center no-repeat;
+  height: 400px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias {
+  padding-top: 40px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias {
+  width: 280px;
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+  margin-left: 12%;
+  margin-top: 20px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias .title {
+  padding-left: 6px;
+  padding-right: 6px;
+  display: inline-block;
+  color: #b3272d;
+  font-weight: 700;
+  font-size: 46px;
+  border-top: 3px solid #b3272d;
+  border-bottom: 3px solid #b3272d;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias .por {
+  color: #b3272d;
+  font-size: 19px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias .estamos {
+  color: #3d3d3f;
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias .volver a {
+  display: inline-block;
+  width: 128px;
+  text-align: center;
+  color: #fff;
+  height: 32px;
+  padding-top: 8px;
+  font-size: 18px;
+  font-weight: 400;
+  background: #b3272d;
+}
+.css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias .volver a:hover {
+  background: #802528;
+}
+.css-contacto-gracias .bg-title {
+  margin-bottom: 0px;
+}
+.css-contacto-gracias footer .cnt-footers .footer-top .w-img-contacto {
+  display: block;
+}
+
+.css-error .cnt-error {
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+.css-error .cnt-error .error {
+  text-align: center;
+}
+.css-error .cnt-error .error .w-col-1 {
+  display: inline-block;
+  vertical-align: top;
+  width: 59%;
+}
+.css-error .cnt-error .error .w-col-1 img {
+  width: 100%;
+  height: auto;
+}
+.css-error .cnt-error .error .w-col-2 {
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+  text-align: center;
+}
+.css-error .cnt-error .error .w-col-2 img {
+  max-width: 100%;
+  height: auto;
+}
+.css-error .cnt-error .error .w-col-2 .w-parrafo p {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  color: #3d3d3f;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.css-error .cnt-error .error .w-col-2 .w-boton a {
+  font-family: 'Oswald', sans-serif;
+  display: inline-block;
+  width: 170px;
+  text-align: center;
+  color: #fff;
+  height: 32px;
+  padding-top: 8px;
+  font-size: 18px;
+  font-weight: 400;
+  background: #b3272d;
+}
+.css-error .cnt-error .error .w-col-2 .w-boton a:hover {
+  background: #802528;
+}
+
+.cnt-construccion .construccion .w-item-construc {
+  position: relative;
+  float: left;
+  overflow: hidden;
+  width: 25%;
+}
+.cnt-construccion .construccion .w-item-construc .w-img img {
+  margin-top: -10px;
+  width: 110%;
+  height: auto;
+  display: block;
+}
+.cnt-construccion .construccion .w-item-construc .w-texto, .cnt-construccion .construccion .w-item-construc .w-texto-2 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: none;
+  text-align: center;
+}
+.cnt-construccion .construccion .w-item-construc .w-texto .w-texto-interno, .cnt-construccion .construccion .w-item-construc .w-texto-2 .w-texto-interno {
+  position: absolute;
+  left: 0px;
+  top: 35%;
+  font-family: 'Oswald', sans-serif;
+  width: 100%;
+}
+.cnt-construccion .construccion .w-item-construc .w-texto .w-texto-interno h1, .cnt-construccion .construccion .w-item-construc .w-texto-2 .w-texto-interno h1 {
+  font-weight: 700;
+  color: #fff;
+  font-size: 20px;
+  text-shadow: #000 2px 2px 5px;
+}
+.cnt-construccion .construccion .w-item-construc .w-texto .w-texto-interno p, .cnt-construccion .construccion .w-item-construc .w-texto-2 .w-texto-interno p {
+  font-weight: 400;
+  color: #fff;
+  font-size: 16px;
+  opacity: 0;
+}
+.cnt-construccion .construccion .w-item-construc .w-texto-2 {
+  opacity: 0;
+  background: url("../img/construccion-hover.png") repeat;
+}
+.cnt-construccion .construccion .w-item-construc .c-linea-1 {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  width: 0%;
+  border-bottom: 1px solid #fff;
+}
+.cnt-construccion .construccion .w-item-construc .c-linea-2 {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  height: 0%;
+  border-right: 1px solid #fff;
+}
+.cnt-construccion .construccion .w-item-construc .c-linea-3 {
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+  width: 0%;
+  border-bottom: 1px solid #fff;
+}
+.cnt-construccion .construccion .w-item-construc .c-linea-4 {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  height: 0%;
+  border-right: 1px solid #fff;
+}
+
+.fancybox-close {
+  top: 10px !important;
+  right: 10px !important;
+}
+
+.fancybox-skin {
+  background: none !important;
+}
+
+.content-detalle-portafolio {
+  color: #fff;
+}
+.content-detalle-portafolio .w-encabezado-fancy {
+  padding: 10px;
+  max-width: 800px;
+  margin: auto;
+}
+.content-detalle-portafolio .w-encabezado-fancy .w-col {
+  float: left;
+  width: 50%;
+}
+.content-detalle-portafolio .w-encabezado-fancy .w-col ul {
+  padding-right: 40px;
+}
+.content-detalle-portafolio .w-encabezado-fancy .w-col .w-title {
+  font-size: 40px;
+  font-family: "Oswald";
+  text-shadow: #000 2px 2px 5px;
+}
+.content-detalle-portafolio .w-encabezado-fancy .w-col .w-title span {
+  font-size: 22px;
+  display: block;
+}
+.content-detalle-portafolio .w-slider {
+  width: 100%;
+  overflow: hidden;
+}
+.content-detalle-portafolio .w-slider ol {
+  display: none;
+}
+.content-detalle-portafolio .w-slider .slider {
+  position: relative;
+}
+.content-detalle-portafolio .w-slider .slider > div {
+  position: relative;
+  background: #ffffff;
+  /*overflow : hidden;*/
+  width: 100%;
+  height: 100%;
+}
+.content-detalle-portafolio .w-slider .slider > div ul, .content-detalle-portafolio .w-slider .slider > div ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+}
+.content-detalle-portafolio .w-slider .slider > div ul li {
+  float: left;
+}
+.content-detalle-portafolio .w-slider .slider > .controls {
+  margin-top: 5px;
+  padding: 0;
+  height: 14px;
+  float: right;
+  margin-right: -5px;
+}
+.content-detalle-portafolio .w-slider .slider > .controls li {
+  margin: 0 5px 0 0;
+  padding: 0;
+  float: left;
+  list-style: none;
+  height: 14px;
+}
+.content-detalle-portafolio .w-slider .slider > .controls li a {
+  outline: none;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  width: 14px;
+  float: left;
+  height: 14px;
+  background: #ffffff;
+}
+.content-detalle-portafolio .w-slider .slider > .controls li.current a {
+  background: #66CCFF;
+}
+
+footer .cnt-footers .footer-top {
+  position: relative;
+}
+footer .cnt-footers .footer-top .w-img-contacto {
+  display: none;
+  position: absolute;
+  top: -387px;
+  right: 150px;
+}
+footer .cnt-footers .footer-top .w-img-contacto img {
+  display: block;
+}
+
+/*RESPONSIVE*/
+@media (max-width: 1200px) {
+  .cnt-construccion .construccion .w-item-construc {
+    width: 50%;
+  }
+}
+@media (max-width: 982px) {
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item {
+    margin-left: 8px;
+  }
+}
+@media (max-width: 810px) {
+  footer .cnt-footers .footer-top .w-img-contacto {
+    right: 20px;
+  }
+}
+@media (max-width: 788px) {
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-2 {
+    font-size: 11px;
+  }
+}
+@media (max-width: 768px) {
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item {
+    width: 99%;
+  }
+
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-boton button {
+    width: 300px;
+  }
+
+  .css-contacto .cnt-contacto .w-formulario .w-completar {
+    padding-top: 100px;
+  }
+
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-nombre-2 {
+    font-size: 12px;
+  }
+
+  .w-clonar {
+    margin: 0px !important;
+    width: 270px !important;
+    position: absolute;
+    top: 0px;
+    left: 32%;
+  }
+
+  .css-contacto .w-title-mapa .title {
+    margin-left: 8px;
+    text-align: left;
+  }
+}
+@media (max-width: 600px) {
+  .cnt-construccion .construccion .w-item-construc {
+    width: 100%;
+  }
+
+  .css-contacto-gracias .cnt-contacto-gracias .cnt-gracias {
+    text-align: center;
+  }
+
+  .css-contacto-gracias .cnt-contacto-gracias .cnt-gracias .w-gracias {
+    display: inline-block;
+    margin: 0px;
+  }
+
+  .css-contacto-gracias footer .cnt-footers .footer-top .w-img-contacto {
+    display: none;
+  }
+
+  .css-error .cnt-error .error .w-col-1 {
+    display: none;
+  }
+
+  .css-error .cnt-error .error .w-col-2 {
+    width: 100%;
+  }
+  .css-error .cnt-error .error .w-col-2 img {
+    width: 98%;
+  }
+
+  .content-detalle-portafolio .w-encabezado-fancy .w-col {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .content-detalle-portafolio .w-encabezado-fancy .w-col ul {
+    padding: 0;
+  }
+
+  .fancybox-inner {
+    height: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  .w-clonar {
+    left: 20% !important;
+  }
+}
+@media (max-width: 400px) {
+  .w-clonar {
+    left: 14% !important;
+  }
+
+  .css-contacto .cnt-contacto .w-formulario .w-completar .cnt-item .w-item ul .w-boton button {
+    width: 280px;
+  }
+}
+@media (max-width: 366px) {
+  .w-clonar {
+    left: 2% !important;
+  }
+}

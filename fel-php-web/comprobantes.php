@@ -69,7 +69,7 @@ if ($_REQUEST['action']==='list') {
             'page' => [
                 'title' => 'Consulta de Documentos'
             ],
-            'postback' => 'index.php'
+            'postback' => 'comprobantes.php'
         ]
     );
 }

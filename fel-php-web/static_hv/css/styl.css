@@ -1,0 +1,3188 @@
+@charset "UTF-8";
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon.eot?g3uxm9");
+  src: url("../fonts/icomoon.eot?#iefixg3uxm9") format("embedded-opentype"), url("../fonts/icomoon.woff?g3uxm9") format("woff"), url("../fonts/icomoon.ttf?g3uxm9") format("truetype"), url("../fonts/icomoon.svg?g3uxm9#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-youtube:before {
+  content: "\e606";
+}
+
+.icon-chevron-down:before {
+  content: "\f0a3";
+}
+
+.icon-chevron-left:before {
+  content: "\f0a4";
+}
+
+.icon-chevron-right:before {
+  content: "\f078";
+}
+
+.icon-chevron-up:before {
+  content: "\f0a2";
+}
+
+.icon-user:before {
+  content: "\e600";
+}
+
+.icon-menu:before {
+  content: "\e604";
+}
+
+.icon-facebook:before {
+  content: "\e601";
+}
+
+.icon-twitter:before {
+  content: "\e602";
+}
+
+.icon-mail:before {
+  content: "\e603";
+}
+
+.icon-calendar:before {
+  content: "\e605";
+}
+
+/*! normalize.css v2.1.0 | MIT License | git.io/normalize */
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined in IE 8/9.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 8/9.
+ */
+audio,
+canvas,
+video {
+  display: inline-block;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+body {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+a:focus {
+  outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari 5, and Chrome.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Address styling not present in IE 8/9, Safari 5, and Chrome.
+ */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome.
+ */
+b,
+strong {
+  font-weight: bold;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/**
+ * Correct font family set oddly in Safari 5 and Chrome.
+ */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, serif;
+  font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+pre {
+  white-space: pre-wrap;
+}
+
+/**
+ * Set consistent quote types.
+ */
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9.
+ */
+img {
+  border: 0;
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari 5.
+ */
+figure {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+ * 1. Correct font family not being inherited in all browsers.
+ * 2. Correct font size not being inherited in all browsers.
+ * 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome.
+ */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 2 */
+  margin: 0;
+  /* 3 */
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+button,
+input {
+  line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+button,
+select {
+  text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to `content-box` in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+textarea {
+  overflow: auto;
+  /* 1 */
+  vertical-align: top;
+  /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* default */
+body,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+code,
+del,
+dfn,
+em,
+img,
+q,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+section,
+menu,
+details {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+section,
+menu {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Verdana;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 38px;
+  line-height: 1;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+h4 {
+  padding: 0;
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+h5 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 16px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+a img {
+  border: none;
+}
+
+p {
+  margin: 0 0 15px;
+}
+
+li {
+  list-style: none;
+}
+
+em,
+cite {
+  font-style: normal;
+}
+
+strong {
+  font-weight: bold;
+}
+
+label {
+  cursor: pointer;
+}
+
+textarea {
+  font-family: Arial, sans-serif;
+  resize: none;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+}
+
+:focus {
+  outline: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption,
+th,
+td {
+  font-weight: normal;
+}
+
+table,
+th,
+td {
+  vertical-align: middle;
+}
+
+br {
+  line-height: 1;
+}
+
+/* -- GENERAL -- */
+body {
+  font-size: 14px;
+  color: #57575a;
+}
+
+a {
+  color: inherit;
+}
+
+/* -- OCSS-- */
+.absolute {
+  position: absolute;
+}
+
+.left {
+  float: left;
+}
+
+.none {
+  display: none;
+}
+
+.push-m {
+  margin-bottom: 2.5em;
+}
+
+.push-p {
+  padding-bottom: 2.5em;
+}
+
+.relative {
+  position: relative;
+}
+
+.right {
+  float: right;
+}
+
+.overflow {
+  overflow: hidden;
+}
+
+/* ---- H ---- */
+/* ---- O ---- */
+/* ---- M ---- */
+/* ---- E ---- */
+.listaNosotros li:before {
+  content: "°";
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: bottom;
+  margin-right: 5px;
+  line-height: 10px;
+}
+.listaNosotros li {
+  margin-bottom: 5px;
+}
+
+.sucesos {
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d1d2d3;
+  margin: 2em 0;
+}
+
+.sucesos .year {
+  background-color: #c22027;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  width: 100px;
+  font-family: "Oswald";
+  font-size: 1.1em;
+}
+
+.title-sentences {
+  color: #c22027;
+  background-color: #e8e8e8;
+  font-family: "Oswald";
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.sucesos .sentences {
+  background-color: white;
+  padding-left: 1.5em;
+}
+
+.sucesos th, .sucesos td {
+  height: 33px;
+  border: 1px;
+  border: 1px solid #d1d2d3;
+}
+
+.w-valores {
+  margin-left: 243px;
+}
+
+.w-valores {
+  margin-left: 243px;
+}
+.w-valores li {
+  padding: 0.5em 0.5em 0.5em 1em;
+  border: 1px solid #d1d2d3;
+  border-top: 0;
+}
+.w-valores li:first-child {
+  border-top: 1px solid #d1d2d3;
+}
+
+.grises img {
+  filter: url("#grayscale");
+  /* Versión SVG para IE10, Chrome 17, FF3.5, Safari 5.2 and Opera 11.6 */
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+  /* Para cuando es estándar funcione en todos */
+  filter: Gray();
+  /* IE4-8 and 9 */
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
+  /* Firefox 3.5+ */
+  filter: grayscale(100%);
+}
+
+.grises img:hover {
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  -ms-filter: grayscale(0%);
+  -o-filter: grayscale(0%);
+  filter: none;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.parche2 {
+  width: 100%;
+}
+
+#slider-next-3 .bx-next:after {
+  content: "\f0a2";
+  padding: 1px 2px 0px 2px;
+  margin-left: 1px;
+  font-family: 'icomoon';
+}
+#slider-next-3 .bx-next:hover {
+  color: #802528;
+}
+
+#slider-prev-3 .bx-prev:after {
+  content: "\f0a3";
+  padding: 1px 2px 0px 2px;
+  margin-left: 1px;
+  font-family: 'icomoon';
+}
+#slider-prev-3 .bx-prev:hover {
+  color: #802528;
+}
+
+.news-text .cnt-news {
+  height: 316px;
+}
+
+.verobras {
+  font-family: "Oswald";
+  font-size: 1.5em;
+  color: white;
+  text-align: center;
+  margin-top: 1em;
+}
+.verobras a {
+  padding: 0.2em 1.4em;
+  background: #b3272c;
+  text-decoration: none;
+}
+.verobras a:hover {
+  background: #802528;
+}
+
+.galeria .bx-prev, .galeria .bx-next {
+  font-family: "Oswald";
+  font-size: 2em;
+  color: #b3272c;
+  margin-left: 0.5em;
+}
+.galeria .bx-prev:hover, .galeria .bx-next:hover {
+  color: #802528;
+}
+.galeria .cntpagers {
+  position: absolute;
+  left: 143px;
+  top: -10px;
+}
+
+.w-home {
+  padding-top: 1em;
+}
+
+.cnt-slide {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  /* pager */
+}
+.cnt-slide .bg-left, .cnt-slide .bg-right {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 999;
+}
+.cnt-slide .bg-left {
+  left: 0;
+  background: url("../img/bg-linea-left.png") repeat-x;
+}
+.cnt-slide .bg-right {
+  display: none;
+  right: 0;
+  width: 47%;
+}
+.cnt-slide .bg-right .bg-fix {
+  margin-left: 100px;
+  background: url("../img/bg-linea-right.png") repeat-x;
+  width: 100%;
+  height: 90px;
+}
+.cnt-slide .bg-right .bg-center {
+  position: absolute;
+  top: 0;
+  left: -13%;
+  width: 488px;
+  height: 80px;
+  background: url("../img/bg-linea-center.png") no-repeat;
+}
+.cnt-slide .slider-wrapper {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.cnt-slide .slider-wrapper .slider {
+  max-width: 960px;
+  max-height: 405px;
+  margin: auto;
+}
+.cnt-slide .slider-wrapper .slider .img-principal {
+  left: -50% !important;
+}
+.cnt-slide .slider-wrapper .slider .w-parrafo {
+  margin: auto;
+  width: 430px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: justify;
+  display: block !important;
+}
+.cnt-slide .slider-wrapper .slider .w-controls {
+  width: 100%;
+  top: 50%;
+  /*	.prev:hover{
+  		background-position: 0px -63px;
+  	}*/
+  /*.next:hover{
+  	background-position: 0px -61px;
+  }*/
+}
+.cnt-slide .slider-wrapper .slider .w-controls .prev {
+  background: url("../img/boton-izquierda.png") no-repeat;
+  background-position: 0px 0px;
+  width: 33px;
+  height: 83px;
+  top: -75px;
+  left: -50px;
+  position: absolute;
+}
+.cnt-slide .slider-wrapper .slider .w-controls .next {
+  margin-top: 1px;
+  background: url("../img/boton-derecha.png") no-repeat;
+  width: 33px;
+  height: 83px;
+  background-position: 0px 0px;
+  right: -50px;
+  top: -76px;
+  position: absolute;
+}
+.cnt-slide .slider-wrapper .slider .slide .w-img {
+  z-index: 999;
+}
+.cnt-slide .slider-wrapper .slider .fs-pager-wrapper {
+  z-index: 9998 !important;
+}
+.cnt-slide .slider-wrapper .slider .fs-pager-wrapper a {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url("../img/sliver-normal.png") no-repeat;
+}
+.cnt-slide .slider-wrapper .slider .fs-pager-wrapper .active {
+  background: url("../img/sliver-active.png") no-repeat;
+}
+
+.wrap-home .w-home {
+  background-image: url("../img/trama.jpg");
+  background-repeat: repeat-y;
+  background-position-x: center;
+  /*background: url("../img/bghome.png")  repeat-y;*/
+  animation: spin 30s linear infinite;
+  -webkit-animation: spin 30s linear infinite;
+  -moz-animation: spin 30s linear infinite;
+  -ms-animation: spin 30s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  100% {
+    background-position: 200px -1500px;
+  }
+}
+@-moz-keyframes spin {
+  100% {
+    background-position: 200px -1500px;
+  }
+}
+@-ms-keyframes spin {
+  100% {
+    background-position: 200px -1500px;
+  }
+}
+@-o-keyframes spin {
+  100% {
+    background-position: 200px -1500px;
+  }
+}
+.cnt-logo {
+  text-align: center;
+  height: 100px;
+}
+
+.news {
+  overflow: hidden;
+  position: relative;
+  height: 90px;
+  margin-bottom: 1.5em;
+}
+.news .date {
+  width: 84px;
+  height: 86px;
+  background: url(../img/bg-calendar.jpg) no-repeat;
+  position: relative;
+  text-align: center;
+}
+.news .date .month {
+  color: white;
+  font-size: 0.8em;
+  position: absolute;
+  top: 12px;
+  margin: 0;
+  width: 71px;
+}
+.news .date .day {
+  color: #b3272c;
+  font-size: 2em;
+  font-family: "Oswald";
+  text-align: center;
+  position: absolute;
+  bottom: 11px;
+  margin: 0;
+  width: 71px;
+}
+.news .text {
+  position: absolute;
+  margin-left: 85px;
+  top: 0;
+}
+.news .text .title {
+  color: #57575a;
+  font-family: "Oswald";
+  font-size: 1.2em;
+  margin-top: 9px;
+  margin-bottom: 6px;
+  max-height: 60px;
+  overflow: hidden;
+  line-height: 1.2em;
+}
+.news .text .more {
+  float: left;
+  color: #b3272c;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+.news .text .more:hover {
+  color: #802528;
+}
+
+.sec-news {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+footer {
+  text-align: center;
+}
+
+.footer-top {
+  background-color: #b3272c;
+  color: white;
+  padding: 2em 2em 0 2em;
+}
+.footer-top h4 {
+  font-size: 1.1em;
+  height: 30px;
+  background-color: #802528;
+  line-height: 28px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 0 1.5em;
+  margin-bottom: 1em;
+  font-family: "Oswald";
+}
+.footer-top .map li {
+  margin-bottom: 0.5em;
+}
+.footer-top .map li:hover {
+  text-decoration: underline;
+}
+.footer-top .socialmedia {
+  padding-bottom: 2.5em;
+}
+.footer-top .socialmedia a {
+  color: white;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  border: 1px solid white;
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+}
+.footer-top .socialmedia a:hover img {
+  top: -38px;
+}
+.footer-top .socialmedia a span {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  width: 38px;
+  height: 38px;
+  font-size: 1.5em;
+}
+.footer-top .socialmedia a img {
+  margin: 0;
+  position: relative;
+  top: 0;
+}
+.footer-top .socialmedia .cnt-tw {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+.footer-top .socialmedia .icon-facebook {
+  background-color: #5470a1;
+  line-height: 38px;
+}
+.footer-top .socialmedia .icon-facebook:hover {
+  color: #5470a1;
+  background: white;
+}
+.footer-top .socialmedia .icon-twitter {
+  background-color: #6ccef1;
+  line-height: 38px;
+}
+.footer-top .socialmedia .icon-twitter:hover {
+  color: #6ccef1;
+  background: white;
+}
+.footer-top .socialmedia .icon-youtube {
+  background-color: #d9001a;
+  line-height: 38px;
+}
+.footer-top .socialmedia .icon-youtube:hover {
+  color: #d9001a;
+  background: white;
+}
+
+.footer-mid {
+  background-color: #e2e2e2;
+  padding-top: 2.5em;
+  color: #777779;
+}
+.footer-mid h4 {
+  text-transform: uppercase;
+  font-family: "Oswald";
+  margin-bottom: 1em;
+}
+
+.footer-bot {
+  background-color: #b3272c;
+  padding: 2.5em 2.5em 0 2.5em;
+  color: white;
+}
+.footer-bot .copyright {
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+.footer-bot .by {
+  font-size: 0.8em;
+  padding-bottom: 2.5em;
+  margin-bottom: 0;
+}
+
+.header {
+  width: 100%;
+  background: url(../img/bg-nav.jpg) repeat;
+  position: relative;
+  z-index: 999;
+}
+
+.triangle2 {
+  display: block;
+  position: absolute;
+  right: -89px;
+  width: 89px;
+  height: 130px;
+  background: url(../img/triangle2.png) no-repeat;
+}
+
+.icon-menu {
+  font-size: 2em;
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  color: white;
+}
+
+.blockleft2 {
+  position: absolute;
+  background: white;
+  width: 500px;
+  left: -500px;
+  height: 120px;
+}
+
+.logo {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0;
+  height: 120px;
+  position: relative;
+  background: white;
+}
+.logo img {
+  width: 120px;
+  position: relative;
+  z-index: 8;
+  margin-top: 20px;
+}
+
+.nav-res ul li a {
+  text-transform: uppercase;
+  font-family: "Oswald";
+  font-size: 0.8em;
+}
+
+.nav-res .user {
+  background-color: #474747;
+}
+
+.over-red {
+  position: absolute;
+  width: 220px;
+  height: 240px;
+  z-index: 1;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -ms-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+.proyects {
+  width: 220px;
+  height: 240px;
+  position: relative;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0 0.5em 1em 0.5em;
+}
+.proyects:hover .over-red {
+  background: rgba(179, 39, 45, 0.8);
+}
+.proyects .text {
+  width: 192px;
+  height: 210px;
+  margin: 0 auto 0 auto;
+  text-align: center;
+  position: relative;
+  top: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+}
+.proyects .text .absolute {
+  bottom: 15px;
+  text-align: center;
+  width: 100%;
+}
+.proyects .text h2 {
+  font-size: 1.3em;
+  font-family: "Oswald";
+  padding-top: 0.5em;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.proyects .text .more {
+  width: 100px;
+  height: 25px;
+  background: black;
+  line-height: 25px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.proyects .text .more .icon-chevron-right {
+  font-size: 1.5em;
+  padding-top: 4px;
+  padding-left: 6px;
+}
+.proyects .text .more span {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+}
+
+.news-text .top .right {
+  font-size: 2em;
+  vertical-align: top;
+  color: #b3272c;
+  position: absolute;
+  right: 0;
+  top: 2px;
+}
+.news-text .top .right .navigation {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 1px 2px 0px 2px;
+  margin-left: 1px;
+}
+
+.news-view .cnt-iframe {
+  height: 0px;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  position: relative;
+}
+.news-view .cnt-iframe iframe {
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+
+.sec-customer {
+  text-align: center;
+}
+.sec-customer h3 {
+  font-size: 1.1em;
+  height: 30px;
+  background-color: black;
+  line-height: 28px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 0 1.5em;
+  margin-bottom: 1em;
+  font-family: "Oswald";
+  color: white;
+  margin-bottom: 2em;
+}
+.sec-customer .customers {
+  background: #e2e2e2;
+  padding-top: 2em;
+}
+
+.top {
+  border-bottom: 1px solid #b3272c;
+  margin-bottom: 1em;
+  position: relative;
+}
+.top h3 {
+  font-family: "Oswald";
+  color: #b3272c;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-weight: normal;
+  vertical-align: 0;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+#owl-demo .item {
+  margin: 20px auto 20px auto;
+}
+
+#owl-demo .item img {
+  display: block;
+  width: 121px;
+  height: auto;
+}
+
+#owl-demo2 .item2 {
+  margin: 16px;
+}
+
+#owl-demo2 .item2 a {
+  display: block;
+  margin: 0 auto 0 auto;
+}
+
+#owl-demo2 .item2 a {
+  display: block;
+  margin: 0 auto 0 auto;
+}
+
+/* ---- A ---- */
+/* ---- B ---- */
+/* ---- O ---- */
+/* ---- U ---- */
+/* ---- T ---- */
+.w-texto-interno p img {
+  margin-top: -6px;
+  margin-left: -6px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+.pushtop {
+  margin-top: 2em;
+}
+
+.bg-title {
+  height: 150px;
+  margin-bottom: 2em;
+  position: relative;
+  text-align: left;
+  width: 100%;
+  z-index: -1;
+}
+.bg-title h1 {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  background: black;
+  color: white;
+  font-family: 'oswald';
+  font-size: 1.5em;
+  padding: 0.4em 1em;
+  position: absolute;
+  text-transform: uppercase;
+  left: 1em;
+  bottom: 1em;
+}
+
+.bxslider li article {
+  color: #57575a;
+  border: 1px solid #e2e2e2;
+}
+.bxslider li article .cnt-text {
+  padding: 0.5em;
+}
+.bxslider li article h2 {
+  font-family: "Oswald";
+  color: #b3272c;
+  font-size: 1.8em;
+  font-weight: normal;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+.bxslider li article .cite {
+  color: #57585a;
+  color: black;
+}
+.bxslider li article .cite p {
+  margin-left: 85px;
+  padding-top: 1em;
+}
+.bxslider li article .cite .author {
+  text-align: right;
+  margin-right: 1em;
+  font-weight: bold;
+  margin-bottom: 0;
+  padding-bottom: 1em;
+}
+
+.cite {
+  background: #e2e2e2;
+  background-image: url(../img/comillas.jpg);
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+.cnt-articles {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.pager {
+  text-align: left;
+  color: #b3272c;
+  margin-bottom: 1em;
+}
+.pager a {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0 0.5em;
+}
+.pager a:before {
+  content: '•';
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin-right: 0.2em;
+}
+.pager .active {
+  color: #b3272c;
+}
+
+/* ---- N ---- */
+/* ---- E ---- */
+/* ---- W ---- */
+/* ---- S ---- */
+.bg-title-noticias {
+  background: url(../img/bg-noticias.jpg) center no-repeat;
+}
+
+.news-article {
+  position: relative;
+  margin-left: 1em;
+  margin-right: 1em;
+  color: #57575A;
+  height: 65px;
+  margin-bottom: 1.5em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid #858688;
+}
+.news-article .text {
+  position: relative;
+  margin-left: 112px;
+  height: 68px;
+}
+.news-article .datos {
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.news-article .datos p {
+  margin-bottom: 0;
+  font-size: 0.8em;
+}
+.news-article .datos .icon-calendar {
+  margin-right: 0.3em;
+}
+.news-article .date {
+  float: left;
+}
+.news-article img {
+  width: 102px;
+  position: absolute;
+  top: 0;
+}
+.news-article .tag {
+  float: right;
+  color: #b3272c;
+}
+.news-article .title {
+  font-size: 1em;
+  font-family: "Oswald";
+  color: #b3272c;
+  line-height: 1.1em;
+  height: 48px;
+  overflow: hidden;
+}
+.news-article .title:hover {
+  text-decoration: underline;
+}
+
+.pager-news ul {
+  text-align: center;
+}
+.pager-news ul li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.pager-news ul li a {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  background: #e2e2e2;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  color: #57575a;
+  margin: 4px;
+}
+.pager-news ul .active {
+  background-color: #b3272c;
+  color: white;
+}
+
+/* ---- N ---- */
+/* ---- . ---- */
+/* ---- D ---- */
+/* ---- E ---- */
+/* ---- T ---- */
+/* ---- A ---- */
+/* ---- I ---- */
+/* ---- L ---- */
+.pseudo-h1 {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  background: black;
+  color: white;
+  font-family: 'oswald';
+  font-size: 1.5em;
+  padding: 0.4em 1em;
+  position: absolute;
+  text-transform: uppercase;
+  left: 1em;
+  bottom: 1em;
+}
+
+.section-bodynews {
+  color: #57575a;
+  margin-left: 1em;
+  margin-right: 1em;
+  overflow: hidden;
+}
+.section-bodynews .icon-calendar {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin-right: 0.2em;
+}
+.section-bodynews .datos {
+  overflow: hidden;
+}
+.section-bodynews .date {
+  float: left;
+}
+.section-bodynews .tag {
+  float: right;
+  text-transform: uppercase;
+  color: #b3272c;
+}
+.section-bodynews .bodynews img {
+  width: 100%;
+  margin-bottom: 1em;
+}
+.section-bodynews .bodynews h1 {
+  font-family: "Oswald";
+  font-size: 1.5em;
+  line-height: 1.3em;
+  margin-bottom: 0.3em;
+}
+
+.buttom {
+  background: #b3272c;
+  font-family: "Oswald";
+  padding: 0.2em 1.2em;
+  font-size: 1.2em;
+  color: white;
+  display: block;
+  float: right;
+}
+
+/* ---- U ---- */
+/* ---- N ---- */
+/* ---- D ---- */
+/* ---- . ---- */
+/* ---- N ---- */
+/* ---- G ---- */
+/* ---- C ---- */
+/* ---- S ---- */
+.und_neg a {
+  margin-bottom: 0.5em;
+}
+
+.negocios .bxslider h2 {
+  border-bottom: 2px solid #b3272c;
+  padding-bottom: 5px;
+}
+.negocios .bxslider h4 {
+  text-transform: uppercase;
+  color: #b3272c;
+  font-family: "Oswald";
+  margin-bottom: 1.5em;
+}
+.negocios .bxslider h3 {
+  font-size: 1.5em;
+  font-family: "Oswald";
+  font-size: 1.3em;
+  position: absolute;
+  background: black;
+  vertical-align: top;
+  margin-bottom: 0px;
+  color: white;
+  bottom: 1rem;
+  padding: 0.5em 1.8em 0.5em 1em;
+}
+.negocios .bxslider img {
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: top;
+}
+.negocios .cnt-segmentos {
+  border-bottom: 1px dashed #e2e2e2;
+  margin-bottom: 1em;
+}
+
+/* ---- I ---- */
+/* ---- N ---- */
+/* ---- T ---- */
+/* ---- . ---- */
+/* ---- P ---- */
+/* ---- R ---- */
+/* ---- E ---- */
+.nav-internacional {
+  width: 80%;
+  margin-bottom: 2em;
+}
+.nav-internacional li {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.nav-internacional li a {
+  background: #e2e2e2;
+  padding: 0.5em 1em;
+  margin-bottom: 0.2em;
+  display: block;
+  font-family: "Oswald";
+  color: #57575a;
+  font-size: 1.2em;
+}
+.nav-internacional li a:hover {
+  background: #b3272c;
+  color: white;
+}
+.nav-internacional li .selected {
+  background: #b3272c;
+  color: white;
+}
+
+.bodypresencia {
+  color: #57575a;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 2em;
+}
+.bodypresencia .block1 {
+  margin-bottom: 2em;
+}
+.bodypresencia h2 {
+  font-size: 1.5em;
+  font-family: "Oswald";
+  color: #b3272c;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #b3272c;
+}
+.bodypresencia .top250 {
+  text-align: center;
+}
+.bodypresencia .block2 {
+  text-align: center;
+  margin-bottom: 2em;
+}
+.bodypresencia .block2 img {
+  display: block;
+  margin-bottom: 1em;
+}
+.bodypresencia .block2 a {
+  color: #b3272c;
+}
+.bodypresencia .map {
+  padding-top: 2em;
+  padding-bottom: 1em;
+  background: url(../img/mapa.jpg) center;
+  text-align: center;
+}
+.bodypresencia .map li {
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  color: #b3272c;
+}
+
+.galery {
+  margin-left: 1em;
+  margin-right: 1em;
+  position: relative;
+}
+.galery .titlegaleria {
+  font-size: 1.3em;
+  color: #b3272c;
+  font-family: "Oswald";
+  border-bottom: 1px solid #b3272c;
+  padding-bottom: 0.2em;
+  margin-bottom: 1em;
+}
+.galery .owl-galeria {
+  text-align: center;
+}
+.galery .owl-buttons {
+  position: absolute;
+  top: -92px;
+  left: 164px;
+}
+.galery .owl-theme .owl-controls .owl-buttons div {
+  color: #b3272c;
+  font-size: 2.5em;
+  background: transparent;
+  font-family: "Oswald";
+}
+
+/* ---- I ---- */
+/* ---- N ---- */
+/* ---- T ---- */
+/* ---- . ---- */
+/* ---- P ---- */
+/* ---- R ---- */
+/* ---- O ---- */
+.evolution h2 {
+  margin-bottom: 1em;
+}
+.evolution .year {
+  font-family: "Oswald";
+  color: #b3272c;
+  font-size: 1.2em;
+  margin-bottom: 0;
+}
+.evolution .etapa {
+  margin-bottom: 2em;
+}
+
+/* ---- I ---- */
+/* ---- N ---- */
+/* ---- T ---- */
+/* ---- . ---- */
+/* ---- C ---- */
+/* ---- O ---- */
+/* ---- N ---- */
+.cnt-flags {
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  border-top: 1px solid #e2e2e2;
+  padding-bottom: 1.5em;
+  padding-top: 1.5em;
+}
+.cnt-flags img {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  height: 21px;
+  margin-right: 0.5em;
+}
+.cnt-flags h3 {
+  font-family: "Oswald";
+  text-transform: uppercase;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  font-size: 1.5em;
+}
+.cnt-flags p {
+  margin-top: 0;
+  text-align: left;
+}
+.cnt-flags .numbers {
+  margin-bottom: 1em;
+}
+.cnt-flags .numbers p {
+  margin-bottom: 0.3em;
+}
+.cnt-flags a.web {
+  color: #b3272c;
+  display: block;
+}
+
+.navobras {
+  background: #b3272c;
+  height: 65px;
+  font-size: 0.9em;
+  color: white;
+  text-align: center;
+}
+.navobras ul {
+  padding-top: 2.2em;
+}
+.navobras ul li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.navobras ul li a {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 0.4em;
+  font-family: "Oswald";
+}
+.navobras ul li a:hover {
+  background: #802528;
+}
+.navobras .active {
+  background: #802528;
+}
+
+.sub-navobras {
+  width: 100%;
+  background: #757678;
+  color: white;
+  text-align: center;
+}
+.sub-navobras ul {
+  text-align: center;
+  font-size: 12px;
+  display: none;
+  max-width: 932px;
+  margin: 0 auto;
+  padding: 0.3em 0;
+}
+.sub-navobras ul li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.sub-navobras ul li a {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.7em;
+  font-family: "Oswald";
+  font-size: 1.1em;
+}
+.sub-navobras ul li a:hover {
+  background-color: #363738;
+}
+.sub-navobras ul li .active {
+  background-color: #363738;
+}
+.sub-navobras .activate {
+  display: block;
+}
+
+@media screen and (min-width: 390px) {
+  .icon-menu {
+    top: 14px;
+  }
+}
+@media screen and (min-width: 480px) {
+  .sub-navobras ul {
+    font-size: 14px;
+    padding: 0.3em 0;
+  }
+  .sub-navobras ul li {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+  }
+  .sub-navobras ul li a {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    height: 2em;
+    line-height: 2em;
+    padding: 0 0.7em;
+    font-family: "Oswald";
+    font-size: 1.1em;
+  }
+
+  .sucesos .year {
+    width: 140px;
+    font-size: 1em;
+  }
+
+  .news .text .more {
+    float: right;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .news {
+    border-bottom: 1px dotted #777779;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.8em;
+  }
+
+  .news-view .cnt-iframe {
+    overflow: hidden;
+    height: 30px;
+  }
+  .news-view .cnt-iframe img {
+    margin: -30px 0px -64px;
+    width: 100%;
+  }
+
+  .news-text .cnt-news .text p {
+    display: block;
+    font-size: 0.9em;
+    height: 32px;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  /* ---- N ---- */
+  /* ---- E ---- */
+  /* ---- W ---- */
+  /* ---- S ---- */
+  .news-article {
+    height: 107px;
+  }
+  .news-article .text {
+    margin-left: 182px;
+    height: 111px;
+  }
+  .news-article .datos p {
+    font-size: 0.9em;
+  }
+  .news-article .title {
+    height: 94px;
+    font-size: 1.5em;
+    line-height: 1.2em;
+  }
+  .news-article img {
+    width: 169px;
+  }
+
+  /* ---- N ---- */
+  /* ---- . ---- */
+  /* ---- D ---- */
+  /* ---- E ---- */
+  /* ---- T ---- */
+  /* ---- A ---- */
+  /* ---- I ---- */
+  /* ---- L ---- */
+  .section-bodynews .bodynews h1 {
+    font-size: 2em;
+  }
+
+  /* ---- U ---- */
+  /* ---- N ---- */
+  /* ---- D ---- */
+  /* ---- . ---- */
+  /* ---- N ---- */
+  /* ---- G ---- */
+  /* ---- C ---- */
+  /* ---- S ---- */
+  .toyou {
+    width: 452px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .negocios .pager {
+    text-align: center;
+  }
+
+  .negocios .bxslider img {
+    margin: auto;
+    margin-bottom: 1em;
+  }
+
+  .navobras {
+    height: 90px;
+    font-size: 1.3em;
+  }
+  .navobras ul {
+    padding-top: 1.9em;
+  }
+  .navobras ul li a {
+    padding: 0.4em;
+  }
+}
+@media screen and (min-width: 768px) {
+  .navobras {
+    height: 100px;
+    font-size: 1.5em;
+  }
+  .navobras ul {
+    padding-top: 1.8em;
+  }
+  .navobras ul li a {
+    padding: 0.4em;
+    text-transform: uppercase;
+    margin-left: 0.2em;
+    margin-right: 0.2sem;
+  }
+
+  .sub-navobras ul {
+    font-size: 16px;
+  }
+  .sub-navobras ul li {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+  }
+  .sub-navobras ul li a {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    height: 2.45em;
+    line-height: 2.45em;
+    padding: 0 1em;
+    font-family: "Oswald";
+    font-size: 1.1em;
+  }
+
+  .galeria .bx-prev, .galeria .bx-next {
+    font-size: 3em;
+  }
+  .galeria .cntpagers {
+    left: 220px;
+    top: -16px;
+  }
+
+  .galery .titlegaleria {
+    font-size: 1.8em;
+  }
+
+  .negocios .cnt-segmentos .inset {
+    overflow: hidden;
+    margin-bottom: 1em;
+    padding-right: 1em;
+    -webkit-box-shadow: 60px 30px 60px #f7f7f7 inset;
+    -moz-box-shadow: 60px 30px 60px #f7f7f7 inset;
+    -ms-box-shadow: 60px 30px 60px #f7f7f7 inset;
+    box-shadow: 60px 30px 60px #f7f7f7 inset;
+  }
+  .negocios .cnt-segmentos .inset2 {
+    overflow: hidden;
+    margin-bottom: 1em;
+    padding-left: 1em;
+    -webkit-box-shadow: -30px 60px 60px #f7f7f7 inset;
+    -moz-box-shadow: -30px 60px 60px #f7f7f7 inset;
+    -ms-box-shadow: -30px 60px 60px #f7f7f7 inset;
+    box-shadow: -30px 60px 60px #f7f7f7 inset;
+  }
+  .negocios .cnt-segmentos .texto {
+    margin-top: 1em;
+    font-size: 0.9em;
+  }
+
+  .cnt-footers {
+    background-color: #b3272c;
+  }
+
+  .footer-top {
+    text-align: left;
+    margin: 0 2em 0 2em;
+    padding: 2em 0 2em 0;
+  }
+  .footer-top .col {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 32%;
+    vertical-align: top;
+    text-align: left;
+  }
+  .footer-top .contact {
+    margin: 0 0.5em 0 0.5em;
+  }
+  .footer-top h4 {
+    padding-left: 1em;
+  }
+  .footer-top .socialmedia .icons {
+    text-align: left;
+  }
+  .footer-top .socialmedia .icons a {
+    text-align: center;
+  }
+
+  .footer-mid {
+    overflow: hidden;
+  }
+  .footer-mid .certification {
+    float: left;
+    text-align: right;
+    position: relative;
+    margin-left: 1em;
+    padding-left: 7em;
+    margin-top: 5px;
+  }
+  .footer-mid .certification .text {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+  .footer-mid .certification .text h4 {
+    position: absolute;
+    left: 0;
+    top: -10px;
+    font-weight: normal;
+  }
+  .footer-mid .certification img {
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    margin-left: 2em;
+  }
+  .footer-mid .years {
+    float: right;
+    margin-right: 2em;
+  }
+
+  .footer-bot {
+    padding: 1.5em 0 0 0;
+  }
+  .footer-bot .copyright {
+    margin-bottom: 0.5em;
+  }
+  .footer-bot .by {
+    padding-bottom: 1.5em;
+  }
+
+  /* ---- A ---- */
+  /* ---- B ---- */
+  /* ---- O ---- */
+  /* ---- U ---- */
+  /* ---- T ---- */
+  .bg-title {
+    height: 190px;
+    background-position: center;
+  }
+
+  .cnt-text {
+    overflow: hidden;
+  }
+  .cnt-text img {
+    display: block;
+    float: left;
+    margin: -0.5em 1.5em 0.5em -0.5em;
+  }
+
+  .bxslider li article .cite p {
+    margin-left: 156px;
+    padding-top: 1em;
+  }
+
+  .cite {
+    background-position: 65px 0;
+    position: relative;
+    height: 100px;
+  }
+  .cite img {
+    display: block;
+    top: 0;
+    right: 0;
+    position: absolute;
+  }
+  .cite p {
+    margin-right: 155px;
+  }
+  .cite .author {
+    position: absolute;
+    bottom: 0;
+    right: 155px;
+  }
+
+  /* ---- N ---- */
+  /* ---- E ---- */
+  /* ---- W ---- */
+  /* ---- S ---- */
+  .marginleft {
+    margin-left: 40px;
+  }
+
+  .section-news {
+    text-align: left;
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+  .section-news .cnt-news-article {
+    background: url(../img/point.jpg);
+    background-repeat: repeat-y;
+    background-position: center;
+  }
+
+  .news-article {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    margin-right: 0;
+    width: 45%;
+    height: 201px;
+  }
+  .news-article .text {
+    margin-left: 0;
+    height: auto;
+  }
+  .news-article .text .lead {
+    display: block;
+    margin-left: 182px;
+    overflow: hidden;
+    height: 100px;
+    font-size: 0.9em;
+  }
+  .news-article .datos {
+    position: relative;
+    margin-bottom: 1em;
+  }
+  .news-article .title {
+    height: 56px;
+    overflow: hidden;
+    color: #57575a;
+  }
+  .news-article .title:hover {
+    color: #b3272c;
+  }
+  .news-article img {
+    width: 169px;
+    top: 95px;
+  }
+
+  .pager-news {
+    margin-top: 1em;
+  }
+
+  /* ---- N ---- */
+  /* ---- . ---- */
+  /* ---- D ---- */
+  /* ---- E ---- */
+  /* ---- T ---- */
+  /* ---- A ---- */
+  /* ---- I ---- */
+  /* ---- L ---- */
+  .section-bodynews {
+    width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .detailnews .cnt-h1 {
+    width: 740px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* ---- U ---- */
+  /* ---- N ---- */
+  /* ---- D ---- */
+  /* ---- . ---- */
+  /* ---- N ---- */
+  /* ---- G ---- */
+  /* ---- C ---- */
+  /* ---- S ---- */
+  .toyou {
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+  }
+
+  .negocios .bxslider .imgtitle h3 {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    top: 104px;
+    font-size: 1.8em;
+  }
+
+  .cnt-segmentos {
+    overflow: hidden;
+  }
+  .cnt-segmentos .imgtitle {
+    float: left;
+  }
+  .cnt-segmentos .imgtitle img {
+    width: 442px;
+    margin-left: 0px;
+    margin: -0.5em 1em 0rem -0.5em;
+  }
+  .cnt-segmentos .imgtitle h3 {
+    bottom: auto;
+    top: 107px;
+  }
+  .cnt-segmentos .right1 {
+    float: right;
+    margin-left: 1.5em;
+  }
+  .cnt-segmentos .right1 img {
+    margin-right: 0px;
+  }
+  .cnt-segmentos .right1 h3 {
+    right: 0;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- P ---- */
+  /* ---- R ---- */
+  /* ---- E ---- */
+  .block1 {
+    position: relative;
+  }
+  .block1 p {
+    margin-right: 100px;
+  }
+  .block1 .top250 {
+    position: absolute;
+    right: 11px;
+    top: 50px;
+  }
+
+  .parche1 {
+    margin-right: 0;
+  }
+
+  .bodypresencia h2 {
+    margin-bottom: 1em;
+  }
+  .bodypresencia .block2 {
+    text-align: left;
+  }
+  .bodypresencia .block2 img, .bodypresencia .block2 a {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+  }
+  .bodypresencia .block2 a {
+    margin-top: 15px;
+    margin-left: 1em;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- P ---- */
+  /* ---- R ---- */
+  /* ---- O ---- */
+  .evolution {
+    overflow: hidden;
+  }
+  .evolution .line {
+    height: 6px;
+    width: 100%;
+    background: #e2e2e2;
+    position: absolute;
+    top: 83px;
+  }
+  .evolution .etapa {
+    text-align: center;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 150px;
+    vertical-align: top;
+    position: relative;
+    z-index: 2;
+  }
+  .evolution .etapa img {
+    display: block;
+  }
+  .evolution .year, .evolution .datos {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .evolution .momento1 {
+    float: left;
+    margin-left: 2em;
+  }
+  .evolution .momento2 {
+    float: right;
+    margin-right: 2em;
+  }
+  .evolution .momento3 {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- C ---- */
+  /* ---- O ---- */
+  /* ---- N ---- */
+  .flags {
+    overflow: hidden;
+    background: url(../img/point2.png);
+    background-repeat: repeat-y;
+    background-position: center;
+  }
+  .flags .cnt-flags {
+    float: left;
+    width: 46%;
+    padding: 1em;
+    height: 220px;
+  }
+}
+@media screen and (min-width: 960px) {
+  .sub-navobras ul {
+    text-align: left;
+    padding: 0;
+  }
+
+  .navobras ul {
+    padding-top: 1.5em;
+  }
+
+  .estructura {
+    width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 3em;
+  }
+
+  .verobras {
+    margin-top: 0px;
+    float: right;
+  }
+
+  .negocios .cnt-segmentos .inset {
+    border-right: 2px solid #e2e2e2;
+  }
+  .negocios .cnt-segmentos .inset2 {
+    border-left: 2px solid #e2e2e2;
+  }
+
+  .negocios .pager {
+    text-align: left;
+  }
+
+  .bg-title {
+    margin-bottom: 0;
+  }
+
+  .bxslider li article h2 {
+    margin-top: 0;
+    padding-bottom: 0.2em;
+    border-bottom: 2px solid #b3272c;
+    margin-left: 243px;
+  }
+
+  .toyou .bxslider li article h2 {
+    margin-left: 0;
+  }
+
+  .bxslider li article .cnt-text {
+    padding-top: 0;
+    margin-bottom: 1.5em;
+  }
+
+  .cnt-slide .bg-right {
+    display: block;
+  }
+
+  .blockleft2, .triangle2 {
+    display: none;
+  }
+
+  .blockleft {
+    height: 160px;
+    width: 3500px;
+    position: absolute;
+    top: 0;
+    left: -3350px;
+    background: white;
+    z-index: 1;
+  }
+
+  .cnt-logo {
+    text-align: left;
+    z-index: 3;
+    position: relative;
+    float: left;
+  }
+  .cnt-logo .logo {
+    margin: 20px 0 0 10px;
+    z-index: 2;
+    position: relative;
+    height: auto;
+  }
+  .cnt-logo .logo img {
+    width: 155px;
+    margin-top: auto;
+  }
+
+  .cnt-header {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+
+  .cnt-footer-bot {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cnt-footer-mid {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cnt-customer {
+    display: none;
+  }
+
+  .cliente1 {
+    left: 60px;
+    top: -34px;
+  }
+
+  .cliente2 {
+    left: 226px;
+    top: -34px;
+  }
+
+  .cliente3 {
+    left: 577px;
+    top: -34px;
+  }
+
+  .cliente4 {
+    left: 749px;
+    top: -34px;
+  }
+
+  .cliente5 {
+    left: 147px;
+    top: 54px;
+  }
+
+  .cliente6 {
+    left: 664px;
+    top: 54px;
+  }
+
+  .cliente7 {
+    left: 60px;
+    top: 139px;
+  }
+
+  .cliente8 {
+    left: 226px;
+    top: 139px;
+  }
+
+  .cliente9 {
+    left: 577px;
+    top: 139px;
+  }
+
+  .cliente10 {
+    left: 749px;
+    top: 139px;
+  }
+
+  .sec-customer .customers {
+    height: 346px;
+    padding: 0;
+    position: relative;
+  }
+  .sec-customer .customers .cnt-h3 {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+  }
+  .sec-customer .customers h3 {
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: transparent;
+    font-size: 1.7em;
+    top: 128px;
+    margin: 0;
+    padding: 0;
+    line-height: 10px;
+    width: 172px;
+    text-align: left;
+  }
+  .sec-customer .customers h3 span {
+    text-transform: uppercase;
+    font-size: 2em;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    margin-top: 0.8em;
+  }
+  .sec-customer .customers .customer2 {
+    display: block;
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 80px;
+  }
+  .sec-customer .customers .customer2 .item {
+    position: absolute;
+    width: 121px;
+    height: 83px;
+    line-height: 83px;
+    text-align: center;
+  }
+
+  .sec-customer .customers {
+    background: url(../img/bg-customer.jpg) center no-repeat;
+    background-color: #e2e2e2;
+  }
+
+  .footer-bot {
+    height: 32px;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-bot .copyright {
+    float: left;
+    margin-top: 0.7em;
+  }
+  .footer-bot .by {
+    margin-top: 0.6em;
+    float: right;
+    padding-bottom: 0;
+  }
+
+  .footer-top {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .footer-top .col {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9em;
+  }
+  .footer-top .logo2 {
+    margin-top: 24px;
+    width: 100px;
+  }
+  .footer-top .logo2 img {
+    width: 65px;
+  }
+  .footer-top .map {
+    width: 330px;
+  }
+  .footer-top .map ul li {
+    margin-bottom: 0.1em;
+  }
+  .footer-top .map .first {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    margin-right: 1.5em;
+  }
+  .footer-top .map .second {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+  }
+  .footer-top .contact {
+    width: 345px;
+  }
+  .footer-top .contact p {
+    margin: 0;
+    line-height: 1.4em;
+    width: 312px;
+  }
+  .footer-top .socialmedia {
+    width: 140px;
+  }
+  .footer-top .socialmedia .cnt-tw {
+    margin: 0;
+  }
+
+  .header {
+    background: url(../img/bg-nav.jpg) repeat;
+    height: 130px;
+    border-bottom: 1px solid #cecece;
+  }
+
+  .logo2 {
+    display: block;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+  }
+
+  .sec-proyects {
+    width: 945px;
+  }
+
+  .triangle {
+    display: block;
+    position: relative;
+    width: 125px;
+    height: 165px;
+    background: url(../img/triangle.png) no-repeat;
+    top: -118px;
+    left: 130px;
+  }
+
+  .icon-menu {
+    display: none;
+  }
+
+  .nav {
+    display: block;
+    background: url(../img/bg-nav.jpg) repeat;
+    font-family: "Oswald";
+    float: left;
+    margin: 50px 0 0 110px;
+    font-size: 1.1em;
+  }
+  .nav .active li {
+    color: white;
+  }
+  .nav .arrowup {
+    display: none;
+  }
+  .nav .active .arrowup {
+    display: block;
+  }
+  .nav a {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    position: relative;
+  }
+  .nav a:hover .arrowup {
+    display: block;
+  }
+  .nav a:hover li {
+    color: white;
+  }
+  .nav li {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    text-transform: uppercase;
+    color: #e2e2e2;
+    padding: 0 1.5em 0 1.5em;
+    line-height: 40px;
+  }
+  .nav .arrowup {
+    width: auto;
+    position: absolute;
+    bottom: -16px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
+  .nav .arrowup span {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid white;
+    border-right: 8px solid transparent;
+    border-width: 0px 8px 12px 8px;
+  }
+  .nav ul {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .news-text {
+    width: 457px;
+    margin-right: 14px;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+  }
+
+  .news-view {
+    width: 456px;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+  }
+
+  .sec-news {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 2em;
+  }
+
+  .user {
+    display: block;
+    text-align: right;
+    padding: 1em 0 0 0;
+    margin-right: 1em;
+    color: white;
+    font-size: 0.9em;
+  }
+  .user a {
+    margin-left: 1em;
+    border-bottom: 1px solid transparent;
+  }
+  .user a:hover {
+    border-bottom: 1px solid white;
+  }
+  .user .icon-mail {
+    vertical-align: middle;
+    margin-right: 0.3em;
+  }
+  .user .icon-user {
+    margin-right: 0.3em;
+  }
+
+  /* ---- A ---- */
+  /* ---- B ---- */
+  /* ---- O ---- */
+  /* ---- U ---- */
+  /* ---- T ---- */
+  .bg-title h1 {
+    font-size: 2.5em;
+    position: relative;
+    bottom: -1.5em;
+    left: 17em;
+  }
+
+  .cnt-h1 {
+    width: 932px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cnt-articles {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    margin-bottom: 6em;
+  }
+  .cnt-articles .logogray {
+    display: block;
+    position: absolute;
+    left: 1.5em;
+    top: 22em;
+  }
+  .cnt-articles .pager {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    padding-top: 3em;
+    padding-bottom: 270px;
+    width: 220px;
+    background: url(../img/sombrabarra.jpg) no-repeat;
+    background-repeat: repeat-y;
+    background-position: 210px 0;
+  }
+  .cnt-articles .pager a {
+    position: relative;
+    display: block;
+    vertical-align: top;
+    height: 48px;
+    width: 185px;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+    font-family: "Oswald";
+    line-height: 48px;
+    padding-left: 1.2em;
+    border-bottom: 1px dashed #e2e2e2;
+  }
+  .cnt-articles .pager a:before {
+    display: none;
+  }
+  .cnt-articles .pager a:hover {
+    background: #b3272c;
+    color: white;
+    border-bottom: 1px solid white;
+  }
+  .cnt-articles .pager a:hover:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    border: 10px solid #b3272c;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    top: 15px;
+    right: -20px;
+    position: absolute;
+  }
+  .cnt-articles .pager .active {
+    background: #b3272c;
+    color: white;
+    border-bottom: 1px solid white;
+  }
+  .cnt-articles .pager .active:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    border: 10px solid #b3272c;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    top: 15px;
+    right: -20px;
+    position: absolute;
+  }
+
+  .bx-slider {
+    margin-top: 3em;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 680px;
+    vertical-align: top;
+    margin-left: 1em;
+  }
+
+  /* ---- N ---- */
+  /* ---- E ---- */
+  /* ---- W ---- */
+  /* ---- S ---- */
+  .section-news {
+    margin-left: auto;
+    margin-right: auto;
+    width: 932px;
+  }
+
+  .marginleft {
+    margin-left: 55px;
+  }
+
+  /* ---- N ---- */
+  /* ---- . ---- */
+  /* ---- D ---- */
+  /* ---- E ---- */
+  /* ---- T ---- */
+  /* ---- A ---- */
+  /* ---- I ---- */
+  /* ---- L ---- */
+  .pseudo-h1 {
+    font-size: 2.5em;
+    position: relative;
+    bottom: -1.5em;
+    left: 17em;
+  }
+
+  .cnt-bodynews {
+    width: 932px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .section-bodynews {
+    width: 740px;
+    margin-left: 2em;
+    margin-right: 0;
+  }
+
+  .section-bodynews .bodynews h1 {
+    font-size: 2.6em;
+  }
+
+  /* ---- U ---- */
+  /* ---- N ---- */
+  /* ---- D ---- */
+  /* ---- . ---- */
+  /* ---- N ---- */
+  /* ---- G ---- */
+  /* ---- C ---- */
+  /* ---- S ---- */
+  .bg-title .unidades h1 {
+    left: 14em;
+  }
+
+  .toyou {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    width: 690px;
+    margin-left: 1em;
+  }
+  .toyou .bxslider {
+    margin-top: 3em;
+  }
+
+  /* ---- U ---- */
+  /* ---- N ---- */
+  /* ---- D ---- */
+  /* ---- . ---- */
+  /* ---- N ---- */
+  /* ---- G ---- */
+  /* ---- C ---- */
+  /* ---- S ---- */
+  .bxslider li article {
+    border: 0;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- P ---- */
+  /* ---- R ---- */
+  /* ---- E ---- */
+  .wrapmap {
+    background: #ededed;
+  }
+
+  .cnt-map {
+    width: 932px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .cnt-map img {
+    width: 100%;
+  }
+
+  .wrapblocks {
+    width: 932px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .galery {
+    margin-left: auto;
+    margin-right: auto;
+    width: 932px;
+  }
+  .galery .bx-slider {
+    width: 100%;
+  }
+
+  .bodypresencia {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bodypresencia h2 {
+    font-size: 2em;
+  }
+  .bodypresencia .map {
+    height: 500px;
+    padding: 0;
+  }
+  .bodypresencia .sobremap {
+    background: url(../img/countries.png) center;
+  }
+  .bodypresencia .sobremap ul {
+    height: 500px;
+    visibility: hidden;
+  }
+
+  .nav-internacional {
+    height: 34px;
+    margin-top: -2em;
+    width: 100%;
+    text-align: center;
+    background: #b3272c;
+  }
+  .nav-internacional li {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    text-transform: uppercase;
+  }
+  .nav-internacional li a {
+    padding: 0 1.8em;
+    color: white;
+    line-height: 34px;
+    background: #b3272c;
+  }
+  .nav-internacional li a:hover {
+    background: #802528;
+  }
+  .nav-internacional li .selected {
+    background: #802528;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- P ---- */
+  /* ---- R ---- */
+  /* ---- O ---- */
+  .evolution .line {
+    top: 100px;
+  }
+
+  /* ---- I ---- */
+  /* ---- N ---- */
+  /* ---- T ---- */
+  /* ---- . ---- */
+  /* ---- C ---- */
+  /* ---- O ---- */
+  /* ---- N ---- */
+  .flags {
+    overflow: hidden;
+    background: none;
+  }
+  .flags img {
+    height: 39px;
+    width: 59px;
+  }
+  .flags .cnt-flags {
+    float: left;
+    width: 30%;
+    padding: 1em;
+    border-left: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
+    height: 220px;
+  }
+  .flags .cnt-flags h3 {
+    vertical-align: bottom;
+  }
+  .flags .cnt-flags p {
+    margin-right: 0;
+  }
+  .flags .cnt-flags .adrees {
+    margin-top: 1em;
+  }
+
+  .anchofull {
+    width: 932px;
+  }
+}
