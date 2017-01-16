@@ -39,7 +39,7 @@ if ($_REQUEST['action']==='list') {
                 and c.retencion_serie_numero = d.retencion_serie_numero
         where
             C.proveedor_documento_numero = ? and
-            D.referencia_documento_serie_numero = ? and
+            dbo.FIX_SERIAL_NUMBER(D.referencia_documento_serie_numero) = dbo.FIX_SERIAL_NUMBER(?) and
             D.referencia_documento_fecha = ? and
             D.referencia_total_factura_monto = ?
     ";
