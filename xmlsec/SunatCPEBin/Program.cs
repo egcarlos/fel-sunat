@@ -20,6 +20,7 @@ namespace Nutria.CPE.Bin
             if (args.Length == 0)
             {
                 Console.WriteLine("uso: programa <ambiente> <comando> <id> [<argumentos>]");
+                return;
             }
 
             var enviroment = args[0];
@@ -179,6 +180,8 @@ namespace Nutria.CPE.Bin
             sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
             //response
             Response(response.statusCode);
+            //TODO agregar el update del sistema con
+            //client.updateSunatResponse.......
         }
 
         private static void Query(string enviroment, string id)

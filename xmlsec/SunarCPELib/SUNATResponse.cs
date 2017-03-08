@@ -19,6 +19,11 @@ namespace Nutria.CPE.Tools
                 {
                     //TODO hay que verificar como identificar el caso de estar con una respuesta de resumen de baja de retenciones
                     var entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith("R-"));
+                    if (entry == null)
+                    {
+                        //estamos analizando retenciones
+                        entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith(name));
+                    }
                     entry.ExtractToFile(unzippedResponseFile);
                     return true;
                 }
