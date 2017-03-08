@@ -107,9 +107,6 @@ namespace Nutria.CPE.Tools.Security
             }
         }
 
-
-
-
         public Dictionary<string, string> GetResponse(string name)
         {
             var response = new Dictionary<string, string>();
@@ -128,14 +125,15 @@ namespace Nutria.CPE.Tools.Security
             return json;
         }
 
-        public void RelayResponse(string target, string name)
+		//TODO remover codigo legacy
+        /*public void RelayResponse(string target, string name)
         {
             var client = new RestClient(target);
             var request = new RestRequest(Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddBody(this.GetResponse(name));
             var response = client.Execute(request);
-        }
+        }*/
 
         public void SaveJSONResponse(string name, string file)
         {
@@ -144,8 +142,6 @@ namespace Nutria.CPE.Tools.Security
                 sw.Write(GetJSONResponse(name));
             }
         }
-
-
 
         public void SetKeyElements()
         {

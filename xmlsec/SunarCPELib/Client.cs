@@ -88,7 +88,7 @@ namespace Nutria.CPE.Tools.Platform
                 { "ticket", ticket }
             });
             var response = Client.Execute<bool>(request);
-            return true;
+			return response.Data;
         }
     }
 }

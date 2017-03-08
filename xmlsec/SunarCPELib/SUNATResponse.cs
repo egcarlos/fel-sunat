@@ -18,11 +18,11 @@ namespace Nutria.CPE.Tools
                 using (ZipArchive archive = new ZipArchive(zip, ZipArchiveMode.Read))
                 {
                     //TODO hay que verificar como identificar el caso de estar con una respuesta de resumen de baja de retenciones
-                    var entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith("R-"));
+					var entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith("R-", System.StringComparison.OrdinalIgnoreCase));
                     if (entry == null)
                     {
                         //estamos analizando retenciones
-                        entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith(name));
+                        entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith(name, System.StringComparison.OrdinalIgnoreCase));
                     }
                     entry.ExtractToFile(unzippedResponseFile);
                     return true;
