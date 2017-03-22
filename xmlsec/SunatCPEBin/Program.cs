@@ -20,6 +20,11 @@ namespace Nutria.CPE.Bin
             if (args.Length < 3)
             {
                 Console.WriteLine("uso: programa <ambiente> <comando> <id> [<argumentos>]");
+                Console.WriteLine();
+                Console.WriteLine("    <ambiente> := testing | qa | live");
+                Console.WriteLine("    <comando>  := query | ticket | declare | sendzip");
+                Console.WriteLine("    <id>       := <ruc>-<tipo>-<serie>-<numero>");
+                Console.WriteLine("    <argumentos> varía segun el comando");
                 return;
             }
 

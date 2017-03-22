@@ -72,7 +72,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SunarCPELib\SunatCPELib.csproj">
+    <ProjectReference Include="..\SunatCPELib\SunatCPELib.csproj">
       <Project>{d97c2f56-db02-4c23-8e72-7f2627cbe112}</Project>
       <Name>SunatCPELib</Name>
     </ProjectReference>
