@@ -24,7 +24,7 @@ namespace Nutria.CPE.Tools
                         //estamos analizando retenciones
                         entry = archive.Entries.FirstOrDefault(a => a.Name.StartsWith(name, System.StringComparison.OrdinalIgnoreCase));
                     }
-                    entry.ExtractToFile(unzippedResponseFile);
+                    entry.ExtractToFile(unzippedResponseFile, true);
                     return true;
                 }
             }

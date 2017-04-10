@@ -193,10 +193,22 @@ namespace Nutria.CPE.Bin
             var number = id.Split('-')[3];
             var conf = new Tools.Configuration(ConfigurationManager.AppSettings, id);
             var qclient = new SunatClient.SunatQuery.ClientManager(enviroment, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+            var sunatzip = new Tools.SUNATResponse();
             //operation
-            var response = qclient.getStatus(conf.RUC, type, serial, int.Parse(number));
+            var response = qclient.getStatusCdr(conf.RUC, type, serial, int.Parse(number));
             //response
-            Response(response.statusCode, response.statusMessage);
+            Response(response.statusCode + " " + response.statusMessage);
+            if (response.content != null && response.content.Length > 0)
+            {
+                File.WriteAllBytes(conf.SunatResponseZipPath, response.content);
+                sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
+                sunatzip.Load(conf.SunatResponseXmlPath);
+                Response("RC:" + sunatzip.ResponseCode + " - " + sunatzip.Description);
+            }
+            else
+            {
+                Response("No se adjunta CDR");
+            }
         }
 
 		/// <summary>
