@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FixHeader.cs" />
     <Compile Include="Logs.cs" />
     <Compile Include="Service References\SunatQuery\Reference.cs">
       <AutoGen>True</AutoGen>

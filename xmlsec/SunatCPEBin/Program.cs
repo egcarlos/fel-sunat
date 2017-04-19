@@ -141,8 +141,8 @@ namespace Nutria.CPE.Bin
             var sclient = new ClientManager(enviroment, type, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
             var name = conf.Name + ".zip";
             var client = new Tools.Platform.JSONRestClient(conf.PlatformApiURL);
-            
-			/*
+
+            /*
              * Firma Digital del documento
              */
             var pk12 = new X509Certificate2(conf.KSPath, conf.KSPass);
@@ -193,21 +193,33 @@ namespace Nutria.CPE.Bin
             var number = id.Split('-')[3];
             var conf = new Tools.Configuration(ConfigurationManager.AppSettings, id);
             var qclient = new SunatClient.SunatQuery.ClientManager(enviroment, conf.RUC, conf.SunatUser, conf.SunatPass).Proxy;
+            var client = new Tools.Platform.JSONRestClient(conf.PlatformApiURL);
             var sunatzip = new Tools.SUNATResponse();
             //operation
-            var response = qclient.getStatusCdr(conf.RUC, type, serial, int.Parse(number));
-            //response
-            Response(response.statusCode + " " + response.statusMessage);
-            if (response.content != null && response.content.Length > 0)
+            try
             {
-                File.WriteAllBytes(conf.SunatResponseZipPath, response.content);
-                sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
-                sunatzip.Load(conf.SunatResponseXmlPath);
-                Response("RC:" + sunatzip.ResponseCode + " - " + sunatzip.Description);
+                var response = qclient.getStatusCdr(conf.RUC, type, serial, int.Parse(number));
+                //response
+                Response(response.statusCode + " " + response.statusMessage);
+                if (response.content != null && response.content.Length > 0)
+                {
+                    File.WriteAllBytes(conf.SunatResponseZipPath, response.content);
+                    sunatzip.Unzip(conf.Name, conf.SunatResponseZipPath, conf.SunatResponseXmlPath);
+                    sunatzip.Load(conf.SunatResponseXmlPath);
+                    Response("RC:" + sunatzip.ResponseCode + " - " + sunatzip.Description);
+                }
+                else
+                {
+                    Response("No se adjunta CDR");
+                }
             }
-            else
+            catch (System.ServiceModel.FaultException ex)
             {
-                Response("No se adjunta CDR");
+                HandleFaultException(ex, client, id, qclient.Endpoint.Address.Uri.ToString());
+            }
+            catch (Exception ex)
+            {
+                HandleGeneralException(ex, client, id, qclient.Endpoint.Address.Uri.ToString());
             }
         }
 
@@ -220,8 +232,8 @@ namespace Nutria.CPE.Bin
 		/// <param name="endpoint">Endpoint.</param>
 		private static void HandleFaultException(System.ServiceModel.FaultException ex, Tools.Platform.JSONRestClient client, string id, string endpoint)
 		{
-			var r = ex.Code.Name + "-" + ex.Code.SubCode;
-			Response(r);
+            var r = ex.Message;
+            Response(r);
 			client.UpdateSunatResponse(id, DateTime.Now, "error", r, endpoint, null);
 		}
 

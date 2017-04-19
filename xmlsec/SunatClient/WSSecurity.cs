@@ -43,6 +43,8 @@ namespace SunatClient.Security
 
     public class PasswordDigestMessageInspector : IClientMessageInspector
     {
+        const string WSSENameSpace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+
         public string Username { get; set; }
         public string Password { get; set; }
 
@@ -59,17 +61,18 @@ namespace SunatClient.Security
 
         public object BeforeSendRequest(ref Message request, System.ServiceModel.IClientChannel channel)
         {
-            UsernameToken token = new UsernameToken(Username, Password, PasswordOption.SendPlainText);
-
-            XmlElement securityToken = token.GetXml(new XmlDocument());
-
-            var nodo = securityToken.GetElementsByTagName("wsse:Nonce").Item(0);
-            if (nodo != null) nodo.RemoveAll();
-
-            MessageHeader securityHeader = MessageHeader.CreateHeader("Security",
-                "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
-                securityToken, false);
-            request.Headers.Add(securityHeader);
+            
+            var document = new XmlDocument();
+            var usernametoken = document.CreateNode(XmlNodeType.Element, "UsernameToken", WSSENameSpace);
+            var username = document.CreateNode(XmlNodeType.Element, "Username", WSSENameSpace);
+            username.InnerText = this.Username;
+            var password = document.CreateNode(XmlNodeType.Element, "Password", WSSENameSpace);
+            password.InnerText = this.Password;
+            usernametoken.AppendChild(username);
+            usernametoken.AppendChild(password);
+            var security = MessageHeader.CreateHeader("Security", WSSENameSpace, usernametoken, false);
+            
+            request.Headers.Add(security);
 
             return Convert.DBNull;
         }

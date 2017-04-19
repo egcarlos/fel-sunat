@@ -27,6 +27,7 @@ namespace SunatClient.Sunat
             binding.ReceiveTimeout = new TimeSpan(0, 10, 0);
 
             epb.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+            //epb.Add(new FixHeader.FixHeaderBehavior());
             epb.Add(new Logging.LogBehavior());
         }
 
@@ -78,7 +79,10 @@ namespace SunatClient.SunatQuery
             ServicePointManager.CheckCertificateRevocationList = true;
             var endpoint = enviroment + ".query";
             Proxy = new billServiceClient(endpoint);
-            Proxy.Endpoint.EndpointBehaviors.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+            var epb = Proxy.Endpoint.EndpointBehaviors;
+            epb.Add(new PasswordDigestBehavior() { RUC = ruc, User = user, Password = password });
+            //epb.Add(new FixHeader.FixHeaderBehavior());
+            epb.Add(new Logging.LogBehavior());
         }
 
     }
