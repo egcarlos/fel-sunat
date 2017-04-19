@@ -7,8 +7,8 @@ use \ForceUTF8\Encoding;
 function db_connect () {
     $connectionParams = array(
         'dbname' => 'fel_sunat',
-        'user' => 'sunat_desa',
-        'password' => 'sunat_desa',
+        'user' => 'fel_sunat',
+        'password' => 'fel_sunat',
         'host' => '127.0.0.1',
         'driver' => 'pdo_sqlsrv'
     );

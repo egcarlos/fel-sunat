@@ -5,6 +5,8 @@ require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 
 function load_document ($id, $conn) {
     $id_map = split('-', $id);
+    $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
+
     if ($id_map[1]==='01' || $id_map[1]==='03'){
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
