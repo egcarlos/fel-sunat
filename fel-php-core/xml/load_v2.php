@@ -6,15 +6,15 @@ require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 function load_document ($id, $conn) {
     $id_map = split('-', $id);
     if ($id_map[1]==='01' || $id_map[1]==='03'){
-        //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+        return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
-        //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
+        return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
     } elseif ($id_map[1]==='20') {
-        return db_load_document('prod', $id, $conn, '20', 'select', ['items']);
+        return db_load_document($id_map, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
-        //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
+        return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
-        //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
+        return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
     }
 }
 
@@ -34,10 +34,11 @@ function to_ubl ($id, $document) {
 }
 
 $conn = db_connect();
+//$id = '20100318696-RR-20161221-001';
 $id = $_REQUEST["name"];
 $document = load_document($id, $conn);
 if (is_null($document)) {
-    //remember to send error 404
+    //send error 404
     return;
 }
 $xml = to_ubl($id, $document);

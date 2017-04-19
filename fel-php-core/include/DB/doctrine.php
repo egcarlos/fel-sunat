@@ -6,7 +6,7 @@ use \ForceUTF8\Encoding;
 
 function db_connect () {
     $connectionParams = array(
-        'dbname' => 'sunat_desa',
+        'dbname' => 'fel_sunat',
         'user' => 'sunat_desa',
         'password' => 'sunat_desa',
         'host' => '127.0.0.1',
@@ -17,8 +17,11 @@ function db_connect () {
     return $conn;
 }
 
-function db_load_document($id_map, $conn, $type, $core, $related) {
-    $params = expand_params($id_map);
+function db_load_document($enviroment, $id, $conn, $type, $core, $related) {
+    $params = array(
+        't_ambiente_id'  => $enviroment,
+        't_documento_id' => $id
+    );
     $query   = load_query($type, $core);
     $mapping = load_maping($type, $core);
     $rows = $conn->fetchAll($query, $params);

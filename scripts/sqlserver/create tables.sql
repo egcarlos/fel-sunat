@@ -1,7 +1,6 @@
-USE [sunat_desa_remake]
+USE [fel_sunat]
 GO
 
-/****** Object:  Table [dbo].[t_retencion_detalle]    Script Date: 04/10/2017 16:08:10 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,7 +13,38 @@ GO
 IF OBJECT_ID('[dbo].[t_retencion]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_retencion]
 GO
 
+IF OBJECT_ID('[dbo].[t_baja_detalle]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_baja_detalle]
+GO
+
+IF OBJECT_ID('[dbo].[t_baja]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_baja]
+GO
+
 IF OBJECT_ID('[dbo].[t_documento]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_documento]
+GO
+
+IF OBJECT_ID('[dbo].[m_emisor]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_emisor]
+GO
+
+
+CREATE TABLE [dbo].[m_emisor](
+	[m_emisor_id]            nvarchar (13)  NOT NULL,
+	[activo]                 tinyint        NOT NULL,
+	[documento_tipo]         nvarchar (1)   NOT NULL,
+	[documento_numero]       nvarchar (11)  NOT NULL,
+	[razon_social]           nvarchar (500) NOT NULL,
+	[nombre_comercial]       nvarchar (500) NULL,
+	[ubicacion_ubigeo]       nvarchar (6)   NOT NULL,
+	[ubicacion_pais]         nvarchar (100) NULL,
+	[ubicacion_departamento] nvarchar (100) NULL,
+	[ubicacion_provincia]    nvarchar (100) NULL,
+	[ubicacion_distrito]     nvarchar (100) NULL,
+	[ubicacion_urbanizacion] nvarchar (100) NULL,
+	[ubicacion_direccion]    nvarchar (500) NULL,
+ CONSTRAINT [PK_m_emisor] PRIMARY KEY CLUSTERED 
+(
+	[m_emisor_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[t_documento](
@@ -136,4 +166,68 @@ GO
 ALTER TABLE [dbo].[t_retencion_detalle] CHECK CONSTRAINT [FK_t_retencion_detalle_X_t_retencion]
 GO
 
+CREATE TABLE [dbo].[t_baja](
+	[t_ambiente_id]         nvarchar (20) NOT NULL,
+	[t_documento_id]        nvarchar (50) NOT NULL,
+	[baja_fecha_emision]    datetime      NOT NULL,
+	[baja_fecha_referencia] datetime      NOT NULL,
+	CONSTRAINT [PK_t_baja] PRIMARY KEY CLUSTERED (
+		[t_ambiente_id]  ASC,
+		[t_documento_id] ASC
+	) WITH (
+		PAD_INDEX  = OFF,
+		STATISTICS_NORECOMPUTE  = OFF,
+		IGNORE_DUP_KEY = OFF,
+		ALLOW_ROW_LOCKS  = ON,
+		ALLOW_PAGE_LOCKS  = ON
+	) ON [PRIMARY]
+) ON [PRIMARY]
 
+GO
+
+ALTER TABLE [dbo].[t_baja] WITH CHECK
+	ADD CONSTRAINT [FK_t_baja_X_t_documento]
+	FOREIGN KEY (
+		[t_ambiente_id], [t_documento_id]
+	)
+	REFERENCES [dbo].[t_documento] (
+		[t_ambiente_id], [t_documento_id]
+	)
+GO
+
+ALTER TABLE [dbo].[t_baja] CHECK CONSTRAINT [FK_t_baja_X_t_documento]
+GO
+
+CREATE TABLE [dbo].[t_baja_detalle](
+	[t_ambiente_id]               nvarchar (20)    NOT NULL,
+	[t_documento_id]              nvarchar (50)    NOT NULL,
+	[baja_linea]                  numeric  (18, 0) NOT NULL,
+	[referencia_documento_tipo]   nvarchar (2)     NOT NULL,
+	[referencia_documento_serie]  nvarchar (25)    NOT NULL,
+	[referencia_documento_numero] numeric  (12, 0) NOT NULL,
+	[referencia_documento_motivo] nvarchar (500)   NOT NULL,
+	CONSTRAINT [PK_t_baja_detalle] PRIMARY KEY CLUSTERED (
+		[t_ambiente_id] ASC,
+		[t_documento_id] ASC,
+		[baja_linea] ASC
+	) WITH (
+		PAD_INDEX  = OFF,
+		STATISTICS_NORECOMPUTE  = OFF,
+		IGNORE_DUP_KEY = OFF,
+		ALLOW_ROW_LOCKS  = ON,
+		ALLOW_PAGE_LOCKS  = ON
+	) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_baja_detalle] WITH CHECK
+	ADD CONSTRAINT [FK_t_baja_detalle_X_t_baja]
+	FOREIGN KEY (
+		[t_ambiente_id],
+		[t_documento_id]
+	)
+	REFERENCES [dbo].[t_baja] (
+		[t_ambiente_id],
+		[t_documento_id]
+	)
+GO
