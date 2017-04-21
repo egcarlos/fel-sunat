@@ -22,9 +22,29 @@ GO
 IF OBJECT_ID('[dbo].[t_documento]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_documento]
 GO
 
+IF OBJECT_ID('[dbo].[m_ajustes_emisor]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_ajustes_emisor]
+GO
+
 IF OBJECT_ID('[dbo].[m_emisor]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_emisor]
 GO
 
+IF OBJECT_ID('[dbo].[m_ajustes_ambiente]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_ajustes_ambiente]
+GO
+
+USE [fel_sunat]
+GO
+
+CREATE TABLE [dbo].[m_ajustes_ambiente](
+	[m_ambiente_id] [nvarchar](20) NOT NULL,
+	[ruta_invoice] [nvarchar](250) NULL,
+	[ruta_certificado] [nvarchar](250) NULL,
+	[ruta_guia] [nvarchar](250) NULL,
+	[ruta_consulta] [nvarchar](250) NULL,
+ 	CONSTRAINT [PK_m_ajustes_ambiente] PRIMARY KEY CLUSTERED (
+		[m_ambiente_id] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 CREATE TABLE [dbo].[m_emisor](
 	[m_emisor_id]            nvarchar (13)  NOT NULL,
@@ -40,11 +60,37 @@ CREATE TABLE [dbo].[m_emisor](
 	[ubicacion_distrito]     nvarchar (100) NULL,
 	[ubicacion_urbanizacion] nvarchar (100) NULL,
 	[ubicacion_direccion]    nvarchar (500) NULL,
- CONSTRAINT [PK_m_emisor] PRIMARY KEY CLUSTERED 
-(
-	[m_emisor_id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+    CONSTRAINT [PK_m_emisor] PRIMARY KEY CLUSTERED (
+        [m_emisor_id] ASC
+    ) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[m_ajustes_emisor](
+    [m_ambiente_id]     [nvarchar] (20)  NOT NULL,
+    [m_emisor_id]       [nvarchar] (13)  NOT NULL,
+    [keystore_password] [nvarchar] (250) NULL,
+    [sunat_user]        [nvarchar] (250) NULL,
+    [sunat_password]    [nvarchar] (250) NULL,
+    CONSTRAINT [PK_m_ajustes_emisor] PRIMARY KEY CLUSTERED (
+        [m_ambiente_id] ASC,
+        [m_emisor_id] ASC
+    ) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[m_ajustes_emisor]  WITH CHECK ADD  CONSTRAINT [FK_m_ajustes_emisor_X_m_emisor] FOREIGN KEY([m_emisor_id])
+REFERENCES [dbo].[m_emisor] ([m_emisor_id])
+GO
+
+ALTER TABLE [dbo].[m_ajustes_emisor] CHECK CONSTRAINT [FK_m_ajustes_emisor_X_m_emisor]
+GO
+
+ALTER TABLE [dbo].[m_ajustes_emisor]  WITH CHECK ADD  CONSTRAINT [FK_m_ajustes_emisor_X_m_ajustes_ambiente] FOREIGN KEY([m_ambiente_id])
+REFERENCES [dbo].[m_ajustes_ambiente] ([m_ambiente_id])
+GO
+
+ALTER TABLE [dbo].[m_ajustes_emisor] CHECK CONSTRAINT [FK_m_ajustes_emisor_X_m_ajustes_ambiente]
 GO
 
 CREATE TABLE [dbo].[t_documento](
