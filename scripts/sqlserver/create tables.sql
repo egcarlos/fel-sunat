@@ -124,7 +124,10 @@ CREATE TABLE [dbo].[t_documento](
 	[t_documento_id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
 
+ALTER TABLE [dbo].[t_documento]
+add [sunat_url] nvarchar (250) NULL
 GO
 
 ALTER TABLE [dbo].[t_documento]  WITH CHECK ADD  CONSTRAINT [FK_t_documento_X_m_emisor] FOREIGN KEY([m_emisor_id])

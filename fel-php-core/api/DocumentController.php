@@ -12,27 +12,55 @@ class DocumentController
      * @url GET /
      */
     public function pendings() {
-        $status = $_REQUEST["status"];
-        //$db = db_connect();
-        //$stm = $db->prepare('SELECT [identificador] as [name], [proceso_estado] as [status] FROM [t_documento] where [proceso_estado] = :status');
-        //$stm->bindValue("status", $status);
-        //$stm->execute();
-        //$response = $stm->fetchAll();
-        return 'TODO REACTIVATE';
+        $response = array(
+            'provider' => 'like a baws technology',
+            'product' => 'sunat-cpe',
+            'description' => 'core controller for the electronic issued documents for SUNAT',
+            'version' => 'apr-17'
+
+        );
+        return $response;
     }
 
     /**
      * Retorna los ajustes para un ambiente y un emisor
      *
-     * @url GET /settings/$ambiente/$emisor
+     * @url GET /settings
      */
-    public function settings($ambiente, $emisor) {
+    public function settings() {
         $db = db_connect();
-        $stm = $db->prepare('select ruta_invoice as [invoice], ruta_certificado as [certificate], ruta_guia as [despatch], ruta_consulta as [query], keystore_password as [keystore.pass], sunat_user as [sunat.user], sunat_password as [sunat.pass] from [dbo].[m_ajustes_ambiente] as [a] inner join [dbo].[m_ajustes_emisor] as [e] on a.m_ambiente_id = e.m_ambiente_id where [e].[m_ambiente_id] = :ambiente and [e].[m_emisor_id] = :emisor');
+        $stm = $db->prepare('select [e].[m_ambiente_id] as [enviroment], [e].[m_emisor_id] as [issuer], ruta_invoice as [invoicePath], ruta_certificado as [CertificatePath], ruta_guia as [DespatchPath], ruta_consulta as [QueryPath], keystore_password as [KeyStorePass], sunat_user as [SunatUser], sunat_password as [SunatPass] from [dbo].[m_ajustes_ambiente] as [a] inner join [dbo].[m_ajustes_emisor] as [e] on a.m_ambiente_id = e.m_ambiente_id');
+        $stm->execute();
+        $response = $stm->fetchAll();
+        return $response;
+    }
+
+    /**
+     * Retorna los ajustes para un ambiente y un emisor
+     *
+     * @url GET /settings/$emisor
+     */
+    public function settingsForIssuer($emisor) {
+        $db = db_connect();
+        $stm = $db->prepare('select [e].[m_ambiente_id] as [enviroment], [e].[m_emisor_id] as [issuer], ruta_invoice as [InvoicePath], ruta_certificado as [CertificatePath], ruta_guia as [DespatchPath], ruta_consulta as [QueryPath], keystore_password as [KeyStorePass], sunat_user as [SunatUser], sunat_password as [SunatPass] from [dbo].[m_ajustes_ambiente] as [a] inner join [dbo].[m_ajustes_emisor] as [e] on a.m_ambiente_id = e.m_ambiente_id where [e].[m_emisor_id] = :emisor');
+        $stm->bindValue("emisor", $emisor);
+        $stm->execute();
+        $response = $stm->fetchAll();
+        return $response;
+    }
+
+    /**
+     * Retorna los ajustes para un ambiente y un emisor
+     *
+     * @url GET /settings/$emisor/$ambiente
+     */
+    public function settingsForIssuerAndEnvironment($ambiente, $emisor) {
+        $db = db_connect();
+        $stm = $db->prepare('select [e].[m_ambiente_id] as [enviroment], [e].[m_emisor_id] as [issuer], ruta_invoice as [InvoicePath], ruta_certificado as [CertificatePath], ruta_guia as [DespatchPath], ruta_consulta as [QueryPath], keystore_password as [KeyStorePass], sunat_user as [SunatUser], sunat_password as [SunatPass] from [dbo].[m_ajustes_ambiente] as [a] inner join [dbo].[m_ajustes_emisor] as [e] on a.m_ambiente_id = e.m_ambiente_id where [e].[m_ambiente_id] = :ambiente and [e].[m_emisor_id] = :emisor');
         $stm->bindValue("ambiente", $ambiente);
         $stm->bindValue("emisor", $emisor);
         $stm->execute();
-        $response = $stm->fetchAll()[0];
+        $response = $stm->fetchAll();
         return $response;
     }
 

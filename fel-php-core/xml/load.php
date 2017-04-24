@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../vendor/autoload.php';
 require_once dirname(__FILE__) . '/../include/DB/doctrine.php';
 require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 
-function load_document ($id, $conn) {
+function load_document ($id, $env, $conn) {
     $id_map = split('-', $id);
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
 
@@ -12,7 +12,7 @@ function load_document ($id, $conn) {
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
         //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
     } elseif ($id_map[1]==='20') {
-        return db_load_document('prod', $id, $conn, '20', 'select', ['items']);
+        return db_load_document($env, $id, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
         //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
@@ -37,9 +37,20 @@ function to_ubl ($id, $document) {
 
 $conn = db_connect();
 $id = $_REQUEST["name"];
-$document = load_document($id, $conn);
+$env = $_REQUEST["env"];
+$document = load_document($id, $env, $conn);
 if (is_null($document)) {
-    //remember to send error 404
+    Header('Content-type: text/xml; charset=iso-8859-1');
+    ?>
+<error>
+    <code>404</code>
+    <reason>NOT FOUND</reason>
+    <params>
+        <documentId><?=$id?></documentId>
+        <environment><?=$env?></environment>
+    </params>
+</error>
+    <?php
     return;
 }
 $xml = to_ubl($id, $document);
