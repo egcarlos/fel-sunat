@@ -67,7 +67,7 @@ class DocumentController
     /**
      * 
      *
-     * @url GET /documento/$ambiente/$id
+     * @url GET /document/$ambiente/$id
      */
     public function documentData($ambiente, $id)
     {
@@ -86,7 +86,7 @@ class DocumentController
     /**
      * 
      *
-     * @url POST /documento/$ambiente/$id
+     * @url POST /document/$ambiente/$id
      */
     public function update($ambiente, $id, $data)
     {   /*
