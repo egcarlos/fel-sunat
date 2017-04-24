@@ -28,8 +28,10 @@ namespace CPE
 		[Option('v', "verbose", DefaultValue = false)]
 		public bool Verbose { get; set; }
 
+        [Option('w', "workdir", DefaultValue = "D:\\fel\\files")]
+        public string Workdir { get; set; }
 
-		[HelpOption]
+        [HelpOption]
 		public string GetUsage()
 		{
 			return HelpText.AutoBuild(this,

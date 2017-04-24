@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CommandLine;
 using CommandLine.Text;
+using System.ServiceModel;
+using System.IO;
+using CPE.Client.Xmlsec;
 
 namespace CPE.Bin
 {
@@ -48,10 +51,12 @@ namespace CPE.Bin
         void Prepare()
         {
             Platform = new CPE.Platform.Client() { BaseUrl = Options.Platform };
-            //set the issuer based on the document if present
+            //set the issuer and workdir based on the document if present
             if (Options.Document != null)
             {
-                Options.Issuer = "6-" + Options.Document.Split('-')[0];
+                var ruc = Options.Document.Split('-')[0];
+                Options.Issuer = "6-" + ruc;
+                Options.Workdir = Path.Combine(Options.Workdir, ruc);
             }
             //read platform settings and determine if there is a single setting to use for the request
             Settings = Platform.Settings(Options.Issuer, Options.Environment);
@@ -80,9 +85,14 @@ namespace CPE.Bin
                 var ccdr = response.content;
                 HandleCompressedCDR(ccdr);
             }
+            catch (FaultException ex)
+            {
+                Platform.UpdateError(Options.Environment, Options.Document, ex.Code.Name, ex.Message);
+            }
             finally
             {
-                Log("Request:", manager.Behaviors.Messages.Request, "Reply:", manager.Behaviors.Messages.Reply);
+                Log("Request:", manager.Behaviors.Messages.Request);
+                Log("Reply:", manager.Behaviors.Messages.Reply);
             }
         }
 
@@ -92,43 +102,75 @@ namespace CPE.Bin
             string endpoint = Options.Document.Split('-')[1].AsDeclareTarget(CurrentSettings);
             var manager = new CPE.Client.DeclareClientManager(endpoint, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
             byte[] requestFile = GetRequestFile();
-            byte[] compressed = Compress(requestFile, Options.Document + ".xml");
-            PersistFile(compressed, Options.Document + ".request.zip");
-            byte[] ccdr = manager.Declare(Options.Document + ".zip", compressed);
-            HandleCompressedCDR(ccdr);
+            try
+            {
+                var name = FileNamePart() + ".zip";
+                byte[] ccdr = manager.Declare(name, requestFile);
+                HandleCompressedCDR(ccdr);
+            }
+            catch (FaultException ex)
+            {
+                var document = new XmlDocument();
+                document.LoadXml(manager.Behaviors.Messages.Reply);
+                var message = document.GetElementsByTagName("Fault", "http://schemas.xmlsoap.org/soap/envelope/")[0].InnerXml;
+                Platform.UpdateError(Options.Environment, Options.Document, ex.Code.Name, message);
+            }
+            finally
+            {
+                Log("Request:", manager.Behaviors.Messages.Request);
+                Log("Reply:", manager.Behaviors.Messages.Reply);
+            }
+            
+        }
+
+        byte[] GetRequestFile()
+        {
+            //recover plain document from platform
+            var document = Platform.GetPlainDocument(Options.Environment, Options.Document);
+            //TODO document fixed setting for file name in working directory
+            var key = new PKCS12KeyManager(Path.Combine(Options.Workdir,"identity.pfx"), CurrentSettings.KeyStorePass);
+            //atach signature to document
+            //TODO refactor since is no longer necesary to have a fragmented process 
+            var signer = new Signer(document, key);
+            signer.Configure();
+            signer.AtachSignature();
+            //replicate signature and hash to portal
+            Platform.UpdateSignature(Options.Environment, Options.Document, signer.DigestValue, signer.SignatureValue);
+            var requestFile = document.ZipRequest(FileNamePart() + ".xml");
+            //save zipped file to disk
+            PersistFile(Options.Document + ".request.zip", requestFile);
+            return requestFile;
         }
 
         void HandleCompressedCDR(byte[] ccdr)
         {
+            PersistFile(Options.Document + ".response.zip", ccdr);
             byte[] cdr = ccdr.UnzipResponse();
-			var document = new XmlDocument();
+            var document = new XmlDocument();
             document.Load(cdr.AsStream());
-			var responseCode = document.GetElementsByTagName("ResponseCode", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
-			var description = document.GetElementsByTagName("Description", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
+            var responseCode = document.GetElementsByTagName("ResponseCode", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
+            var description = document.GetElementsByTagName("Description", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
             Platform.UpdateCDRResponse(CurrentSettings.Enviroment, Options.Document, responseCode, description);
             Log("Response Code: " + responseCode, "Description: " + description);
-		}
+        }
 
-		
+        byte[] Compress(byte[] data, string entry)
+        {
+            return null;
+        }
 
-		byte[] GetRequestFile()
-		{
-            var document = Platform.GetPlainDocument(Options.Environment, Options.Document);
+        void PersistFile(string name, byte[] data)
+        {
+            File.WriteAllBytes(Path.Combine(Options.Workdir, Options.Environment, "xml", name), data);
+        }
 
-            return document.GetBytes();
-		}
-
-		byte[] Compress(byte[] data, string entry)
-		{
-			return null;
-		}
-
-		void PersistFile(byte[] data, string name)
-		{
-			string workdir = "D:\\fel\\files\\";
-
-            
-		}
+        string FileNamePart()
+        {
+            string[] tokens = Options.Document.Split('-');
+            tokens[3] = tokens[3].PadLeft(tokens[1].StartsWith("R") ? 3 : 8, '0');
+            var name = string.Join("-", tokens);
+            return name;
+        }
 
         void Log(params object[] messages)
         {

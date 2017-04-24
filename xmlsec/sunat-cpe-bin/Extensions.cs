@@ -36,9 +36,27 @@ namespace CPE
 		public static Stream AsStream(this byte[] data)
 		{
 			var stream = new MemoryStream();
-			using (var writer = new BinaryWriter(stream)) writer.Write(data);
+            var writer = new BinaryWriter(stream);
+            writer.Write(data);
+            stream.Position = 0;
 			return stream;
 		}
+
+        public static byte[] ZipRequest(this XmlDocument document, string entryName)
+        {
+            using (var zipstream = new MemoryStream())
+            {
+                using (ZipArchive archive = new ZipArchive(zipstream, ZipArchiveMode.Create))
+                {
+                    var entry = archive.CreateEntry(entryName);
+                    using (var eout = entry.Open())
+                    {
+                        document.Save(eout);
+                    }
+                }
+                return zipstream.ToArray();
+            }
+        }
 
 		public static byte[] UnzipResponse(this byte[] data)
 		{
@@ -63,7 +81,6 @@ namespace CPE
 			{
 				using (var target = new MemoryStream())
 				{
-
 					file.CopyTo(target);
 					return target.ToArray();
 				}
