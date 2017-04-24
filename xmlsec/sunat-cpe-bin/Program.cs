@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using CommandLine;
@@ -89,21 +89,46 @@ namespace CPE.Bin
         void Declare()
         {
             Log("Using settings", CurrentSettings);
-            string endpoint = Options.Document.Split('-')[1].AsTarget(CurrentSettings);
+            string endpoint = Options.Document.Split('-')[1].AsDeclareTarget(CurrentSettings);
             var manager = new CPE.Client.DeclareClientManager(endpoint, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
-            byte[] unsigned = GetUnsignedFile();
-            byte[] signed = SignFile(unsigned);
-            byte[] compressed = Compress(signed, Options.Document + ".xml");
-            PersistXml(compressed, Options.Document + ".request.zip");
+            byte[] requestFile = GetRequestFile();
+            byte[] compressed = Compress(requestFile, Options.Document + ".xml");
+            PersistFile(compressed, Options.Document + ".request.zip");
             byte[] ccdr = manager.Declare(Options.Document + ".zip", compressed);
             HandleCompressedCDR(ccdr);
         }
 
-        void HandleCompressedCDR(byte[] cdr)
+        void HandleCompressedCDR(byte[] ccdr)
         {
+            byte[] cdr = ccdr.UnzipResponse();
+			var document = new XmlDocument();
+            document.Load(cdr.AsStream());
+			var responseCode = document.GetElementsByTagName("ResponseCode", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
+			var description = document.GetElementsByTagName("Description", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")[0].InnerText;
+            Platform.UpdateCDRResponse(CurrentSettings.Enviroment, Options.Document, responseCode, description);
+            Log("Response Code: " + responseCode, "Description: " + description);
+		}
 
-        }
+		
 
+		byte[] GetRequestFile()
+		{
+            var document = Platform.GetPlainDocument(Options.Environment, Options.Document);
+
+            return document.GetBytes();
+		}
+
+		byte[] Compress(byte[] data, string entry)
+		{
+			return null;
+		}
+
+		void PersistFile(byte[] data, string name)
+		{
+			string workdir = "D:\\fel\\files\\";
+
+            
+		}
 
         void Log(params object[] messages)
         {
@@ -119,67 +144,6 @@ namespace CPE.Bin
         }
     }
 
-    public class Options
-    {
-        public const string Configuration = "configuration";
-        public const string Declare = "declare";
-        public const string Query = "query";
-        public const string Ticket = "ticket";
-
-        [Option('p', "platform", DefaultValue = "http://localhost/sunat-cpe")]
-        public string Platform { get; set; }
-
-        [Option('a', "action", Required = true)]
-        public string Action { get; set; }
-
-        [Option('e', "enviroment", DefaultValue = "dev")]
-        public string Environment { get; set; }
-
-        [Option('i', "issuer")]
-        public string Issuer { get; set; }
-
-        [Option('d', "document")]
-        public string Document { get; set; }
-
-        [Option('v', "verbose", DefaultValue = false)]
-        public bool Verbose { get; set; }
 
 
-        [HelpOption]
-        public string GetUsage()
-        {
-            return HelpText.AutoBuild(this,
-              (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-        }
-
-    }
-
-    public static class Extensions
-    {
-        public static bool In<T>(this T item, params T[] items)
-        {
-            if (items == null)
-            {
-                throw new System.ArgumentNullException("items");
-            }
-            return items.Contains(item);
-        }
-
-        public static string AsTarget(this string documentType, CPE.Platform.Settings settings)
-        {
-            if (documentType.In("01", "03", "07", "08", "RC", "RA"))
-            {
-                return settings.InvoicePath;
-            }
-            if (documentType.In("20", "40", "RR"))
-            {
-                return settings.CertificatePath;
-            }
-            if (documentType.In("09"))
-            {
-                return settings.DespatchPath;
-            }
-            throw new System.ArgumentException("Invalid value " + documentType + " for parameter", "documentType");
-        }
-    }
 }
