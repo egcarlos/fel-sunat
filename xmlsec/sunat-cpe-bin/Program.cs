@@ -104,7 +104,7 @@ namespace CPE.Bin
             byte[] requestFile = GetRequestFile();
             try
             {
-                var name = FileNamePart() + ".zip";
+                var name = FileNamePart();
                 byte[] ccdr = manager.Declare(name, requestFile);
                 HandleCompressedCDR(ccdr);
             }

@@ -71,6 +71,22 @@ function trim_to_null($value) {
     return $value;
 }
 
+function starts_with($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function ends_with($haystack, $needle)
+{
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    return (substr($haystack, -$length) === $needle);
+}
+
 function expand_row ($mapping, $row) {
     $i = 0;
     $data = array();
@@ -87,7 +103,15 @@ function expand_row ($mapping, $row) {
             $current_holder = &$current_holder[$tag];
         }
         $tag = $tags[0];
-        $current_holder[$tag] = $current_holder[$tag] = Encoding::toUTF8(trim_to_null($value));
+        //el driver de la base de datos retorna los valores numericos como strings, dado que los montos se formatean
+        //sin el primer cero cuando son menores a 1 (por ejemplo .57), se esta agregando el primer cero para resolver
+        //el caso de recepcion con sunat. Si el tag no tiene el sufijo monto entonces se debe arreglar en la capa de
+        //aplicacion o formatear en la capa de datos.
+        if ($tag==='monto' && starts_with($value, '.')) {
+            $value = '0'.$value;
+        }
+        $current_holder[$tag] = Encoding::toUTF8(trim_to_null($value));
+        
         $i++;
     }
     
