@@ -58,3 +58,4 @@ xmlsec/*/obj/**
 xmlsec/.vs/SunatCPE/v14/.suo
 
 xmlsec/SunatCPE.userprefs
+fel-php-core/composer.phar
