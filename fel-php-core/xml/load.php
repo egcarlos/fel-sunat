@@ -5,8 +5,15 @@ require_once dirname(__FILE__) . '/../vendor/autoload.php';
 require_once dirname(__FILE__) . '/../include/DB/doctrine.php';
 require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 
-function load_document ($id, $env, $conn) {
+function load_document ($id, $env) {
+    if (is_null($id) || is_null($env)) {
+        return null;
+    }
+    
+    $conn = db_connect();
+
     $id_map = preg_split('/-/', $id);
+    //TODO reparar el error cuando el id no esta completo
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
 
     if ($id_map[1]==='01' || $id_map[1]==='03'){
@@ -38,13 +45,13 @@ function to_ubl ($id, $document) {
     }
 }
 
-$conn = db_connect();
+
 //20100286981-01-F001-1&env=dev
-$id = '20100286981-01-F001-1';
-$env = 'dev';
-//$id = $_REQUEST["name"];
-//$env = $_REQUEST["env"];
-$document = load_document($id, $env, $conn);
+//$id = '20100286981-01-F001-1';
+//$env = 'dev';
+$id = array_key_exists('name', $_REQUEST) ? $_REQUEST["name"] : null;
+$env = array_key_exists('env', $_REQUEST) ? $_REQUEST["env"] : null;
+$document = load_document($id, $env);
 if (is_null($document)) {
     Header('Content-type: text/xml; charset=iso-8859-1');
     ?>

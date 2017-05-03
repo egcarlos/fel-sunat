@@ -25,10 +25,10 @@ function db_load_document($enviroment, $id, $conn, $type, $core, $related) {
     $query   = load_query($type, $core);
     $mapping = load_maping($type, $core);
     $rows = $conn->fetchAll($query, $params);
-    $row = $rows[0];
-    if (is_null($row)) {
+    if (! array_key_exists(0, $rows)) {
         return null;
     }
+    $row = $rows[0];
     $document = expand_row($mapping, $row);
     foreach ($related as $idx => $data_group) {
         $query   = load_query($type, $data_group);

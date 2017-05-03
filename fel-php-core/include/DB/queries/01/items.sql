@@ -3,17 +3,17 @@ SELECT
 	[item_codigo],
 	[item_nombre],
 	[item_unidad],
-	[item_cantidad],
-	[valor_unitario],
-	[valor_descuento],
-	[valor_venta],
-	[precio_unitario_facturado],
-	[precio_unitario_referencial],
-	[impuesto_igv_monto],
+	CAST([item_cantidad] AS NUMERIC (12,3)) AS [item_cantidad],
+	CAST([valor_unitario] AS NUMERIC (15,2)) AS [valor_unitario],
+	CAST([valor_descuento] AS NUMERIC (15,2)) AS [valor_descuento],
+	CAST([valor_venta] AS NUMERIC (15,2)) AS [valor_venta],
+	CAST([precio_unitario_facturado] AS NUMERIC (15,2)) AS [precio_unitario_facturado],
+	CAST([precio_unitario_referencial] AS NUMERIC (15,2)) AS [precio_unitario_referencial],
+	CAST([impuesto_igv_monto] AS NUMERIC (15,2)) AS [impuesto_igv_monto],
 	[impuesto_igv_codigo],
-	[impuesto_isc_monto],
+	CAST([impuesto_isc_monto] AS NUMERIC (15,2)) AS [impuesto_isc_monto],
 	[impuesto_isc_codigo],
-	[impuesto_oth_monto]
+	CAST([impuesto_oth_monto] AS NUMERIC (15,2)) AS [impuesto_oth_monto]
 FROM
 	[t_factura_item]
 WHERE
