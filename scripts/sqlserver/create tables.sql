@@ -40,7 +40,27 @@ GO
 IF OBJECT_ID('[dbo].[m_ajustes_ambiente]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_ajustes_ambiente]
 GO
 
+IF OBJECT_ID('[dbo].[m_ubigeo]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_ubigeo]
+GO
+
 USE [fel_sunat]
+GO
+
+CREATE TABLE [dbo].[m_ubigeo](
+    [ubigeo_id] [nvarchar](6) NOT NULL,
+    [departamento] [nvarchar](250) NULL,
+    [provincia] [nvarchar](250) NULL,
+    [distrito] [nvarchar](250) NULL,
+    CONSTRAINT [PK_m_ubigeo] PRIMARY KEY CLUSTERED (
+        [ubigeo_id] ASC
+    ) WITH (
+        PAD_INDEX  = OFF,
+        STATISTICS_NORECOMPUTE  = OFF,
+        IGNORE_DUP_KEY = OFF,
+        ALLOW_ROW_LOCKS  = ON,
+        ALLOW_PAGE_LOCKS  = ON
+    ) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[m_ajustes_ambiente](
