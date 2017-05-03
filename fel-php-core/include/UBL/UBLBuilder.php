@@ -283,7 +283,7 @@ class InvoiceBuilder extends UBLBuilder {
                 ->reset()
             ;
         //
-        //AGREGAR DATOS DE ANTICIPOS DEVENGADOS
+        //TODO AGREGAR DATOS DE ANTICIPOS DEVENGADOS
         //
         foreach($impuestos as $idx => $impuesto) {
             $this
@@ -301,7 +301,7 @@ class InvoiceBuilder extends UBLBuilder {
 
         }
         $this->append_fw('cac:LegalMonetaryTotal');
-        //TODO cambiar por un metodo de append amount para controlar los casos de '.00'
+        
         if (isset($data['total']['lineas']))    $this->append_amount('cbc:LineExtensionAmount',  $data['total']['lineas'])    ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['descuento'])) $this->append_amount('cbc:AllowanceTotalAmount', $data['total']['descuento']) ->attribute('currencyID',$data['documento']['moneda']);
         if (isset($data['total']['cargo']))     $this->append_amount('cbc:ChargeTotalAmount',    $data['total']['cargo'])   ->attribute('currencyID',$data['documento']['moneda']);

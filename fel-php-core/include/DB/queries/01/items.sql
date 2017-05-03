@@ -17,7 +17,7 @@ SELECT
 FROM
 	[t_factura_item]
 WHERE
-    [factura_serie_numero] = :documento_serie_numero AND
-    [emisor_documento_tipo] = :emisor_documento_tipo AND
-    [factura_tipo_documento] = :documento_tipo AND
-    [emisor_documento_numero] = :emisor_documento_numero
+    [t_ambiente_id] = :t_ambiente_id AND
+    [t_documento_id] = :t_documento_id
+ORDER BY
+	[item_id] ASC

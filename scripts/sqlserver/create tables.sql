@@ -7,6 +7,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+IF OBJECT_ID('[dbo].[t_factura_item]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura_item]
+GO
+
+IF OBJECT_ID('[dbo].[t_factura_impuestos]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura_impuestos]
+GO
+
 IF OBJECT_ID('[dbo].[t_factura_montos]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura_montos]
 GO
 
@@ -41,9 +47,6 @@ IF OBJECT_ID('[dbo].[m_ajustes_ambiente]', 'U') IS NOT NULL  DROP TABLE [dbo].[m
 GO
 
 IF OBJECT_ID('[dbo].[m_ubigeo]', 'U') IS NOT NULL  DROP TABLE [dbo].[m_ubigeo]
-GO
-
-USE [fel_sunat]
 GO
 
 CREATE TABLE [dbo].[m_ubigeo](
@@ -225,14 +228,19 @@ CREATE TABLE [dbo].[t_retencion_detalle](
 	[tipo_cambio_moneda_destino]        nvarchar (3)    NOT NULL,
 	[tipo_cambio_tasa]                  numeric  (18,6) NOT NULL,
 	[tipo_cambio_fecha]                 datetime        NOT NULL,
- CONSTRAINT [PK_t_retencion_detalle] PRIMARY KEY CLUSTERED 
-(
-	[t_ambiente_id] ASC,
-	[t_documento_id] ASC,
-	[referencia_documento_tipo] ASC,
-	[referencia_documento_serie_numero] ASC,
-	[pago_numero] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	CONSTRAINT [PK_t_retencion_detalle] PRIMARY KEY CLUSTERED (
+		[t_ambiente_id] ASC,
+		[t_documento_id] ASC,
+		[referencia_documento_tipo] ASC,
+		[referencia_documento_serie_numero] ASC,
+		[pago_numero] ASC
+	) WITH (
+		PAD_INDEX  = OFF,
+		STATISTICS_NORECOMPUTE  = OFF,
+		IGNORE_DUP_KEY = OFF,
+		ALLOW_ROW_LOCKS  = ON,
+		ALLOW_PAGE_LOCKS  = ON
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
@@ -345,7 +353,7 @@ ALTER TABLE [dbo].[t_factura]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_X_t_docu
 REFERENCES [dbo].[t_documento] ([t_ambiente_id], [t_documento_id])
 GO
 
-ALTER TABLE [dbo].[t_retencion] CHECK CONSTRAINT [FK_t_retencion_X_t_documento]
+ALTER TABLE [dbo].[t_factura] CHECK CONSTRAINT [FK_t_factura_X_t_documento]
 GO
 
 CREATE TABLE [dbo].[t_factura_notas] (
@@ -403,4 +411,71 @@ REFERENCES [dbo].[t_factura] ([t_ambiente_id], [t_documento_id])
 GO
 
 ALTER TABLE [dbo].[t_factura_montos] CHECK CONSTRAINT [FK_t_factura_montos_X_t_factura]
+GO
+
+CREATE TABLE [dbo].[t_factura_impuestos] (
+    [t_ambiente_id]   nvarchar (20)    NOT NULL,
+    [t_documento_id]  nvarchar (50)    NOT NULL,
+    [impuesto_id]     nvarchar (20)    NOT NULL,
+	[impuesto_nombre] nvarchar (50)    NULL,
+	[impuesto_codigo] nvarchar (50)    NULL,
+	[impuesto_monto]  numeric  (18, 6)
+    CONSTRAINT [PK_t_factura_impuestos] PRIMARY KEY CLUSTERED (
+        [t_ambiente_id] ASC,
+        [t_documento_id] ASC,
+        [impuesto_id] ASC
+    ) WITH (
+        PAD_INDEX  = OFF,
+        STATISTICS_NORECOMPUTE  = OFF,
+        IGNORE_DUP_KEY = OFF,
+        ALLOW_ROW_LOCKS  = ON,
+        ALLOW_PAGE_LOCKS  = ON
+    ) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_factura_impuestos]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_impuestos_X_t_factura] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_factura] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_factura_impuestos] CHECK CONSTRAINT [FK_t_factura_impuestos_X_t_factura]
+GO
+
+CREATE TABLE [dbo].[t_factura_item] (
+    [t_ambiente_id]               nvarchar (20)    NOT NULL,
+    [t_documento_id]              nvarchar (50)    NOT NULL,
+    [item_id]                     numeric  (6,0)   NOT NULL,
+	[item_codigo]                 nvarchar (50),
+	[item_nombre]                 nvarchar (4000),
+	[item_unidad]                 nvarchar (20),
+	[item_cantidad]               numeric  (18, 6),
+	[valor_unitario]              numeric  (18, 6),
+	[valor_descuento]             numeric  (18, 6),
+	[valor_venta]                 numeric  (18, 6),
+	[precio_unitario_facturado]   numeric  (18, 6),
+	[precio_unitario_referencial] numeric  (18, 6),
+	[impuesto_igv_monto]          numeric  (18, 6),
+	[impuesto_igv_codigo]         nvarchar (2),
+	[impuesto_isc_monto]          numeric  (18, 6),
+	[impuesto_isc_codigo]         nvarchar (2),
+	[impuesto_oth_monto]          numeric  (18, 6),
+    CONSTRAINT [PK_t_factura_item] PRIMARY KEY CLUSTERED (
+        [t_ambiente_id] ASC,
+        [t_documento_id] ASC,
+        [item_id] ASC
+    ) WITH (
+        PAD_INDEX  = OFF,
+        STATISTICS_NORECOMPUTE  = OFF,
+        IGNORE_DUP_KEY = OFF,
+        ALLOW_ROW_LOCKS  = ON,
+        ALLOW_PAGE_LOCKS  = ON
+    ) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_factura_item]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_item_X_t_factura] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_factura] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_factura_item] CHECK CONSTRAINT [FK_t_factura_item_X_t_factura]
 GO

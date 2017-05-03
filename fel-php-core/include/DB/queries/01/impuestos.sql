@@ -1,12 +1,10 @@
 SELECT
-	[impuesto_id],
-	[impuesto_nombre],
-	[impuesto_codigo],
-	[impuesto_monto]
-  FROM
-	[t_factura_impuestos]
+    [impuesto_id],
+    [impuesto_nombre],
+    [impuesto_codigo],
+    CAST([impuesto_monto] AS NUMERIC(15,2)) as [impuesto_monto]
+FROM
+    [t_factura_impuestos]
 WHERE
-    [factura_serie_numero] = :documento_serie_numero AND
-    [emisor_documento_tipo] = :emisor_documento_tipo AND
-    [factura_tipo_documento] = :documento_tipo AND
-    [emisor_documento_numero] = :emisor_documento_numero
+    [t_ambiente_id] = :t_ambiente_id AND
+    [t_documento_id] = :t_documento_id
