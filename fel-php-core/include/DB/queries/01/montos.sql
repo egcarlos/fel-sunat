@@ -1,14 +1,12 @@
 SELECT
 	[monto_id],
-	[monto_nombre],
-	[monto_valor_referencia],
-	[monto_valor_pagable],
-	[monto_valor_total],
-	[monto_porcentaje]
+	CAST([monto_nombre] AS NUMERIC(15,2)) as [monto_nombre],
+	CAST([monto_valor_referencia] AS NUMERIC(15,2)) as [monto_valor_referencia],
+	CAST([monto_valor_pagable] AS NUMERIC(15,2)) as [monto_valor_pagable],
+	CAST([monto_valor_total] AS NUMERIC(15,2)) as [monto_valor_total],
+	CAST([monto_porcentaje] AS NUMERIC(15,2)) as [monto_porcentaje]
 FROM
 	[t_factura_montos]
 WHERE
-    [factura_serie_numero] = :documento_serie_numero AND
-    [emisor_documento_tipo] = :emisor_documento_tipo AND
-    [factura_tipo_documento] = :documento_tipo AND
-    [emisor_documento_numero] = :emisor_documento_numero
+    [t_ambiente_id] = :t_ambiente_id AND
+    [t_documento_id] = :t_documento_id

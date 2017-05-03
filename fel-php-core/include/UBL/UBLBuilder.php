@@ -41,6 +41,27 @@ abstract class UBLBuilder {
         return $this;
     }
 
+    function starts_with($haystack, $needle) {
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    function ends_with($haystack, $needle) {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+        return (substr($haystack, -$length) === $needle);
+    }
+
+    function append_amount($element, $value) {
+        if ($this->starts_with($value, '.')) {
+            $value = '0' . $value;
+        }
+        $this->append($element, $value, false);
+        return $this;
+    }
+
     function append($element, $value=NULL, $cdata=false) {
         $node = NULL;
         if ($cdata) {
@@ -101,10 +122,10 @@ abstract class UBLBuilder {
 class InvoiceBuilder extends UBLBuilder {
 
     function __construct($data, $dsSignature = false) {
-        $montos = $data['montos'];
-        $notas = $data['notas'];
-        $impuestos = $data['impuestos'];
-        $items = $data['items'];
+        $montos = array_key_exists('montos', $data) ? $data['montos'] : array();
+        $notas = array_key_exists('notas', $data) ? $data['notas'] : array();
+        $impuestos = array_key_exists('impuestos', $data) ? $data['impuestos'] : array();
+        $items = array_key_exists('items', $data) ? $data['items'] : array();
         $this->namespaces = [
             'cac'  => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
             'cbc'  => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -129,18 +150,28 @@ class InvoiceBuilder extends UBLBuilder {
                     ->append_fw('ext:ExtensionContent')
                         ->append_fw('sac:AdditionalInformation');
         foreach ($montos as $key => $monto) {
-            $this           ->append_fw('sac:AdditionalMonetaryTotal')
-                                ->append('cbc:ID', $monto['id'])
-                                ->append_nnv('cbc:Name', $monto['nombre']);
+            $this
+                ->append_fw('sac:AdditionalMonetaryTotal')
+                    ->append('cbc:ID', $monto['id'])
+                    ->append_nnv('cbc:Name', $monto['nombre']);
             if (isset($monto['valor']['referencia'])) {
-                $this           ->append_nnv('sac:ReferenceAmount', $monto['valor']['referencia'])->attribute('currencyID', $data['documento']['moneda']);
+                $this
+                    ->append_amount('sac:ReferenceAmount', $monto['valor']['referencia'])->attribute('currencyID', $data['documento']['moneda']);
             }
-            $this               ->append('cbc:PayableAmount', $monto['valor']['pagable'])->attribute('currencyID', $data['documento']['moneda']);
-            $this               ->append_nnv('cbc:Percent', $monto['porcentaje']);
+            if (isset($monto['valor']['pagable'])) {
+                $this
+                    ->append_amount('cbc:PayableAmount', $monto['valor']['pagable'])->attribute('currencyID', $data['documento']['moneda']);
+            }
+            if (isset($monto['porcentaje'])) {
+                $this
+                    ->append_amount('cbc:Percent', $monto['porcentaje']);
+            }
             if (isset($monto['valor']['total'])) {
-                $this           ->append_nnv('sac:TotalAmount', $monto['valor']['total'])->attribute('currencyID', $data['documento']['moneda']);
+                $this
+                    ->append_amount('sac:TotalAmount', $monto['valor']['total'])->attribute('currencyID', $data['documento']['moneda']);
             }
-            $this           ->pop();
+            $this
+                ->pop();
         }
         foreach ($notas as $key => $nota) {
             $this           ->append_fw('sac:AdditionalProperty')
@@ -270,11 +301,12 @@ class InvoiceBuilder extends UBLBuilder {
 
         }
         $this->append_fw('cac:LegalMonetaryTotal');
-        if (isset($data['total']['lineas']))    $this->append('cbc:LineExtensionAmount',  $data['total']['lineas'])    ->attribute('currencyID',$data['documento']['moneda']);
-        if (isset($data['total']['descuento'])) $this->append('cbc:AllowanceTotalAmount', $data['total']['descuento']) ->attribute('currencyID',$data['documento']['moneda']);
-        if (isset($data['total']['cargo']))     $this->append('cbc:ChargeTotalAmount',    $data['total']['cargo'])     ->attribute('currencyID',$data['documento']['moneda']);
-        if (isset($data['total']['prepagado'])) $this->append('cbc:PrepaidAmount',        $data['total']['prepagado']) ->attribute('currencyID',$data['documento']['moneda']);
-        if (isset($data['total']['pagable']))   $this->append('cbc:PayableAmount',        $data['total']['pagable'])   ->attribute('currencyID',$data['documento']['moneda']);
+        //TODO cambiar por un metodo de append amount para controlar los casos de '.00'
+        if (isset($data['total']['lineas']))    $this->append_amount('cbc:LineExtensionAmount',  $data['total']['lineas'])    ->attribute('currencyID',$data['documento']['moneda']);
+        if (isset($data['total']['descuento'])) $this->append_amount('cbc:AllowanceTotalAmount', $data['total']['descuento']) ->attribute('currencyID',$data['documento']['moneda']);
+        if (isset($data['total']['cargo']))     $this->append_amount('cbc:ChargeTotalAmount',    $data['total']['cargo'])   ->attribute('currencyID',$data['documento']['moneda']);
+        if (isset($data['total']['prepagado'])) $this->append_amount('cbc:PrepaidAmount',        $data['total']['prepagado']) ->attribute('currencyID',$data['documento']['moneda']);
+        if (isset($data['total']['pagable']))   $this->append_amount('cbc:PayableAmount',        $data['total']['pagable'])   ->attribute('currencyID',$data['documento']['moneda']);
         
         foreach($items as $idx => $item) {
             $this->reset()

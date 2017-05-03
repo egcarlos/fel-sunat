@@ -7,6 +7,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+IF OBJECT_ID('[dbo].[t_factura_montos]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura_montos]
+GO
+
+IF OBJECT_ID('[dbo].[t_factura_notas]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura_notas]
+GO
+
+IF OBJECT_ID('[dbo].[t_factura]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_factura]
+GO
+
 IF OBJECT_ID('[dbo].[t_retencion_detalle]', 'U') IS NOT NULL  DROP TABLE [dbo].[t_retencion_detalle]
 GO
 
@@ -279,4 +288,99 @@ ALTER TABLE [dbo].[t_baja_detalle] WITH CHECK
 		[t_ambiente_id],
 		[t_documento_id]
 	)
+GO
+
+CREATE TABLE [dbo].[t_factura](
+	[t_ambiente_id]                  nvarchar (20)    NOT NULL,
+	[t_documento_id]                 nvarchar (50)    NOT NULL,
+	[factura_fecha_emision]          datetime         NOT NULL,
+	[factura_tipo_transaccion]       nvarchar (2)     NULL,
+	[factura_moneda]                 nvarchar (3)     NULL,
+	[total_lineas]                   numeric  (18, 6) NULL,
+	[total_descuento]                numeric  (18, 6) NULL,
+	[total_cargo]                    numeric  (18, 6) NULL,
+	[total_prepagado]                numeric  (18, 6) NULL,
+	[total_pagable]                  numeric  (18, 6) NULL,
+	[cliente_documento_tipo]         nvarchar (1)     NULL,
+	[cliente_documento_numero]       nvarchar (11)    NULL,
+	[cliente_razon_social]           nvarchar (100)   NULL,
+	[cliente_nombre_comercial]       nvarchar (100)   NULL,
+	[cliente_ubicacion_pais]         nvarchar (2)     NULL,
+	[cliente_ubicacion_departamento] nvarchar (50)    NULL,
+	[cliente_ubicacion_provincia]    nvarchar (50)    NULL,
+	[cliente_ubicacion_distrito]     nvarchar (50)    NULL,
+	[cliente_ubicacion_urbanizacion] nvarchar (250)   NULL,
+	[cliente_ubicacion_direccion]    nvarchar (250)   NULL,
+	[cliente_ubicacion_ubigeo]       nvarchar (6)     NULL,
+ CONSTRAINT [PK_t_factura] PRIMARY KEY CLUSTERED 
+(
+	[t_ambiente_id] ASC,
+	[t_documento_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[t_factura]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_X_t_documento] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_documento] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_retencion] CHECK CONSTRAINT [FK_t_retencion_X_t_documento]
+GO
+
+CREATE TABLE [dbo].[t_factura_notas] (
+	[t_ambiente_id]  nvarchar (20)   NOT NULL,
+	[t_documento_id] nvarchar (50)   NOT NULL,
+	[nota_id]        nvarchar (20)   NOT NULL,
+	[nota_nombre]    nvarchar (50)   NULL,
+	[nota_valor]     nvarchar (2000) NULL,
+    CONSTRAINT [PK_t_factura_notas] PRIMARY KEY CLUSTERED (
+        [t_ambiente_id] ASC,
+        [t_documento_id] ASC,
+        [nota_id] ASC
+    ) WITH (
+        PAD_INDEX  = OFF,
+        STATISTICS_NORECOMPUTE  = OFF,
+        IGNORE_DUP_KEY = OFF,
+        ALLOW_ROW_LOCKS  = ON,
+        ALLOW_PAGE_LOCKS  = ON
+    ) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_factura_notas]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_notas_X_t_factura] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_factura] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_factura_notas] CHECK CONSTRAINT [FK_t_factura_notas_X_t_factura]
+GO
+
+CREATE TABLE [dbo].[t_factura_montos] (
+    [t_ambiente_id]          nvarchar (20)   NOT NULL,
+    [t_documento_id]         nvarchar (50)   NOT NULL,
+    [monto_id]               nvarchar (20)   NOT NULL,
+	[monto_nombre]           nvarchar (50),
+	[monto_valor_referencia] numeric (18, 6),
+	[monto_valor_pagable]    numeric (18, 6),
+	[monto_valor_total]      numeric (18, 6),
+	[monto_porcentaje]       numeric (5, 2)
+    CONSTRAINT [PK_t_factura_montos] PRIMARY KEY CLUSTERED (
+        [t_ambiente_id] ASC,
+        [t_documento_id] ASC,
+        [monto_id] ASC
+    ) WITH (
+        PAD_INDEX  = OFF,
+        STATISTICS_NORECOMPUTE  = OFF,
+        IGNORE_DUP_KEY = OFF,
+        ALLOW_ROW_LOCKS  = ON,
+        ALLOW_PAGE_LOCKS  = ON
+    ) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_factura_montos]  WITH CHECK ADD  CONSTRAINT [FK_t_factura_montos_X_t_factura] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_factura] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_factura_montos] CHECK CONSTRAINT [FK_t_factura_montos_X_t_factura]
 GO

@@ -1,13 +1,16 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 require_once dirname(__FILE__) . '/../include/DB/doctrine.php';
 require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
 
 function load_document ($id, $env, $conn) {
-    $id_map = split('-', $id);
+    $id_map = preg_split('/-/', $id);
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
 
     if ($id_map[1]==='01' || $id_map[1]==='03'){
+        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas']);
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
         //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
@@ -21,7 +24,7 @@ function load_document ($id, $env, $conn) {
 }
 
 function to_ubl ($id, $document) {
-    $id_map = split('-', $id);
+    $id_map = preg_split('/-/', $id);
     if ($id_map[1]==='01' || $id_map[1]==='03'){
         return new InvoiceBuilder($document, false);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
@@ -36,8 +39,11 @@ function to_ubl ($id, $document) {
 }
 
 $conn = db_connect();
-$id = $_REQUEST["name"];
-$env = $_REQUEST["env"];
+//20100286981-01-F001-1&env=dev
+$id = '20100286981-01-F001-1';
+$env = 'dev';
+//$id = $_REQUEST["name"];
+//$env = $_REQUEST["env"];
 $document = load_document($id, $env, $conn);
 if (is_null($document)) {
     Header('Content-type: text/xml; charset=iso-8859-1');
