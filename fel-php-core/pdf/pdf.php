@@ -1,0 +1,48 @@
+<?php
+require_once(dirname(__FILE__).'/../include/twig/pdf.php');
+date_default_timezone_set('America/Lima');
+header("Content-type:application/pdf");
+
+function load_document ($id, $env) {
+    if (is_null($id) || is_null($env)) {
+        return null;
+    }
+    
+    $conn = db_connect();
+
+    $id_map = preg_split('/-/', $id);
+    //TODO reparar el error cuando el id no esta completo
+    $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
+
+    if ($id_map[1]==='01' || $id_map[1]==='03'){
+        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+        //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+    } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
+        //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
+    } elseif ($id_map[1]==='20') {
+        return db_load_document($env, $id, $conn, '20', 'select', ['items']);
+    } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
+        //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
+    } elseif ($id_map[1]==='RC') {
+        //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
+    }
+}
+
+$id  = $_REQUEST['name'];
+$env = $_REQUEST['env'];
+
+if (is_null($id) || is_null($env)) {
+    $rendered = $twig->render('default/not_found.twig');
+} else {
+    $document = array();
+
+    //TODO cargar el logo
+
+    $rendered = $twig->render('default/20.twig', $document);
+}
+
+
+$html2pdf = new HTML2PDF('P', 'A4', 'es', true, 'UTF-8', 3);
+$html2pdf->pdf->SetDisplayMode('fullpage');
+$html2pdf->writeHTML($rendered);
+$html2pdf->Output($_REQUEST['name'].'.pdf');
