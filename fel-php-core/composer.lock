@@ -41,10 +41,6 @@
                 }
             ],
             "description": "Overcomes a few common annoyances with the DOMDocument class",
-            "support": {
-                "source": "https://bitbucket.org/archon810/smartdomdocument/src/fd4c92a8e1fac4ce9a89b54ad1a6beafbda27fd9/?at=master",
-                "issues": "https://bitbucket.org/archon810/smartdomdocument/issues"
-            },
             "time": "2015-11-03T17:23:49+00:00"
         },
         {

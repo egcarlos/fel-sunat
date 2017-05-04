@@ -1,0 +1,35 @@
+<table style="width: 100%" cellspacing="0">
+    {% if not respuesta.mensaje is null %}
+    <tr>
+        <td colspan="2">
+            <div style="width:100%"><strong>MENSAJE DE SUNAT:</strong>{{ respuesta.mensaje }}</div>
+            <br />
+            <br />
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td style="width:50%;font-size:11;">
+            <span>COMPROBANTE ELECTRÓNICO {{ id }}</span><br/>
+            {% if not respuesta.firma is null %}
+            <span>Código de seguridad (hash): {{ respuesta.firma }}</span><br/>
+            {% endif %}
+            <span>Autorizado mediante
+                {% block sunat_ri %}
+                    FILL ME BY CLIENT
+                {% endblock %}
+            </span><br/>
+            <span>Consulte su comprobante en</span>
+            {% block url_consulta %}
+                FILL ME BY CLIENT
+            {% endblock %}
+            <br/>
+            <span>Página [[page_cu]] de [[page_nb]]</span>
+        </td>
+        {% if not respuesta.pdf417 is null %}
+        <td style="width:50%;font-size:11;">
+            <img src="{{ respuesta.pdf417 }}" />            
+        </td>
+        {% endif %}
+    </tr>
+</table>

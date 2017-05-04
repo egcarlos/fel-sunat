@@ -1,7 +1,8 @@
 <?php
 require_once(dirname(__FILE__).'/../include/twig/pdf.php');
+require_once(dirname(__FILE__).'/../include/DB/doctrine.php');
 date_default_timezone_set('America/Lima');
-header("Content-type:application/pdf");
+//header("Content-type:application/pdf");
 
 function load_document ($id, $env) {
     if (is_null($id) || is_null($env)) {
@@ -34,13 +35,22 @@ $env = $_REQUEST['env'];
 if (is_null($id) || is_null($env)) {
     $rendered = $twig->render('default/not_found.twig');
 } else {
-    $document = array();
-
-    //TODO cargar el logo
-
-    $rendered = $twig->render('default/20.twig', $document);
+    $document = load_document ($id, $env);
+    if (is_null($document)) {
+        $rendered = $twig->render('default/not_found.twig');
+    } else {
+        $id_map = preg_split('/-/', $id);
+        //usado para el ruteo de los templates
+        $document['id'] = $id;
+        $document['spec'] = $id_map[0];
+        $document['type'] = $id_map[1];
+        //para escribir correctamente la cabecera
+        $document['documento']['tipo'] = $id_map[1];
+        //procesa el template broker que se encarga de navegar el esquema de plantillas
+        $rendered = $twig->render('default.twig', $document);
+        
+    }
 }
-
 
 $html2pdf = new HTML2PDF('P', 'A4', 'es', true, 'UTF-8', 3);
 $html2pdf->pdf->SetDisplayMode('fullpage');
