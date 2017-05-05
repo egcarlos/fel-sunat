@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__).'/../include/twig/pdf.php');
 require_once(dirname(__FILE__).'/../include/DB/doctrine.php');
+require_once dirname(__FILE__) . '/NumberToText.php';
 date_default_timezone_set('America/Lima');
 //header("Content-type:application/pdf");
 
@@ -44,6 +45,13 @@ if (is_null($id) || is_null($env)) {
         $document['id'] = $id;
         $document['spec'] = $id_map[0];
         $document['type'] = $id_map[1];
+
+        //monto total en letras segun el tipo de documento
+        if ($document['type'] == '20') {
+            $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($documento['retencion']['total']['retencion']['monto'],"")); 
+
+        }
+
         //para escribir correctamente la cabecera
         $document['documento']['tipo'] = $id_map[1];
         //procesa el template broker que se encarga de navegar el esquema de plantillas

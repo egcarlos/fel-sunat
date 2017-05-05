@@ -1,0 +1,6 @@
+{% macro fel_document_currency_text(name) %}
+    {% if name == 'PEN' %}S/{% elseif name == 'USD' %}US${% endif %}
+{% endmacro %}
+{% macro iif(test, a, b) %}
+    {% if test %}{{a}}{% else %}{{b}}{% endif %}
+{% endmacro %}
