@@ -3,7 +3,7 @@ require_once(dirname(__FILE__).'/../include/twig/pdf.php');
 require_once(dirname(__FILE__).'/../include/DB/doctrine.php');
 require_once dirname(__FILE__) . '/NumberToText.php';
 date_default_timezone_set('America/Lima');
-//header("Content-type:application/pdf");
+header("Content-type:application/pdf");
 
 function load_document ($id, $env) {
     if (is_null($id) || is_null($env)) {
@@ -15,19 +15,23 @@ function load_document ($id, $env) {
     $id_map = preg_split('/-/', $id);
     //TODO reparar el error cuando el id no esta completo
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
-
+    $document = null;
     if ($id_map[1]==='01' || $id_map[1]==='03'){
-        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+        $document = db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
         //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
     } elseif ($id_map[1]==='20') {
-        return db_load_document($env, $id, $conn, '20', 'select', ['items']);
+        $document = db_load_document($env, $id, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
         //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
         //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
     }
+    if(! is_null($document)) {
+        $document['respuesta'] = $conn->fetchAssoc("SELECT sunat_mensaje, firma_hash, firma_valor FROM t_documento where t_ambiente_id = ? and t_documento_id = ?", array($env, $id));
+    }
+    return $document;
 }
 
 $id  = $_REQUEST['name'];
