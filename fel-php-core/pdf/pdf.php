@@ -29,6 +29,18 @@ function load_document ($id, $env) {
         //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
     }
     if(! is_null($document)) {
+        //usado para el ruteo de los templates
+        $document['id'] = $id;
+        $document['spec'] = $id_map[0];
+        $document['type'] = $id_map[1];
+
+        //monto total en letras segun el tipo de documento
+        if ($document['type'] == '20') {
+            $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
+
+        }
+
+        //respuesta de sunat
         $document['respuesta'] = $conn->fetchAssoc("SELECT sunat_mensaje, firma_hash, firma_valor FROM t_documento where t_ambiente_id = ? and t_documento_id = ?", array($env, $id));
     }
     return $document;
@@ -44,23 +56,10 @@ if (is_null($id) || is_null($env)) {
     if (is_null($document)) {
         $rendered = $twig->render('default/not_found.twig');
     } else {
-        $id_map = preg_split('/-/', $id);
-        //usado para el ruteo de los templates
-        $document['id'] = $id;
-        $document['spec'] = $id_map[0];
-        $document['type'] = $id_map[1];
-
-        //monto total en letras segun el tipo de documento
-        if ($document['type'] == '20') {
-            $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($documento['retencion']['total']['retencion']['monto'],"")); 
-
-        }
-
         //para escribir correctamente la cabecera
         $document['documento']['tipo'] = $id_map[1];
         //procesa el template broker que se encarga de navegar el esquema de plantillas
         $rendered = $twig->render('default.twig', $document);
-        
     }
 }
 
