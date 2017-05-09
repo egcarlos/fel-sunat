@@ -2,7 +2,7 @@
     {% if not respuesta.sunat_mensaje is null %}
     <tr>
         <td colspan="2">
-            <div style="width:100%"><strong>MENSAJE DE SUNAT:</strong> <span>{{ respuesta.sunat_mensaje }}</span></div>
+            <div style="width:100%"><strong>MENSAJE DE SUNAT:</strong> <span>{{ respuesta.sunat_mensaje|replace('/codigo/', '') }}</span></div>
             <br />
             <br />
         </td>

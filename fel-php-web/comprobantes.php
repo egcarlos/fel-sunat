@@ -24,27 +24,34 @@ if ($_REQUEST['action']==='list') {
 
     $connection = db_connect();
 
-    $queryString = "
-        select
-            C.emisor_documento_numero + '-20-' + C.retencion_serie_numero as [id],
-            C.emisor_documento_numero as [issuer],
-            C.retencion_serie_numero as [document],
-            C.retencion_total_retenido_monto as [amount]
-        from
-            t_retencion C 
-        inner join
-            t_retencion_detalle D on
-                c.emisor_documento_tipo = d.emisor_documento_tipo
-                and c.emisor_documento_numero = d.emisor_documento_numero
-                and c.retencion_serie_numero = d.retencion_serie_numero
-        where
-            C.proveedor_documento_numero = ? and
-            dbo.FIX_SERIAL_NUMBER(D.referencia_documento_serie_numero) = dbo.FIX_SERIAL_NUMBER(?) and
-            D.referencia_documento_fecha = ? and
-            D.referencia_total_factura_monto = ?
-    ";
+    $provider = $_REQUEST['RUC'];
 
-    $list = $connection -> fetchAll($queryString, [$query['provider'], $query['document'], $query['date'], $query['amount']]);
+    $queryString = "select ";
+    $queryString .= "    D.[t_documento_id] as [id], ";
+    $queryString .= "    E.[documento_numero] as [issuer], ";
+    $queryString .= "    D.[comprobante_serie] + '-' + RIGHT('00000000' + CAST( D.[comprobante_numero] as VARCHAR), 8) as [document], ";
+    $queryString .= "    R.retencion_total_retenido_monto as [amount] ";
+    $queryString .= "from ";
+    $queryString .= "    [dbo].[t_documento] D ";
+    $queryString .= "inner join ";
+    $queryString .= "    [dbo].[m_emisor] E on ";
+    $queryString .= "    D.[m_emisor_id]  = E.[m_emisor_id] ";
+    $queryString .= "inner join ";
+    $queryString .= "    [dbo].[t_retencion] R on ";
+    $queryString .= "    D.[t_ambiente_id]  = R.[t_ambiente_id] and ";
+    $queryString .= "    D.[t_documento_id] = R.[t_documento_id] ";
+    $queryString .= "inner join ";
+    $queryString .= "    [dbo].[t_retencion_detalle] RD on ";
+    $queryString .= "    D.[t_ambiente_id]  = RD.[t_ambiente_id] and ";
+    $queryString .= "    D.[t_documento_id] = RD.[t_documento_id] ";
+    $queryString .= "where ";
+    $queryString .= "    D.[t_ambiente_id] = 'prod' ";
+    $queryString .= "    and D.[m_receptor_id] = ('6-' + ?) --and ";
+    $queryString .= "    and dbo.FIX_SERIAL_NUMBER(RD.referencia_documento_serie_numero) = dbo.FIX_SERIAL_NUMBER(?) ";
+    $queryString .= "    and RD.referencia_documento_fecha = ? ";
+    $queryString .= "    and RD.referencia_total_factura_monto = ?";
+
+    $list = $connection->fetchAll($queryString, [$query['provider'], $query['document'], $query['date'], $query['amount']]);
 
     $twig->display(
         '20.list.twig',
