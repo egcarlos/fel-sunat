@@ -2,8 +2,21 @@
 require_once(dirname(__FILE__).'/../include/twig/pdf.php');
 require_once(dirname(__FILE__).'/../include/DB/doctrine.php');
 require_once dirname(__FILE__) . '/NumberToText.php';
+//FOR PDF 417 RENDERING
+use BigFish\PDF417\PDF417;
+use BigFish\PDF417\Renderers\ImageRenderer;
+//FOR CORRECT PDF DISPLAY
 date_default_timezone_set('America/Lima');
 header("Content-type:application/pdf");
+
+function render_pdf_417($data) {
+    $pdf417 = new PDF417();
+    $pdf417->setColumns(16);
+    $encoded = $pdf417->encode($data);
+    $renderer = new ImageRenderer(['format'=>'data-url','padding' => 0, 'scale' => 1]);
+    $image = $renderer->render($encoded)->encoded;
+    return $image;
+}
 
 function load_document ($id, $env) {
     if (is_null($id) || is_null($env)) {
@@ -34,14 +47,25 @@ function load_document ($id, $env) {
         $document['spec'] = $id_map[0];
         $document['type'] = $id_map[1];
 
-        //monto total en letras segun el tipo de documento
-        if ($document['type'] == '20') {
-            $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
-
-        }
-
         //respuesta de sunat
         $document['respuesta'] = $conn->fetchAssoc("SELECT sunat_mensaje, firma_hash, firma_valor FROM t_documento where t_ambiente_id = ? and t_documento_id = ?", array($env, $id));
+
+        //monto total en letras segun el tipo de documento
+        if ($document['type'] == '20') {
+            //armado del codigo de barras
+            $codigo_de_barras = $document['documento']['tipo'];
+            $codigo_de_barras .= '|' . $document['documento']['numero'];
+            $codigo_de_barras .= '|0.00';
+            $codigo_de_barras .= '|' . $document['retencion']['total']['retencion']['monto'];
+            $codigo_de_barras .= '|' . $document['documento']['fecha_emision'];
+            $codigo_de_barras .= '|' . $document['proveedor']['documento']['tipo'];
+            $codigo_de_barras .= '|' . $document['proveedor']['documento']['numero'];
+            $codigo_de_barras .= '|' . $document['respuesta']['firma_hash'];
+            $codigo_de_barras .= '|' . $document['respuesta']['firma_valor'];
+            //datos adicionales al documento
+            $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
+            $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
+        }
     }
     return $document;
 }
