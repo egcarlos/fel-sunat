@@ -50,6 +50,12 @@ function load_document ($id, $env) {
         //respuesta de sunat
         $document['respuesta'] = $conn->fetchAssoc("SELECT sunat_mensaje, firma_hash, firma_valor FROM t_documento where t_ambiente_id = ? and t_documento_id = ?", array($env, $id));
 
+        if (! is_null('respuesta') && array_key_exists('sunat_mensaje', $document['respuesta'])) {
+            $mensaje = $document['respuesta']['sunat_mensaje'];
+            $mensaje = preg_replace('/\\s*\\(.+\\)/', '', $mensaje);
+            $document['respuesta']['sunat_mensaje'] = $mensaje;
+        }
+
         //monto total en letras segun el tipo de documento
         if ($document['type'] == '20') {
             //armado del codigo de barras

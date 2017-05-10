@@ -4,10 +4,10 @@ require_once(dirname(__FILE__).'/include/DB/doctrine.php');
 
 if ($_REQUEST['action']==='list') {
     $query = [
-        'provider' => $_REQUEST['RUC'],
-        'document' => $_REQUEST['factura'],
-        'date' => $_REQUEST['fecha'],
-        'amount' => $_REQUEST['monto']
+        'provider' => trim($_REQUEST['RUC']),
+        'document' => trim($_REQUEST['factura']),
+        'date' => trim($_REQUEST['fecha']),
+        'amount' => trim($_REQUEST['monto'])
     ];
     ///INICIA FIX PARA EL FORMATO DE SERIE NUMERO
     $tags = split('-',$query['document']);
@@ -21,6 +21,14 @@ if ($_REQUEST['action']==='list') {
     }
     $query['document'] = $tags[0].'-'.$tags[1];
     ///FIN FIX PARA EL FORMATO DE SERIE NUMERO
+
+    //INICIA FIX EN EL FORMATO DE FECHA
+    $fecha = $query['date'];
+    if (strpos($fecha, '/') > 0) {
+        $fecha = substr($fecha, 6, 4) . '-' . substr($fecha, 3, 2) . '-' . substr($fecha, 0, 2);
+        $query['date'] = $fecha;
+    }
+    //FIN FIX EN EL FORMATO DE FECHA
 
     $connection = db_connect();
 
@@ -46,7 +54,7 @@ if ($_REQUEST['action']==='list') {
     $queryString .= "    D.[t_documento_id] = RD.[t_documento_id] ";
     $queryString .= "where ";
     $queryString .= "    D.[t_ambiente_id] = 'prod' ";
-    $queryString .= "    and D.[m_receptor_id] = ('6-' + ?) --and ";
+    $queryString .= "    and D.[m_receptor_id] = ('6-' + ?) ";
     $queryString .= "    and dbo.FIX_SERIAL_NUMBER(RD.referencia_documento_serie_numero) = dbo.FIX_SERIAL_NUMBER(?) ";
     $queryString .= "    and RD.referencia_documento_fecha = ? ";
     $queryString .= "    and RD.referencia_total_factura_monto = ?";
