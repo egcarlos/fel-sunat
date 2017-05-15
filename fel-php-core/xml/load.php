@@ -1,9 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require_once dirname(__FILE__) . '/../vendor/autoload.php';
-require_once dirname(__FILE__) . '/../include/DB/doctrine.php';
-require_once dirname(__FILE__) . '/../include/UBL/UBLBuilder.php';
+require_once dirname(__FILE__) . '/../../fel-php-commons/include/DB/doctrine.php';
+require_once dirname(__FILE__) . '/../../fel-php-commons/include/UBL/UBLBuilder.php';
 
 function load_document ($id, $env) {
     if (is_null($id) || is_null($env)) {

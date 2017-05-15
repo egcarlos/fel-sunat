@@ -1,7 +1,7 @@
 <?php
-require_once(dirname(__FILE__).'/../include/twig/pdf.php');
-require_once(dirname(__FILE__).'/../include/DB/doctrine.php');
-require_once dirname(__FILE__) . '/NumberToText.php';
+require_once(dirname(__FILE__).'/../../fel-php-commons/include/twig/pdf.php');
+require_once(dirname(__FILE__).'/../../fel-php-commons/include/DB/doctrine.php');
+require_once(dirname(__FILE__).'/../../fel-php-commons/include/tools/numeroLetras.php');
 //FOR PDF 417 RENDERING
 use BigFish\PDF417\PDF417;
 use BigFish\PDF417\Renderers\ImageRenderer;
@@ -71,6 +71,11 @@ function load_document ($id, $env) {
             //datos adicionales al documento
             $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
             $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
+        } elseif ($document['type'] == '01') {
+            //armado del codigo de barras
+            $codigo_de_barras = "reemplazar por el tipo de documento correcto";
+            //datos adicionales al documento
+            $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
         }
     }
     return $document;
@@ -87,7 +92,7 @@ if (is_null($id) || is_null($env)) {
         $rendered = $twig->render('default/not_found.twig');
     } else {
         //para escribir correctamente la cabecera
-        $document['documento']['tipo'] = $id_map[1];
+        $document['documento']['tipo'] = $document['type'];
         //procesa el template broker que se encarga de navegar el esquema de plantillas
         $rendered = $twig->render('default.twig', $document);
     }

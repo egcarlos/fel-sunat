@@ -1,0 +1,7 @@
+{% macro fel_document_currency_text(name) %}
+    {% if name == 'PEN' %}S/{% elseif name == 'USD' %}US${% endif %}
+{% endmacro %}
+{% macro iif(test, a, b) %}
+    {% if test %}{{a}}{% else %}{{b}}{% endif %}
+{% endmacro %}
+{% macro irregular_date(date) %}{{ date|slice(8, 2) }}/{{ date|slice(5, 2) }}/{{ date|slice(0, 4) }}{% endmacro %}

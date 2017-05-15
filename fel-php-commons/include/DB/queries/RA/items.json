@@ -1,0 +1,7 @@
+[
+    "id",
+	"documento.tipo",
+	"documento.serie",
+	"documento.numero",
+	"motivo"
+]
