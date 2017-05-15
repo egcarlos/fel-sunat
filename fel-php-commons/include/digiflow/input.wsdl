@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+    xmlns:tns="http://www.dbnet.cl"
+    xmlns:s="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    targetNamespace="http://www.dbnet.cl"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.dbnet.cl">
+      <s:element name="putCustomerETDLoad">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Extras" type="tns:Extras" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encabezado" type="tns:Encabezado" />
+            <s:element minOccurs="0" maxOccurs="1" name="Detalles" type="tns:ArrayOfDetalle" />
+            <s:element minOccurs="0" maxOccurs="1" name="DescuentosRecargosyOtros" type="tns:DescuentosRecargosyOtros" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Extras">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="EnvioPdf" type="tns:ArrayOfEnvioPdf" />
+          <s:element minOccurs="0" maxOccurs="1" name="Adjuntos" type="tns:ArrayOfAdjuntos" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfEnvioPdf">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="EnvioPdf" nillable="true" type="tns:EnvioPdf" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EnvioPdf">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CamposEnvioPdf" type="tns:CamposEnvioPdf" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CamposEnvioPdf">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="mailEnvio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mailCopia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mailCopiaOculta" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAdjuntos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Adjuntos" nillable="true" type="tns:Adjuntos" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Adjuntos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CamposAdjuntos" type="tns:CamposAdjuntos" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CamposAdjuntos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="lineaReferencia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="nombreAdjunto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="descripcionAdjunto" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Encabezado">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="camposEncabezado" type="tns:CamposHead" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImptoReten" type="tns:ArrayOfImptoReten" />
+          <s:element minOccurs="0" maxOccurs="1" name="DetaDetraccion" type="tns:ArrayOfDetaDetraccion" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CamposHead">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TipoDTE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Serie" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Correlativo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FchEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TpoMoneda" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RUTEmisor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRucEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RznSocEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NomComer" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodiComu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UrbanizaEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProviEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeparEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DistriEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaisEmis" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RUTRecep" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRUTRecep" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RznSocRecep" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepUbigeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecep" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepUrbaniza" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepProvincia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepDpto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepDistrito" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirRecepCodPais" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoAutorizacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sustento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoNotaCredito" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntNeto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntExe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntExo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotGrat" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotBoni" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotalAnticipo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndAgenciaViaje" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndicadorTransfSelva" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndicadorServiciosSelva" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndicadorContratosSelva" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndVentaEmisItinerante" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodRetencion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntImpRetencion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ObsRetencion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntRetencion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotalMenosRetencion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodPercepcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntImpPercepcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ObsPercepcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntPercepcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotalMasPercepcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechVencFact" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntrega" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaUbigeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaUrbaniza" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaProvincia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaDepartamento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaDistrito" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirEntregaCodPais" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParUbiGeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParDireccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParUrbaniza" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParProvincia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParDepart" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParDistrito" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParCodPais" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirlleUbiGeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegDireccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegUrbaniza" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegProvincia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegDepart" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegDistrito" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirllegCodPais" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PlacaVehiculo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CertVehiculo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Marcavehiculo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Licencia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RUCTranspor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRucTrans" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RazoTrans" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ModalidadTransporte" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalPesoBruto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoLocalAnexo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumPlacaVehi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImprDest" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodiSucu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ColaImpresion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfImptoReten">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ImptoReten" nillable="true" type="tns:ImptoReten" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ImptoReten">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoImpuesto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TasaImp" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoImp" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDetaDetraccion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DetaDetraccion" nillable="true" type="tns:DetaDetraccion" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DetaDetraccion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CodiDetra" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValorDetr" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntDetra" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PorcentajeDetra" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MatriculaHidro" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NomEmbHidro" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescEspecieHidro" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LugarDescHidro" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechaDescHidro" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumPlacaMTC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValorReferPreliminar" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoReferencial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoReferPreViaje" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FactorRetorno" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PuntoOrigen" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PuntoDestino" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CargaEfectiva" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoReferVehiculo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConfigVehicular" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CargaUtil" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoReferTMViaje" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDetalle">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Detalle" nillable="true" type="tns:Detalle" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Detalle">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Detalles" type="tns:CamposDetalle" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CamposDetalle">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinDet" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="QtyItem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UnmdItem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VlrCodigo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NmbItem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PrcItem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PrcItemSinIgv" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoItem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescuentoMonto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndExe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoTipoIgv" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TasaIgv" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImpuestoIgv" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoIsc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoTipoIsc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoIsc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TasaIsc" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DescuentosRecargosyOtros">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Descuentos" type="tns:ArrayOfDescuentos" />
+          <s:element minOccurs="0" maxOccurs="1" name="DatosAdicionales" type="tns:ArrayOfDatosAdicionales" />
+          <s:element minOccurs="0" maxOccurs="1" name="Referencias" type="tns:ArrayOfReferencias" />
+          <s:element minOccurs="0" maxOccurs="1" name="Anticipos" type="tns:ArrayOfAnticipos" />
+          <s:element minOccurs="0" maxOccurs="1" name="DatosGuia" type="tns:ArrayOfDatosGuia" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tramo" type="tns:ArrayOfTramo" />
+          <s:element minOccurs="0" maxOccurs="1" name="Conductor" type="tns:ArrayOfConductor" />
+          <s:element minOccurs="0" maxOccurs="1" name="PuertoAeropuerto" type="tns:ArrayOfPuertoAeropuerto" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDescuentos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Descuentos" nillable="true" type="tns:Descuentos" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Descuentos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinDR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TpoMov" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValorDR" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDatosAdicionales">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DatosAdicionales" nillable="true" type="tns:DatosAdicionales" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DatosAdicionales">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TipoAdicSunat" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NmrLineasDetalle" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NmrLineasAdicSunat" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescripcionAdicsunat" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfReferencias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Referencias" nillable="true" type="tns:Referencias" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Referencias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TpoDocRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerieRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FolioRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RucRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechEmisDocRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MntTotalDocRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MonedaDocRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NroOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImporteOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MonedaOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImporteMovimiento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MonedaMovimiento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechaMovimiento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalMovimiento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Moneda" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MonedaReferencia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MonedaObjetivo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoCambio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechTipoCambio" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAnticipos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Anticipos" nillable="true" type="tns:Anticipos" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Anticipos">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MontoAnti" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoDocAnti" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerieAnti" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FolioAnti" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDatosGuia">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DatosGuia" nillable="true" type="tns:DatosGuia" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DatosGuia">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Observaciones" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MotivoTraslado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescTraslado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IndTrasbordo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalPesoTraslado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NroBultos" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IdContenedor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RucTercero" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRucTercero" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RazonTercero" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParUbiGeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirParDireccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirLlegUbiGeo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirLlegDireccion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTramo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tramo" nillable="true" type="tns:Tramo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tramo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinTramo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ModalidadTraslado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechInicioTraslado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RUCTranspor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRucTrans" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RazoTrans" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CertVehiculo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PlacaVehiculo" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfConductor">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Conductor" nillable="true" type="tns:Conductor" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Conductor">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinConductor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConductorNroDocId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConductorTipoDocId" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPuertoAeropuerto">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PuertoAeropuerto" nillable="true" type="tns:PuertoAeropuerto" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PuertoAeropuerto">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NroLinPuertoAerop" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IdPuertoAerop" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NmbPuertoAerop" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoPuertoAerop" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="putCustomerETDLoadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="putCustomerETDLoadResult" type="tns:Mensaje" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Mensaje">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Codigo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensajes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackId" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="putCustomerETDLoadSoapIn">
+    <wsdl:part name="parameters" element="tns:putCustomerETDLoad" />
+  </wsdl:message>
+  <wsdl:message name="putCustomerETDLoadSoapOut">
+    <wsdl:part name="parameters" element="tns:putCustomerETDLoadResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CustomerETDLoadASPSoap">
+    <wsdl:operation name="putCustomerETDLoad">
+      <wsdl:input message="tns:putCustomerETDLoadSoapIn" />
+      <wsdl:output message="tns:putCustomerETDLoadSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CustomerETDLoadASPSoap" type="tns:CustomerETDLoadASPSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="putCustomerETDLoad">
+      <soap:operation soapAction="http://www.dbnet.cl/putCustomerETDLoad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CustomerETDLoadASPSoap12" type="tns:CustomerETDLoadASPSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="putCustomerETDLoad">
+      <soap12:operation soapAction="http://www.dbnet.cl/putCustomerETDLoad" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CustomerETDLoadASP">
+    <wsdl:port name="CustomerETDLoadASPSoap" binding="tns:CustomerETDLoadASPSoap">
+      <soap:address location="http://localhost:8000/service.php" />
+    </wsdl:port>
+    <wsdl:port name="CustomerETDLoadASPSoap12" binding="tns:CustomerETDLoadASPSoap12">
+      <soap12:address location="http://localhost:8000/service.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
