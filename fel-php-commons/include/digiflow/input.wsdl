@@ -434,10 +434,10 @@
   </wsdl:binding>
   <wsdl:service name="CustomerETDLoadASP">
     <wsdl:port name="CustomerETDLoadASPSoap" binding="tns:CustomerETDLoadASPSoap">
-      <soap:address location="http://localhost:8000/service.php" />
+      <soap:address location="http://localhost/digiflow/service.php" />
     </wsdl:port>
     <wsdl:port name="CustomerETDLoadASPSoap12" binding="tns:CustomerETDLoadASPSoap12">
-      <soap12:address location="http://localhost:8000/service.php" />
+      <soap12:address location="http://localhost/digiflow/service.php" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
