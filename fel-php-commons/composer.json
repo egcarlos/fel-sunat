@@ -1,0 +1,21 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/archon810/smartdomdocument.git"
+        }
+    ],
+    "require": {
+        "spipu/html2pdf": "^4.5",
+        "neitanod/forceutf8": "dev-master",
+        "bigfish/pdf417": "^0.2.0",
+        "doctrine/dbal": "^2.5",
+        "archon810/smartdomdocument": "dev-master",
+        "jacwright/restserver": "dev-master",
+        "twig/twig": "^1",
+        "wsdl2phpgenerator/wsdl2phpgenerator": "^3.4"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
