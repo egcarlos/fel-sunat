@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions
-    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
-    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
-    xmlns:tns="http://www.dbnet.cl"
-    xmlns:s="http://www.w3.org/2001/XMLSchema"
-    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
-    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
-    targetNamespace="http://www.dbnet.cl"
-    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.dbnet.cl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.dbnet.cl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.dbnet.cl">
       <s:element name="putCustomerETDLoad">
@@ -122,7 +112,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="ObsPercepcion" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="MntPercepcion" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="MntTotalMasPercepcion" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="TipoOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoOper" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="FechVencFact" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="DirEntrega" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="DirEntregaUbigeo" type="s:string" />
@@ -394,6 +384,20 @@
           <s:element minOccurs="0" maxOccurs="1" name="TrackId" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="putCustomerETDLoadXML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="lsXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="putCustomerETDLoadXMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="putCustomerETDLoadXMLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="putCustomerETDLoadSoapIn">
@@ -402,16 +406,35 @@
   <wsdl:message name="putCustomerETDLoadSoapOut">
     <wsdl:part name="parameters" element="tns:putCustomerETDLoadResponse" />
   </wsdl:message>
+  <wsdl:message name="putCustomerETDLoadXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:putCustomerETDLoadXML" />
+  </wsdl:message>
+  <wsdl:message name="putCustomerETDLoadXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:putCustomerETDLoadXMLResponse" />
+  </wsdl:message>
   <wsdl:portType name="CustomerETDLoadASPSoap">
     <wsdl:operation name="putCustomerETDLoad">
       <wsdl:input message="tns:putCustomerETDLoadSoapIn" />
       <wsdl:output message="tns:putCustomerETDLoadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="putCustomerETDLoadXML">
+      <wsdl:input message="tns:putCustomerETDLoadXMLSoapIn" />
+      <wsdl:output message="tns:putCustomerETDLoadXMLSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CustomerETDLoadASPSoap" type="tns:CustomerETDLoadASPSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="putCustomerETDLoad">
       <soap:operation soapAction="http://www.dbnet.cl/putCustomerETDLoad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="putCustomerETDLoadXML">
+      <soap:operation soapAction="http://www.dbnet.cl/putCustomerETDLoadXML" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -431,13 +454,22 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="putCustomerETDLoadXML">
+      <soap12:operation soapAction="http://www.dbnet.cl/putCustomerETDLoadXML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="CustomerETDLoadASP">
     <wsdl:port name="CustomerETDLoadASPSoap" binding="tns:CustomerETDLoadASPSoap">
-      <soap:address location="http://localhost/digiflow/service.php" />
+      <soap:address location="http://localhost/wssCustomerETDLoadASP/CustomerETDLoadASP.asmx" />
     </wsdl:port>
     <wsdl:port name="CustomerETDLoadASPSoap12" binding="tns:CustomerETDLoadASPSoap12">
-      <soap12:address location="http://localhost/digiflow/service.php" />
+      <soap12:address location="http://localhost/wssCustomerETDLoadASP/CustomerETDLoadASP.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

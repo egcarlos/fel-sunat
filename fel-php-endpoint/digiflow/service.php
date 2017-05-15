@@ -4,6 +4,17 @@ require_once dirname(__FILE__).'/../../fel-php-commons/include/DB/doctrine.php';
 ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache
 date_default_timezone_set('America/Lima');
 
+function putCustomerETDLoadXML($args) {
+    $xml_request = $args->lsXML;
+    $xml = new DOMDocument();
+    $xml->loadXML($xml_request);
+    //TODO PROCESS THE XML REQUEST
+    $response = '<?xml version="1.0" encoding="utf-8"?><Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Codigo>DOK</Codigo><Mensajes>Procesado(3)</Mensajes><TrackId>E000000000T001000000F001F000000024811032017161735</TrackId></Mensaje>';
+    $response = base64_encode($response);
+    $response = new putCustomerETDLoadXMLResponse($response);
+    return $response;
+}
+
 function putCustomerETDLoad($args) {
     //BUILD TRACK ID AND DATA
     $ce = $args->Encabezado->camposEncabezado;
@@ -50,6 +61,7 @@ function putCustomerETDLoad($args) {
 $wsdl = dirname(__FILE__).'/../../fel-php-commons/include/digiflow/input.wsdl';
 $server = new SoapServer($wsdl);
 $server->addFunction("putCustomerETDLoad");
+$server->addFunction("putCustomerETDLoadXML");
 try {
     if ($_SERVER['REQUEST_METHOD']=='GET') {
         Header('Content-type: text/xml; charset=UTF-8');
