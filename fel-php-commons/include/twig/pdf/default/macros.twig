@@ -4,6 +4,17 @@
 {% macro fel_document_currency_name(name) %}
     {% if name == 'PEN' %}Soles{% elseif name == 'USD' %}Dólares{% endif %}
 {% endmacro %}
+{% macro fel_payment_type(name) %}
+    {% if name == '1001' %}
+        Total de Operaciones Gravadas
+    {% elseif name == '1002' %}
+        Total de operaciones exoneradas
+    {% elseif name == '1003' %}
+        Total de operaciones inafectas
+    {% elseif name == '1004' %}
+        Total de operaciones gratuitas
+    {% endif %}
+{% endmacro %}
 {% macro iif(test, a, b) %}
     {% if test %}{{a}}{% else %}{{b}}{% endif %}
 {% endmacro %}
