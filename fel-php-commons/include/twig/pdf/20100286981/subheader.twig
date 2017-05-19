@@ -1,0 +1,48 @@
+{% import 'default/macros.twig' as tool %}
+<table style="width:100%;border:solid 1px #000000;padding:1mm 1mm 1mm 1mm;font-size:12" cellspacing="0">
+    <tr>
+        <td style="width: 15%;font-weight:bold;">
+            {% if cliente.documento.tipo == '1' %}
+                Señor(a):
+            {% else %}
+                Señores:
+            {% endif %}
+        </td>
+        <td style="width: 35%">{{cliente.datos.razon_social}}</td>
+        <td style="width: 15%;font-weight:bold;">
+            {% if cliente.documento.tipo == '1' %}
+                DNI:
+            {% elseif cliente.documento.tipo == '6' %}
+                RUC:
+            {% else %}
+                Doc.:
+            {% endif %}
+        </td>
+        <td style="width: 35%">{{ cliente.documento.numero }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;width:15%;">Dirección:</td>
+        <td style="width:35%;" >{{ cliente.ubicacion.direccion }}</td>
+        <td style="width: 15%;font-weight:bold;">Fecha de emisión:</td>
+        <td style="width: 35%">{{ tool.irregular_date(documento.fecha_emision) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;font-weight:bold;">&nbsp;</td>
+        <td style="width: 35%">{{cliente.ubicacion.distrito}} - {{cliente.ubicacion.provincia}} - {{ cliente.ubicacion.departamento }}</td>
+
+        <td style="width: 15%;font-weight:bold;">Moneda:</td>
+        <td style="width: 35%">{{ tool.fel_document_currency_name(documento.moneda) }}</td>
+
+    </tr>
+    <tr>
+        <td style="width: 15%;font-weight:bold;">Código de Cliente:</td>
+        <td style="width: 35%">{{cliente.codigo}}</td>
+
+        <td style="width: 15%;font-weight:bold;">Tipo de Cliente:</td>
+        <td style="width: 35%">{{ cliente.tipo }}</td>
+
+    </tr>
+
+
+
+</table>
