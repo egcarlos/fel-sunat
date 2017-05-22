@@ -62,3 +62,4 @@ fel-php-core/composer.phar
 fel-php-commons/composer.phar
 fel-php-commons/vendor/**
 fel-php-commons/include/digiflow/classes/**
+logs/**
