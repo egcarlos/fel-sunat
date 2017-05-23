@@ -38,17 +38,21 @@ $app->post('/pipes', function (Request $request, Response $response) {
     $env = @$params['env']?$params['env']:'dev';
     $documentid = implode('-', [$line1[0],$line1[1],$line1[2],ltrim($line1[3],'0')]);
     $trackId = 'E000000000T0' . $line1[1] .'000000' . $line1[2] . 'F' . substr('00000000' . $line1[3], -10) . date('dmYHis');
+    $date = $line1[4];
+    if (preg_match("/(..)\/(..)\/(....)/", $date, $matches)) {
+        $date = $matches[3].'-'.$matches[2].'-'.$matches[1];
+    }
     //build document header and tracking
-    $document = [$env,$documentid,'6-'.$line1[0],$line1[5].'-'.$line1[6],$line1[4],$line1[1],$line1[2],ltrim($line1[3],'0'),date('Y-m-d h:i:s'),'trackid:' . $trackId];
+    $document = [$env,$documentid,'6-'.$line1[0],$line1[5].'-'.$line1[6],$date,$line1[1],$line1[2],ltrim($line1[3],'0'),date('Y-m-d h:i:s'),'trackid:' . $trackId];
     $tracking = [$env,$documentid,$trackId,"$body"];
     //allocate database connection
     $db = $this->db;
     $this->logger->addInfo("Inserting document: " . json_encode($document));
     $this->logger->addInfo("Inserting tracking: " . json_encode($tracking));
     $insert = 'INSERT INTO t_documento (t_ambiente_id, t_documento_id, m_emisor_id, m_receptor_id, fecha_emision, comprobante_tipo, comprobante_serie, comprobante_numero, proceso_fecha, proceso_mensaje) VALUES (?, ?, ?, ?, CONVERT(datetime, ?, 20), ?, ?, ?, CONVERT(datetime, ?, 120), ?)';
-    //$db->executeUpdate($insert, $document);
+    $db->executeUpdate($insert, $document);
     $insert = 'INSERT INTO t_tracking (t_ambiente_id, t_documento_id, t_tracking_id, datos) values (?, ?, ?, ?)';
-    //$db->executeUpdate($insert, $tracking);
+    $db->executeUpdate($insert, $tracking);
     $line2 = explode('|', $lines[1]);
     array_splice($lines, 0, 2);
     //decide the kind of document handling "01 and 03" or "07 and 08"
