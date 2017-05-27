@@ -73,7 +73,15 @@ function load_document ($id, $env) {
             $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
         } elseif ($document['type'] == '01') {
             //armado del codigo de barras
-            $codigo_de_barras = "reemplazar por el tipo de documento correcto";
+            $codigo_de_barras = $document['documento']['tipo'];
+            $codigo_de_barras .= '|' . $document['documento']['numero'];
+            $codigo_de_barras .= '|0.00';
+            $codigo_de_barras .= '|' . $document['retencion']['total']['retencion']['monto'];
+            $codigo_de_barras .= '|' . $document['documento']['fecha_emision'];
+            $codigo_de_barras .= '|' . $document['proveedor']['documento']['tipo'];
+            $codigo_de_barras .= '|' . $document['proveedor']['documento']['numero'];
+            $codigo_de_barras .= '|' . $document['respuesta']['firma_hash'];
+            $codigo_de_barras .= '|' . $document['respuesta']['firma_valor'];
             //datos adicionales al documento
             $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
         }
