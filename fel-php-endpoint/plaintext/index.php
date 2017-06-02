@@ -20,6 +20,13 @@ $app->getContainer()['db'] = function($c){
     $db = db_connect();
     return $db;
 };
+
+$app->get('/pipes', function (Request $request, Response $response) {
+    $response = $response->withHeader('Content-Type','text/plain');
+    $response->getBody()->write("Service online");
+    $this->logger->addInfo("Service online");
+    return $response;
+});
 /*
  * handler for the piped plain text request
  * minimum required lines is 3
@@ -57,7 +64,14 @@ $app->post('/pipes', function (Request $request, Response $response) {
     $insert = 'INSERT INTO t_tracking (t_ambiente_id, t_documento_id, t_tracking_id, datos) values (?, ?, ?, ?)';
     $db->executeUpdate($insert, $tracking);
     $line2 = explode('|', $lines[1]);
-    $free = $line2[0]==='GR';
+    //verificacion del tipo de operación por documento
+    if ($line2[0]==='GR') {
+        $free = true;
+    } elseif ($line2[0]==='EXO') {
+        $exem = true;
+    } else {
+        $taxed = true;
+    }    
     array_splice($lines, 0, 2);
     //decide the kind of document handling "01 and 03" or "07 and 08"
     if ( $line1[1]=== '01' || $line1[1]=== '03' ) {
@@ -89,9 +103,9 @@ $app->post('/pipes', function (Request $request, Response $response) {
         $insert = 'INSERT INTO [dbo].[t_factura]([t_ambiente_id],[t_documento_id],[factura_fecha_emision],[factura_tipo_transaccion],[factura_moneda],[total_lineas],[total_descuento],[total_cargo],[total_prepagado],[total_pagable],[cliente_documento_tipo],[cliente_documento_numero],[cliente_razon_social],[cliente_nombre_comercial],[cliente_ubicacion_pais],[cliente_ubicacion_departamento],[cliente_ubicacion_provincia],[cliente_ubicacion_distrito],[cliente_ubicacion_urbanizacion],[cliente_ubicacion_direccion],[cliente_ubicacion_ubigeo]) VALUES (?,?,CONVERT(datetime, ?, 20),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $db->executeUpdate($insert, $invoice);
         //grabar montos
-        $montos[] = [$env,$documentid,"1001",$free?0:$line2[2]];
+        $montos[] = [$env,$documentid,"1001",$taxed?$line2[2]:0];
         $montos[] = [$env,$documentid,"1002",0];
-        $montos[] = [$env,$documentid,"1003",0];
+        $montos[] = [$env,$documentid,"1003",$exem?$line2[2]:0];
         if ($free) {
             $montos[] = [$env,$documentid,"1004",$line2[2]];
         }
@@ -124,7 +138,7 @@ $app->post('/pipes', function (Request $request, Response $response) {
         foreach ($lines as $key => $line) {
             if($line==='') continue;
             $item = explode('|', $line);
-            $items[] = [$env,$documentid,$item[0],$item[1],$item[2].' ('.$item[3].')','NIU',$item[4],$free?0:$item[5],null,$free?0:$item[6],$free?0:$item[5],$free?$item[5]:null,$free?0:$item[7],$free?13:10,null,null,null];
+            $items[] = [$env,$documentid,$item[0],$item[1],$item[2].' ('.$item[3].')','NIU',$item[4],$free?0:$item[5],null,$free?0:$item[6],$free?0:$item[5],$free?$item[5]:null,$free?0:$item[7],$free?13:($exem?20:10),null,null,null];
         }
         foreach ($items as $key => $item) {
             $this->logger->addInfo("Inserting item: " . json_encode($item));
