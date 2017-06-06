@@ -5,7 +5,7 @@ require_once __DIR__.'/../../fel-php-commons/include/tools/numeroLetras.php';
 ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache
 date_default_timezone_set('America/Lima');
 
-$logger = new \Monolog\Logger('plaintext');
+$logger = new \Monolog\Logger('digiflow');
 $file_handler = new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/digiflow.log');
 $logger->pushHandler($file_handler);
 
@@ -105,10 +105,17 @@ function putCustomerETDLoadXML($args) {
     global $logger;
     $xml_request = $args->lsXML;
     $logger->addInfo("Reived request... procesing\n$xml_request");
+    $xml_request = str_replace('xmlnsxsi="http//www.w3.org/2001/XMLSchema-instance"', '', $xml_request);
+    $xml_request = str_replace('xmlnsxsd="http//www.w3.org/2001/XMLSchema"', '', $xml_request);
+    $xml_request = str_replace('encoding="utf-16"', 'encoding="utf-8"', $xml_request);
+    //TODO SANEAR TODOS LOS CARACTERES A UTF8
+    $logger->addInfo("Sanitized... procesing\n$xml_request");
     $xml = simplexml_load_string($xml_request);
+    $logger->addInfo('XML picked ' + var_export($xml, true));
     //valores calculados documentId y trakcId
     $env = 'dev';
     $header = $xml->camposEncabezado;
+    $logger->addInfo('Header picked ' + var_export($header, true));
     $tipo = $header->TipoDTE;
     $fecha = $header->FchEmis;
     $documentId = documentId($header->RUTEmisor, $tipo, $header->Serie, $header->Correlativo);
@@ -157,10 +164,17 @@ function putCustomerETDLoadXML($args) {
     //$signedFile = 'D:/fel/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
     //TODO GRABAR EL WORK DIR EN UN ARCHIVO DE PARAMETROS O GRABAR EL ARCHIVO FIRMADO EN LA BASE DE DATOS O REPLICAR ENTRE NODOS
     $signedFile = 'Z:/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
+
+    $logger->addInfo('Signed File: ' . $signedFile);
+
+    sleep(5);
+
     $file = base64_encode(file_get_contents($signedFile));
 
+    $logger->addInfo('Signed File base 64: ' . $file);
+
     //TODO PROCESS THE XML REQUEST
-    $response = '<?xml version="1.0" encoding="utf-8"?><Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Codigo>DOK</Codigo><Mensajes>' . $file . '</Mensajes><TrackId>E000000000T001000000F001F000000024811032017161735</TrackId></Mensaje>';
+    $response = '<?xml version="1.0" encoding="utf-8"?><Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Codigo>DOK</Codigo><Mensajes>' . $file . '</Mensajes><TrackId>' . $trackId . '</TrackId></Mensaje>';
     $response = new putCustomerETDLoadXMLResponse($response);
     return $response;
 }
