@@ -52,6 +52,7 @@ function leerImpuestos($xml, $env, $documentId) {
     $etiquetas = [1000=>['IGV', 'VAT'], 2000=>['ISC', 'EXC'], 9999=>['OTROS', 'OTH']];
     foreach ($xml->ImptoReten->ImptoReten as $impuesto) {
         $codigo = '' . $impuesto->CodigoImpuesto;
+        $codigo = $codigo==''?'1000':$codigo;
         $impuestos[] = [$env, $documentId, $codigo, $etiquetas[$codigo][0], $etiquetas[$codigo][1], $impuesto->MontoImp];
     }
     return $impuestos;
@@ -118,7 +119,7 @@ function putCustomerETDLoadXML($args) {
         $env,
         $documentId,
         '6-'.$header->RUTEmisor,
-        $header->TipoRUTRecep.'.'.$header->RUTRecep,
+        $header->TipoRUTRecep.'-'.$header->RUTRecep,
         $fecha,
         $tipo,
         $header->Serie,
@@ -153,7 +154,9 @@ function putCustomerETDLoadXML($args) {
 
     $conn->executeUpdate('EXEC [dbo].[SP_SIGN_DOCUMENT] @env = ?, @documentId = ?',[ $env, $documentId ]);
 
-    $signedFile = 'D:/fel/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
+    //$signedFile = 'D:/fel/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
+    //TODO GRABAR EL WORK DIR EN UN ARCHIVO DE PARAMETROS O GRABAR EL ARCHIVO FIRMADO EN LA BASE DE DATOS O REPLICAR ENTRE NODOS
+    $signedFile = 'Z:/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
     $file = base64_encode(file_get_contents($signedFile));
 
     //TODO PROCESS THE XML REQUEST
