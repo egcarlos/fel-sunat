@@ -8,7 +8,8 @@ namespace CPE
 		public const string Configuration = "configuration";
 		public const string Declare = "declare";
 		public const string Query = "query";
-		public const string Ticket = "ticket";
+        public const string Sign = "sign";
+        public const string Ticket = "ticket";
 
 		[Option('p', "platform", DefaultValue = "http://localhost/sunat-cpe")]
 		public string Platform { get; set; }

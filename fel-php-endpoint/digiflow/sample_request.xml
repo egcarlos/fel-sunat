@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EncabezadoXML xmlnsxsi="http//www.w3.org/2001/XMLSchema-instance" xmlnsxsd="http//www.w3.org/2001/XMLSchema">
+   <descuentorecargoyotros>
+      <Descuentos>
+         <Descuentos>
+            <NroLinDR>1</NroLinDR>
+            <TpoMov>D</TpoMov>
+            <ValorDR>0.00</ValorDR>
+         </Descuentos>
+         <Descuentos>
+            <NroLinDR>2</NroLinDR>
+            <TpoMov>G</TpoMov>
+            <ValorDR>0.00</ValorDR>
+         </Descuentos>
+      </Descuentos>
+      <DatosAdicionales />
+      <Referencias>
+         <Referencias>
+            <NroLinRef>1</NroLinRef>
+            <TpoDocRef>01</TpoDocRef>
+            <SerieRef>0</SerieRef>
+            <FolioRef>01</FolioRef>
+         </Referencias>
+      </Referencias>
+      <Anticipos />
+      <DatosGuia />
+      <Tramo />
+      <PuertoAeropuerto />
+   </descuentorecargoyotros>
+   <extras>
+      <EnvioPdf />
+      <Adjuntos />
+   </extras>
+   <detalles>
+      <Detalle>
+         <Detalles>
+            <NroLinDet>1</NroLinDet>
+            <QtyItem>1.00</QtyItem>
+            <UnmdItem>NIU</UnmdItem>
+            <VlrCodigo>0000213</VlrCodigo>
+            <NmbItem>UNIFORME POLO ALMACEN TIENDAS</NmbItem>
+            <PrcItem>59.000</PrcItem>
+            <PrcItemSinIgv>50.000</PrcItemSinIgv>
+            <MontoItem>50.00</MontoItem>
+            <DescuentoMonto>0.00</DescuentoMonto>
+            <IndExe>10</IndExe>
+            <CodigoTipoIgv>1000</CodigoTipoIgv>
+            <TasaIgv>18.00</TasaIgv>
+            <ImpuestoIgv>9.00</ImpuestoIgv>
+            <CodigoIsc />
+            <CodigoTipoIsc />
+            <MontoIsc />
+            <TasaIsc />
+         </Detalles>
+      </Detalle>
+   </detalles>
+   <camposEncabezado>
+      <TipoDTE />
+      <Serie>B001</Serie>
+      <Correlativo>00000001</Correlativo>
+      <FchEmis>2017-05-12</FchEmis>
+      <TpoMoneda>PEN</TpoMoneda>
+      <Sustento />
+      <TipoNotaCredito />
+      <IndServicio />
+      <RUTEmisor>20102097069</RUTEmisor>
+      <RznSocEmis>ECCO CENTER SOCIEDAD ANONINA CERRADA</RznSocEmis>
+      <NomComer>ECCO CENTER SOCIEDAD ANONINA CERRADA</NomComer>
+      <CodiComu>0</CodiComu>
+      <DirEmis />
+      <RUTRecep>48139786</RUTRecep>
+      <TipoRUTRecep>1</TipoRUTRecep>
+      <RznSocRecep>CRUZ AGUILAR HILDA DANAE</RznSocRecep>
+      <DirRecep>- - CHIMBOTE</DirRecep>
+      <MntNeto>50.00</MntNeto>
+      <MntExe>0.00</MntExe>
+      <MntExo>0.00</MntExo>
+      <MntTotal>59.00</MntTotal>
+      <MntTotGrat>0.00</MntTotGrat>
+   </camposEncabezado>
+   <ImptoReten>
+      <ImptoReten>
+         <CodigoImpuesto />
+         <TasaImp>18.00</TasaImp>
+         <MontoImp>9.00</MontoImp>
+      </ImptoReten>
+   </ImptoReten>
+   <DetaDetraccion />
+</EncabezadoXML>

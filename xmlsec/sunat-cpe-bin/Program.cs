@@ -45,6 +45,9 @@ namespace CPE.Bin
                 case Options.Declare:
                     Declare();
                     break;
+                case Options.Sign:
+                    Sign();
+                    break;
             }
         }
 
@@ -123,6 +126,13 @@ namespace CPE.Bin
             
         }
 
+        void Sign()
+        {
+            Log("Using settings", CurrentSettings);
+            string endpoint = Options.Document.Split('-')[1].AsDeclareTarget(CurrentSettings);
+            GetRequestFile();
+        }
+
         byte[] GetRequestFile()
         {
             //recover plain document from platform
@@ -136,8 +146,10 @@ namespace CPE.Bin
             signer.AtachSignature();
             //replicate signature and hash to portal
             Platform.UpdateSignature(Options.Environment, Options.Document, signer.DigestValue, signer.SignatureValue);
+            var signedFile = document.GetBytes();
             var requestFile = document.ZipRequest(FileNamePart() + ".xml");
             //save zipped file to disk
+            PersistFile(Options.Document + ".request.xml", signedFile);
             PersistFile(Options.Document + ".request.zip", requestFile);
             return requestFile;
         }

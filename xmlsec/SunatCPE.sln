@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunatCPEService", "SunatCPEService\SunatCPEService.csproj", "{DF0FAC63-A6BB-4A12-A03F-75D1DD5E76A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunatCPELib", "SunatCPELib\SunatCPELib.csproj", "{D97C2F56-DB02-4C23-8E72-7F2627CBE112}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunatCPEBin", "SunatCPEBin\SunatCPEBin.csproj", "{18E323E0-2911-4BCE-8026-A5DFE07028DC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunatClient", "SunatClient\SunatClient.csproj", "{483B7348-69C0-40E9-97E8-672C20EF6564}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sunat-cpe-bin", "sunat-cpe-bin\sunat-cpe-bin.csproj", "{D3B32B0D-FB34-489F-BDAB-9064CCA98EB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sunat-cpe-platform", "sunat-cpe-platform\sunat-cpe-platform.csproj", "{8DF486F7-F96D-4465-A832-865E549E81BE}"
@@ -23,22 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF0FAC63-A6BB-4A12-A03F-75D1DD5E76A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF0FAC63-A6BB-4A12-A03F-75D1DD5E76A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF0FAC63-A6BB-4A12-A03F-75D1DD5E76A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF0FAC63-A6BB-4A12-A03F-75D1DD5E76A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D97C2F56-DB02-4C23-8E72-7F2627CBE112}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18E323E0-2911-4BCE-8026-A5DFE07028DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18E323E0-2911-4BCE-8026-A5DFE07028DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18E323E0-2911-4BCE-8026-A5DFE07028DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18E323E0-2911-4BCE-8026-A5DFE07028DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{483B7348-69C0-40E9-97E8-672C20EF6564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{483B7348-69C0-40E9-97E8-672C20EF6564}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{483B7348-69C0-40E9-97E8-672C20EF6564}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{483B7348-69C0-40E9-97E8-672C20EF6564}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3B32B0D-FB34-489F-BDAB-9064CCA98EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3B32B0D-FB34-489F-BDAB-9064CCA98EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B32B0D-FB34-489F-BDAB-9064CCA98EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU

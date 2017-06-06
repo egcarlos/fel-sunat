@@ -148,7 +148,7 @@ $app->post('/pipes', function (Request $request, Response $response) {
     }
 
     
-    $text = exec("F:\\fel\\fel-sunat\\xmlsec\\sunat-cpe-bin\\bin\\Debug\\sunat-cpe-bin.exe -a declare -e dev -d $documentid -v true");
+    //$text = exec("F:\\fel\\fel-sunat\\xmlsec\\sunat-cpe-bin\\bin\\Debug\\sunat-cpe-bin.exe -a declare -e dev -d $documentid -v true");
 
     $db->executeUpdate('EXEC [dbo].[SP_SEND_DOCUMENT] @env = ?, @documentId = ?',[ $env, $documentid ]);
 
