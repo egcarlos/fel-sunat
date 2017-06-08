@@ -163,11 +163,9 @@ function putCustomerETDLoadXML($args) {
 
     //$signedFile = 'D:/fel/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
     //TODO GRABAR EL WORK DIR EN UN ARCHIVO DE PARAMETROS O GRABAR EL ARCHIVO FIRMADO EN LA BASE DE DATOS O REPLICAR ENTRE NODOS
-    $signedFile = 'Z:/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
+    $signedFile = 'C:/fel/files/' . $header->RUTEmisor . '/' . $env . '/xml/' . $documentId . '.request.xml';
 
     $logger->addInfo('Signed File: ' . $signedFile);
-
-    sleep(5);
 
     $file = base64_encode(file_get_contents($signedFile));
 
