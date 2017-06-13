@@ -389,11 +389,11 @@ class InvoiceBuilder extends UBLBuilder {
             $this   ->append_fw('cac:Item');
             // DESCRIPCION DETALLADA
             $this       ->append('cbc:Description', $item['datos']['descripcion']);
-            if (isset($item['codigo'])) {
+            if (isset($item['datos']['codigo'])) {
             // CODIGO DEL ARTICULO 
                 $this   ->append_fw('cac:SellersItemIdentification')
                             ->append('cbc:ID', $item['datos']['codigo'])
-                        -pop();
+                        ->pop();
             }
             $this   ->pop();
             /*

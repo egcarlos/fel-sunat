@@ -169,6 +169,26 @@ GO
 ALTER TABLE [dbo].[t_documento] CHECK CONSTRAINT [FK_t_documento_X_m_emisor]
 GO
 
+CREATE TABLE [dbo].[t_tracking](
+	[t_ambiente_id] [nvarchar](20) NOT NULL,
+	[t_documento_id] [nvarchar](50) NOT NULL,
+	[t_tracking_id] [nvarchar](100) NOT NULL,
+	[datos] [nvarchar](max) NULL,
+CONSTRAINT [PK_t_tracking] PRIMARY KEY CLUSTERED (
+	[t_ambiente_id] ASC,
+	[t_documento_id] ASC,
+	[t_tracking_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[t_tracking]  WITH CHECK ADD  CONSTRAINT [FK_t_tracking_X_t_documento] FOREIGN KEY([t_ambiente_id], [t_documento_id])
+REFERENCES [dbo].[t_documento] ([t_ambiente_id], [t_documento_id])
+GO
+
+ALTER TABLE [dbo].[t_tracking] CHECK CONSTRAINT [FK_t_tracking_X_t_documento]
+GO
+
 CREATE TABLE [dbo].[t_retencion](
 	[t_ambiente_id]                    nvarchar (20)   NOT NULL,
 	[t_documento_id]                   nvarchar (50)   NOT NULL,

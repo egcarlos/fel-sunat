@@ -9,7 +9,7 @@ function db_connect () {
         'dbname' => 'fel_sunat',
         'user' => 'fel_sunat',
         'password' => 'fel_sunat',
-        'host' => '192.168.1.202',
+        'host' => 'localhost',
         'driver' => 'pdo_sqlsrv'
     );
     $config = new \Doctrine\DBAL\Configuration();
