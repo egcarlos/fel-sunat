@@ -111,5 +111,10 @@ $s = @$_REQUEST['s']?$_REQUEST['s']:'A4';
 
 $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
 $html2pdf->pdf->SetDisplayMode('fullpage');
-$html2pdf->writeHTML($rendered);
+//$html2pdf->writeHTML($rendered);
+
+$count = @$_REQUEST['c']?floatval($_REQUEST['c']):1;
+for ($i=0; $i < $count; $i++) {
+    $html2pdf->writeHTML($rendered);
+}
 $html2pdf->Output($_REQUEST['name'].'.pdf');

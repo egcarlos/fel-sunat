@@ -102,6 +102,10 @@ class DocumentController
             "sunat_ticket"
         */
         $db = db_connect();
+        //TODO REPARAR LAS FECHAS
+        $data["proceso_fecha"] = null;
+        $data["sunat_fecha"] = null;
+        $data["firma_fecha"] = null;
         $response = $db->update(
             't_documento',
             $data,

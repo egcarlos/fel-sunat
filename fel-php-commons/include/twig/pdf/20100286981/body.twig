@@ -4,27 +4,26 @@
         <thead>
             <tr style="text-align:center;">
                 <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-left:solid 1px #000000;width:10%;padding:5 0 5 0" >Cant.</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:10%;padding:5 0 5 0" >Cod.</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:40%;padding:5 0 5 0" >Descripción</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:15%;padding:5 0 5 0" >Precio Unitario</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:10%;padding:5 0 5 0" >% Dscto.</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-right:solid 1px #000000;width:15%;padding:5 0 5 0" >Importe</th>
+                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:5%;padding:5 0 5 0" >Cod.</th>
+                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:65%;padding:5 0 5 0" colspan="2">Descripción</th>
+                <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;width:10%;" >P. Unitario</th>
+                <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-right:solid 1px #000000;width:10%;" >Importe</th>
             </tr>
         </thead>
         <tfoot>
             <tr style="text-align:center;">
                 <th colspan="2" style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-left:solid 1px #000000;padding:5 0 5 0" >Cuenta Anterior</th>
                 <th colspan="1" style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;padding:5 0 5 0" >Cuenta General</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;padding:5 0 5 0" >Valor Venta</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;padding:5 0 5 0" >Total IGV</th>
-                <th style="border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-right:solid 1px #000000;padding:5 0 5 0" >TOTAL</th>
+                <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;" >Valor Venta</th>
+                <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;" >Total IGV</th>
+                <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-right:solid 1px #000000;" >TOTAL</th>
             </tr>
             <tr style="text-align:center">
                 <td colspan="2" style="padding:5 0 5 0;border-bottom:solid 1px #000000;border-left:solid 1px #000000;">---</td>
                 <td colspan="1" style="padding:5 0 5 0;border-bottom:solid 1px #000000;">---</td>
-                <td style="padding:5 0 5 0;border-bottom:solid 1px #000000;">{{ total.lineas }}</td>
-                <td style="padding:5 0 5 0;border-bottom:solid 1px #000000;">{{ impuestos[0].monto }}</td>
-                <td style="padding:5 0 5 0;border-bottom:solid 1px #000000;border-right:solid 1px #000000;">{{ total.pagable }}</td>
+                <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;">{{ total.lineas }}</td>
+                <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;">{{ impuestos[0].monto }}</td>
+                <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;border-right:solid 1px #000000;">{{ total.pagable }}</td>
                 
             </tr>
         </tfoot>
@@ -42,18 +41,24 @@
                 <td style="text-align:center">
                     {{ item.datos.codigo }}
                 </td>                
-                <td style="text-align:center">
-                    {{ item.datos.descripcion }}
+                <td style="text-align:center" colspan="2">
+                    {% set lines = (item.datos.descripcion | replace({'<BR/>':'<br />', '<br/>':'<br />'})) %}
+                    {% set toks = lines | split('<br />') %}
+                    {% set first = true %}
+                    {% for tok in toks %}
+                        {% if first %}
+                            {% set first = false %}
+                        {% else %}
+                            <br />
+                        {% endif %}
+                        {{ tok }}
+                    {% endfor %}
                 </td>
-                <td style="text-align:center">
+                <td style="text-align:right;padding:0 5 0 0;">
                     {{ item.precio_unitario.facturado }}
                 </td>
-                <!-- fecha emision -->
-                <td style="text-align:center">
-                    {{ '0.00' }}
-                </td>
                 <!-- Total a pagar -->
-                <td style="text-align:right;border-right:solid 1px #000000;padding:0 6 0 0;">
+                <td style="text-align:right;padding:0 5 0 0;border-right:solid 1px #000000;">
                     {{ item.valor_venta }}
                 </td>
             </tr>

@@ -42,7 +42,7 @@
                     {{ item.datos.codigo }}
                 </td>                
                 <td style="text-align:center">
-                    {{ item.datos.descripcion }}
+                    {{ item.datos.descripcion | replace({'<BR/>':'<br />'}) }}
                 </td>
                 <td style="text-align:center">
                     {{ item.precio_unitario.facturado }}
