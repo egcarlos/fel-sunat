@@ -76,6 +76,10 @@ function leerNotas($env, $documentId, $line2) {
     if ($free) {
         $notas[] = [$env,$documentId,"1002","TRANSFERENCIA GRATUITA"];
     }
+    $notas[] = [$env,$documentId,'X001', $line2[5]];
+    $notas[] = [$env,$documentId,'X002', $line2[6]];
+    $notas[] = [$env,$documentId,'X003', $line2[7]];
+    $notas[] = [$env,$documentId,'X004', $line2[8]];
     return $notas;
 }
 

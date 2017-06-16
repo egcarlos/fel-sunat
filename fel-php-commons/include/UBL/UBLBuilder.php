@@ -174,6 +174,9 @@ class InvoiceBuilder extends UBLBuilder {
                 ->pop();
         }
         foreach ($notas as $key => $nota) {
+            if ($nota['id'][0]=='X') {
+                continue;
+            }
             $this           ->append_fw('sac:AdditionalProperty')
                                 ->append('cbc:ID', $nota['id'])
                                 ->append_nnv('cbc:Name', $nota['nombre'])

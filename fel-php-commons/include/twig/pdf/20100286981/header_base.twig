@@ -1,25 +1,30 @@
 <table style="width: 100%;font-weight:bold;" cellspacing="0"><tr>
-    <td style="width: 60%;text-align:left;font-size:8;color:gray">
+    <td style="width:25%;text-align:left;font-size:8;color:gray">
         {% block logo %}
         {% if not emisor.logo is null %}
         <img title="" alt="" src="{{ emisor.logo }}" /><br />
         {% endif %}
         {% endblock %}
-        <span>{{emisor.ubicacion.direccion}}</span><br/>
-        <span>{{emisor.ubicacion.distrito}} - {{emisor.ubicacion.provincia}} - {{emisor.ubicacion.pais}}</span><br/>
-        {% block contacto %}{% endblock %}
     </td>
-    <td style="border: solid 1mm #777; color:#777; width: 40%; text-align:center;font-weight:bold;font-size:18">
-        <br/>
+    <td style="width:45%;text-align:center;font-size:10">
+        FABRICA DE FIDEOS<br /><br />
+        <span style="font-size:20">"EL TRIUNFO" S.A.</span><br /><br />
+        JR. PASTAZA 757 - URB. AZCONA BREÑA (LIMA 5) LIMA LIMA<br />
+        TELFS: 423-9834 * 433-3107<br />
+        EMAIL: informes@fabricadefideoseltriunfo.com
+    </td>
+    <td style="border: solid 1mm #777; color:#777; width: 30%; text-align:center;font-weight:bold;font-size:18">
         <span>R.U.C. N° {{emisor.documento.numero}}</span><br />
         {% if type == '01' %}
         <span>FACTURA</span><br />
+        <span>ELECTRÓNICA</span><br />
+        {% elseif type == '03' %}
+        <span>BOLETA</span><br />
         <span>ELECTRÓNICA</span><br />
         {% elseif type == '20' %}
         <span>COMPROBANTE DE RETENCIÓN</span><br />
         <span>ELECTRÓNICO</span><br />
         {% endif %}
         <span>{{documento.numero}}</span><br />
-        <br/>
     </td>
 </tr></table>

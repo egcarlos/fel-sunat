@@ -19,8 +19,20 @@
                 <th style="text-align:right;padding:5 5 5 0;border-bottom:dashed 1px #000000;border-top:solid 1px #000000;border-right:solid 1px #000000;" >TOTAL</th>
             </tr>
             <tr style="text-align:center">
-                <td colspan="2" style="padding:5 0 5 0;border-bottom:solid 1px #000000;border-left:solid 1px #000000;">---</td>
-                <td colspan="1" style="padding:5 0 5 0;border-bottom:solid 1px #000000;">---</td>
+                <td colspan="2" style="padding:5 0 5 0;border-bottom:solid 1px #000000;border-left:solid 1px #000000;">
+                    {% for nota in notas %}
+                        {% if nota.id == 'X003' %}
+                            {{ nota.valor }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td colspan="1" style="padding:5 0 5 0;border-bottom:solid 1px #000000;">
+                    {% for nota in notas %}
+                        {% if nota.id == 'X004' %}
+                            {{ nota.valor }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;">{{ total.lineas }}</td>
                 <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;">{{ impuestos[0].monto }}</td>
                 <td style="text-align:right;padding:5 5 5 0;border-bottom:solid 1px #000000;border-right:solid 1px #000000;">{{ total.pagable }}</td>
@@ -63,8 +75,8 @@
                 </td>
             </tr>
             {% endfor %}
-            {% if items|length < 8 %}
-            {% for i in (items|length + 1)..8 %}
+            {% if items|length < 10 %}
+            {% for i in (items|length + 1)..10 %}
             <tr>
                 <td colspan="7" style="border-left:solid 1px #000000;border-right:solid 1px #000000;">&nbsp;</td>
             </tr>

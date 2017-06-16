@@ -92,29 +92,45 @@ function load_document ($id, $env) {
 $id  = $_REQUEST['name'];
 $env = $_REQUEST['env'];
 
-if (is_null($id) || is_null($env)) {
-    $rendered = $twig->render('default/not_found.twig');
-} else {
-    $document = load_document ($id, $env);
-    if (is_null($document)) {
-        $rendered = $twig->render('default/not_found.twig');
-    } else {
-        //para escribir correctamente la cabecera
-        $document['documento']['tipo'] = $document['type'];
-        //procesa el template broker que se encarga de navegar el esquema de plantillas
-        $rendered = $twig->render('default.twig', $document);
-    }
-}
-
 $pl = @$_REQUEST['pl']?$_REQUEST['pl']:'P';
 $s = @$_REQUEST['s']?$_REQUEST['s']:'A4';
 
+if (is_null($id) || is_null($env)) {
+    $rendered = $twig->render('default/not_found.twig');
+    $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
+    $html2pdf->pdf->SetDisplayMode('fullpage');
+    $html2pdf->writeHTML($rendered);
+    $html2pdf->Output($_REQUEST['name'].'.pdf');
+    return;
+}
+$document = load_document ($id, $env);
+if (is_null($document)) {
+    $rendered = $twig->render('default/not_found.twig');
+    $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
+    $html2pdf->pdf->SetDisplayMode('fullpage');
+    $html2pdf->writeHTML($rendered);
+    $html2pdf->Output($_REQUEST['name'].'.pdf');
+    return;
+} 
+
+//para escribir correctamente la cabecera
+$document['documento']['tipo'] = $document['type'];
+//procesa el template broker que se encarga de navegar el esquema de plantillas
+
 $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
 $html2pdf->pdf->SetDisplayMode('fullpage');
-//$html2pdf->writeHTML($rendered);
 
 $count = @$_REQUEST['c']?floatval($_REQUEST['c']):1;
 for ($i=0; $i < $count; $i++) {
+    if ($i==0) {
+        $copia = "EMISOR";
+    } elseif ($i==1) {
+        $copia = "CLIENTE";
+    } else {
+        $copia = "OTROS";
+    }
+    $document['destinatario'] = $copia;
+    $rendered = $twig->render('default.twig', $document);
     $html2pdf->writeHTML($rendered);
 }
 $html2pdf->Output($_REQUEST['name'].'.pdf');
