@@ -68,11 +68,14 @@ function leerNotas($xml, $env, $documentId) {
 }
 
 function leerLineas($xml, $env, $documentId) {
+    global $logger;
     $i = 0;
     foreach($xml->detalles->Detalle as $data) {
         $i = $i+1;
         $detalle = $data->Detalles;
-        $gratuita = floatval($detalle->PrcItemSinIgv)==0;
+        $logger->addInfo(''.$detalle->MontoItem);
+        $gratuita = floatval(''.$detalle->MontoItem)==0;
+        $logger->addInfo($gratuita?'gratuita':'pagada');
         $lineas[] = [
             $env,
             $documentId,
@@ -80,14 +83,14 @@ function leerLineas($xml, $env, $documentId) {
             strval($detalle->VlrCodigo)==''?null:strval($detalle->VlrCodigo),
             strval($detalle->NmbItem),
             strval($detalle->UnmdItem),
-            floatval($detalle->QtyItem),
-            $detalle->PrcItemSinIgv,
-            floatval($detalle->DescuentoMonto)==0?null:floatval($detalle->DescuentoMonto),
-            $detalle->MontoItem,
-            $gratuita?0:$detalle->PrcItem,
-            $gratuita?$detalle->PrcItem:null,
+            floatval(''.$detalle->QtyItem),
+            $gratuita?0:$detalle->PrcItemSinIgv,
+            $gratuita?null:(floatval(''.$detalle->DescuentoMonto)==0?null:floatval(''.$detalle->DescuentoMonto)),
+            floatval(''.$detalle->MontoItem),
+            $detalle->PrcItem,
+            $gratuita?floatval($detalle->PrcItemSinIgv):null,
             $gratuita?0:floatval($detalle->ImpuestoIgv),
-            $gratuita?'13':strval($detalle->IndExe),
+            $gratuita?'13':''.$detalle->IndExe,
             floatval($detalle->MontoIsc)==0?null:floatval($detalle->MontoIsc),
             strval($detalle->CodigoIsc)==''?null:strval($detalle->CodigoIsc),
             null //OTH
@@ -113,17 +116,19 @@ function putCustomerETDLoadXML($args) {
     $xml_request = str_replace('xmlnsxsd="http//www.w3.org/2001/XMLSchema"', '', $xml_request);
     $xml_request = str_replace('encoding="utf-16"', 'encoding="utf-8"', $xml_request);
     //TODO SANEAR TODOS LOS CARACTERES A UTF8
-    $logger->addInfo("Sanitized... procesing\n$xml_request");
+    $logger->addInfo("Sanitized... procesing $xml_request");
     $xml = simplexml_load_string($xml_request);
-    $logger->addInfo('XML picked ' + var_export($xml, true));
+    
     //valores calculados documentId y trakcId
     $env = 'dev';
     $header = $xml->camposEncabezado;
-    $logger->addInfo('Header picked ' + var_export($header, true));
     $tipo = $header->TipoDTE;
     $fecha = $header->FchEmis;
     $documentId = documentId($header->RUTEmisor, $tipo, $header->Serie, $header->Correlativo);
     $trackId = trackId($tipo, $header->Serie, $header->Correlativo);
+
+    $logger->addInfo("track id: $trackId");
+    $logger->addInfo("document id: $documentId");
 
     //estructuras de seguimiento
     $document = [
@@ -147,23 +152,52 @@ function putCustomerETDLoadXML($args) {
 
     $target[] = [$document, 'INSERT INTO t_documento (t_ambiente_id, t_documento_id, m_emisor_id, m_receptor_id, fecha_emision, comprobante_tipo, comprobante_serie, comprobante_numero, proceso_fecha, proceso_mensaje) VALUES (?, ?, ?, ?, CONVERT(datetime, ?, 20), ?, ?, ?, CONVERT(datetime, ?, 120), ?)'];
     $target[] = [$tracking, 'INSERT INTO t_tracking (t_ambiente_id, t_documento_id, t_tracking_id, datos) values (?, ?, ?, ?)'];
-
+    
     if ($tipo == '01' || $tipo == '03') {
         //CASO DE FACTURAS O BOLETAS
-        $target[] = [leerInvoice($xml, $env, $documentId), 'INSERT INTO [dbo].[t_factura]([t_ambiente_id],[t_documento_id],[factura_fecha_emision],[factura_tipo_transaccion],[factura_moneda],[total_lineas],[total_descuento],[total_cargo],[total_prepagado],[total_pagable],[cliente_documento_tipo],[cliente_documento_numero],[cliente_razon_social],[cliente_nombre_comercial],[cliente_ubicacion_pais],[cliente_ubicacion_departamento],[cliente_ubicacion_provincia],[cliente_ubicacion_distrito],[cliente_ubicacion_urbanizacion],[cliente_ubicacion_direccion],[cliente_ubicacion_ubigeo]) VALUES (?,?,CONVERT(datetime, ?, 20),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
-        foreach (leerMontos    ($xml, $env, $documentId) as $key => $monto)    $target[] = [$monto,    'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
-        foreach (leerImpuestos ($xml, $env, $documentId) as $key => $impuesto) $target[] = [$impuesto, 'INSERT INTO [dbo].[t_factura_impuestos] ([t_ambiente_id],[t_documento_id],[impuesto_id],[impuesto_nombre],[impuesto_codigo],[impuesto_monto]) VALUES (?,?,?,?,?,?)'];
-        foreach (leerNotas     ($xml, $env, $documentId) as $key => $nota)     $target[] = [$nota,     'INSERT INTO [dbo].[t_factura_notas] ([t_ambiente_id],[t_documento_id],[nota_id],[nota_valor]) VALUES (?,?,?,?)'];
+        //foreach (leerMontos    ($xml, $env, $documentId) as $key => $monto)    $target[] = [$monto,    'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
+        foreach (leerImpuestos ($xml, $env, $documentId) as $key => $impuesto) $target_fr[] = [$impuesto, 'INSERT INTO [dbo].[t_factura_impuestos] ([t_ambiente_id],[t_documento_id],[impuesto_id],[impuesto_nombre],[impuesto_codigo],[impuesto_monto]) VALUES (?,?,?,?,?,?)'];
+        foreach (leerNotas     ($xml, $env, $documentId) as $key => $nota)     $target_fr[] = [$nota,     'INSERT INTO [dbo].[t_factura_notas] ([t_ambiente_id],[t_documento_id],[nota_id],[nota_valor]) VALUES (?,?,?,?)'];
         $lineas = leerLineas   ($xml, $env, $documentId);  
-        foreach ($lineas       ($xml, $env, $documentId) as $key => $linea)    $target[] = [$linea,    'INSERT INTO [dbo].[t_factura_item]([t_ambiente_id],[t_documento_id],[item_id],[item_codigo],[item_nombre],[item_unidad],[item_cantidad],[valor_unitario],[valor_descuento],[valor_venta],[precio_unitario_facturado],[precio_unitario_referencial],[impuesto_igv_monto],[impuesto_igv_codigo],[impuesto_isc_monto],[impuesto_isc_codigo],[impuesto_oth_monto]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
+        foreach ($lineas                                 as $key => $linea)    $target_fr[] = [$linea,    'INSERT INTO [dbo].[t_factura_item]([t_ambiente_id],[t_documento_id],[item_id],[item_codigo],[item_nombre],[item_unidad],[item_cantidad],[valor_unitario],[valor_descuento],[valor_venta],[precio_unitario_facturado],[precio_unitario_referencial],[impuesto_igv_monto],[impuesto_igv_codigo],[impuesto_isc_monto],[impuesto_isc_codigo],[impuesto_oth_monto]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
 
-        //en base a las lineas arreglar la cabecera con un update
+        //FIX control de totales
+        $total1001 = 0; //cod 10 y 40
+        $total1002 = 0; //cod 30
+        $total1003 = 0; //cod 20
+        $total1004 = 0; //todo el resto
+        foreach ($lineas as $key => $linea) {
+            $monto = $linea[9];
+            $monto_gratis = $linea[11] * $linea[6];
+            $filtro = $linea[13];
+            if ($filtro=='10'||$filtro=='40') {
+                $total1001 = $total1001+$monto;
+            } elseif ($filtro=='30') {
+                $total1002 = $total1002+$monto;
+            } elseif ($filtro=='20') {
+                $total1003 = $total1003+$monto;
+            } else {
+                $total1004 = $total1004+$monto_gratis;
+            }
+        }
+        $target_fr[] = [[$env, $documentId, '1001', $total1001], 'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
+        $target_fr[] = [[$env, $documentId, '1002', $total1002], 'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
+        $target_fr[] = [[$env, $documentId, '1003', $total1003], 'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
+        if ($total1004 > 0) {
+            $target_fr[] = [[$env, $documentId, '1004', $total1004], 'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
+        }
+        $invoice = leerInvoice($xml, $env, $documentId);
+        $invoice[5]=$total1001 + $total1002 + $total1003;
+        $target[] = [$invoice, 'INSERT INTO [dbo].[t_factura]([t_ambiente_id],[t_documento_id],[factura_fecha_emision],[factura_tipo_transaccion],[factura_moneda],[total_lineas],[total_descuento],[total_cargo],[total_prepagado],[total_pagable],[cliente_documento_tipo],[cliente_documento_numero],[cliente_razon_social],[cliente_nombre_comercial],[cliente_ubicacion_pais],[cliente_ubicacion_departamento],[cliente_ubicacion_provincia],[cliente_ubicacion_distrito],[cliente_ubicacion_urbanizacion],[cliente_ubicacion_direccion],[cliente_ubicacion_ubigeo]) VALUES (?,?,CONVERT(datetime, ?, 20),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
         
-
     }
 
     $conn = db_connect();
     foreach ($target as $key => $value) {
+        $logger->addInfo('Inserting ' . json_encode($value[0]));
+        $conn->executeUpdate($value[1], $value[0]);
+    }
+    foreach ($target_fr as $key => $value) {
         $logger->addInfo('Inserting ' . json_encode($value[0]));
         $conn->executeUpdate($value[1], $value[0]);
     }
@@ -231,12 +265,11 @@ function putCustomerETDLoad($args) {
     $response = new putCustomerETDLoadResponse($mensaje);
     return $response;
 }
-
+$wsdl = dirname(__FILE__).'/../../fel-php-commons/include/digiflow/input.wsdl';
 if ($_SERVER['REQUEST_METHOD']=='GET') {
         Header('Content-type: text/xml; charset=UTF-8');
         readfile($wsdl);
 } else {
-    $wsdl = dirname(__FILE__).'/../../fel-php-commons/include/digiflow/input.wsdl';
     $server = new SoapServer($wsdl);
     //$server->addFunction("putCustomerETDLoad");
     $server->addFunction("putCustomerETDLoadXML");
