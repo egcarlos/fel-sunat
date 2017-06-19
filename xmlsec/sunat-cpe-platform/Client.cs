@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using RestSharp;
+using System.Net;
 
 namespace CPE.Platform
 {
@@ -106,12 +107,20 @@ namespace CPE.Platform
             return response.Data;
         }
 
-        public XmlDocument GetPlainDocument(string enviroment, string documentId)
+        public XmlDocument GetPlainDocument(string environment, string documentId)
         {
             var document = new XmlDocument() { PreserveWhitespace = true };
-            var path = BaseUrl + "/xml/load.php?name=" + documentId + "&env=" + enviroment;
+            var path = BaseUrl + "/xml/load.php?name=" + documentId + "&env=" + environment;
             document.Load(path);
             return document;
+        }
+
+        public byte[] GetPDF(string environment, string documentId)
+        {
+            var client = new WebClient();
+            var path = BaseUrl + "/pdf/pdf.php?name=" + documentId + "&env=" + environment + "&pl=L&s=A5&c=2";
+            var pdf = client.DownloadData(path);
+            return pdf;
         }
     }
 }

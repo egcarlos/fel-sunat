@@ -8,6 +8,8 @@ using CommandLine.Text;
 using System.ServiceModel;
 using System.IO;
 using CPE.Client.Xmlsec;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace CPE.Bin
 {
@@ -47,6 +49,9 @@ namespace CPE.Bin
                     break;
                 case Options.Sign:
                     Sign();
+                    break;
+                case Options.Print:
+                    Print();
                     break;
             }
         }
@@ -133,6 +138,14 @@ namespace CPE.Bin
             GetRequestFile();
         }
 
+        void Print ()
+        {
+            Log("Using settings", CurrentSettings);
+            //descargar las facturas en PDF
+            var pdf_bytes = Platform.GetPDF(Options.Environment, Options.Document);
+            var file = PersistPDF(Options.Document + ".pdf", pdf_bytes);
+        }
+
         byte[] GetRequestFile()
         {
             //recover plain document from platform
@@ -174,6 +187,13 @@ namespace CPE.Bin
         void PersistFile(string name, byte[] data)
         {
             File.WriteAllBytes(Path.Combine(Options.Workdir, Options.Environment, "xml", name), data);
+        }
+
+        string PersistPDF(string name, byte[] data)
+        {
+            var file = Path.Combine(Options.Workdir, Options.Environment, "pdf", name);
+            File.WriteAllBytes(file, data);
+            return file;
         }
 
         string FileNamePart()

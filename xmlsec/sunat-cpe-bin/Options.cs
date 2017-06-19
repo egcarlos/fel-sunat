@@ -10,6 +10,7 @@ namespace CPE
 		public const string Query = "query";
         public const string Sign = "sign";
         public const string Ticket = "ticket";
+        public const string Print = "print";
 
 		[Option('p', "platform", DefaultValue = "http://localhost/sunat-cpe")]
 		public string Platform { get; set; }
@@ -31,6 +32,9 @@ namespace CPE
 
         [Option('w', "workdir", DefaultValue = "D:\\fel\\files")]
         public string Workdir { get; set; }
+
+        [Option('r', "printer")]
+        public string Printer { get; set; }
 
         [HelpOption]
 		public string GetUsage()

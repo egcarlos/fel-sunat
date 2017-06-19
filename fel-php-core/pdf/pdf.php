@@ -9,6 +9,10 @@ use BigFish\PDF417\Renderers\ImageRenderer;
 date_default_timezone_set('America/Lima');
 header("Content-type:application/pdf");
 
+$logger = new \Monolog\Logger('digiflow');
+$file_handler = new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/digiflow.log');
+$logger->pushHandler($file_handler);
+
 function render_pdf_417($data) {
     $pdf417 = new PDF417();
     $pdf417->setColumns(16);
@@ -71,7 +75,7 @@ function load_document ($id, $env) {
             //datos adicionales al documento
             $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
             $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
-        } elseif ($document['type'] == '01') {
+        } elseif ($document['type'] == '01' || $document['type'] == '03') {
             //armado del codigo de barras
             $codigo_de_barras = $document['documento']['tipo'];
             $codigo_de_barras .= '|' . $document['documento']['numero'];
@@ -89,11 +93,12 @@ function load_document ($id, $env) {
     return $document;
 }
 
-$id  = $_REQUEST['name'];
-$env = $_REQUEST['env'];
-
-$pl = @$_REQUEST['pl']?$_REQUEST['pl']:'P';
-$s = @$_REQUEST['s']?$_REQUEST['s']:'A4';
+$id    = $_REQUEST['name'];
+$env   = $_REQUEST['env'];
+$pl    = @$_REQUEST['pl']?$_REQUEST['pl']:'P';
+$s     = @$_REQUEST['s']?$_REQUEST['s']:'A4';
+$p     = floatval(@$_REQUEST['p']?$_REQUEST['p']:'1');
+$count = @$_REQUEST['c']?floatval($_REQUEST['c']):1;
 
 if (is_null($id) || is_null($env)) {
     $rendered = $twig->render('default/not_found.twig');
@@ -103,34 +108,41 @@ if (is_null($id) || is_null($env)) {
     $html2pdf->Output($_REQUEST['name'].'.pdf');
     return;
 }
-$document = load_document ($id, $env);
-if (is_null($document)) {
-    $rendered = $twig->render('default/not_found.twig');
-    $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
-    $html2pdf->pdf->SetDisplayMode('fullpage');
-    $html2pdf->writeHTML($rendered);
-    $html2pdf->Output($_REQUEST['name'].'.pdf');
-    return;
-} 
-
-//para escribir correctamente la cabecera
-$document['documento']['tipo'] = $document['type'];
-//procesa el template broker que se encarga de navegar el esquema de plantillas
 
 $html2pdf = new HTML2PDF($pl, $s, 'es', true, 'UTF-8', 3);
 $html2pdf->pdf->SetDisplayMode('fullpage');
 
-$count = @$_REQUEST['c']?floatval($_REQUEST['c']):1;
-for ($i=0; $i < $count; $i++) {
-    if ($i==0) {
-        $copia = "EMISOR";
-    } elseif ($i==1) {
-        $copia = "CLIENTE";
-    } else {
-        $copia = "OTROS";
+$logger->addInfo("$p");
+
+
+
+for ($k=0; $k< $p; $k=$k+1) {
+    $idn = explode('-', $id);
+    $idn[3] = $idn[3]+$k;
+    $idn = implode('-', $idn);
+    $logger->addInfo("$env $idn");
+    $document = load_document ($idn, $env);
+    if (is_null($document)) {
+        continue;
     }
-    $document['destinatario'] = $copia;
-    $rendered = $twig->render('default.twig', $document);
-    $html2pdf->writeHTML($rendered);
+    //para escribir correctamente la cabecera
+    $document['documento']['tipo'] = $document['type'];
+    for ($i=0; $i < $count; $i++) {
+        if ($i==0) {
+            $copia = "ADQUIRIENTE O USUARIO";
+        } elseif ($i==1) {
+            $copia = "CONTROL ADMINISTRATIVO";
+        } else {
+            $copia = "OTROS";
+        }
+        $document['destinatario'] = $copia;
+        $rendered = $twig->render('default.twig', $document);
+        $html2pdf->writeHTML($rendered);
+    }
 }
+
+
+
+
+
 $html2pdf->Output($_REQUEST['name'].'.pdf');
