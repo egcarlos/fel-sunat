@@ -68,12 +68,15 @@ function leerNotas($xml, $env, $documentId) {
 }
 
 function leerLineas($xml, $env, $documentId) {
+    $i = 0;
     foreach($xml->detalles->Detalle as $data) {
+        $i = $i+1;
         $detalle = $data->Detalles;
+        $gratuita = floatval($detalle->PrcItemSinIgv)==0;
         $lineas[] = [
             $env,
             $documentId,
-            floatval($detalle->NroLinDet),
+            floatval($detalle->NroLinDet)==0?$i:floatval($detalle->NroLinDet),
             strval($detalle->VlrCodigo)==''?null:strval($detalle->VlrCodigo),
             strval($detalle->NmbItem),
             strval($detalle->UnmdItem),
@@ -81,15 +84,16 @@ function leerLineas($xml, $env, $documentId) {
             $detalle->PrcItemSinIgv,
             floatval($detalle->DescuentoMonto)==0?null:floatval($detalle->DescuentoMonto),
             $detalle->MontoItem,
-            $detalle->PrcItem,
-            null, //valor referencial de mercado cuando es gratuita falta leer el caso
-            floatval($detalle->ImpuestoIgv),
-            strval($detalle->IndExe),
+            $gratuita?0:$detalle->PrcItem,
+            $gratuita?$detalle->PrcItem:null,
+            $gratuita?0:floatval($detalle->ImpuestoIgv),
+            $gratuita?'13':strval($detalle->IndExe),
             floatval($detalle->MontoIsc)==0?null:floatval($detalle->MontoIsc),
             strval($detalle->CodigoIsc)==''?null:strval($detalle->CodigoIsc),
             null //OTH
         ];
     }
+
     return $lineas;
 }
 
@@ -150,7 +154,12 @@ function putCustomerETDLoadXML($args) {
         foreach (leerMontos    ($xml, $env, $documentId) as $key => $monto)    $target[] = [$monto,    'INSERT INTO [dbo].[t_factura_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
         foreach (leerImpuestos ($xml, $env, $documentId) as $key => $impuesto) $target[] = [$impuesto, 'INSERT INTO [dbo].[t_factura_impuestos] ([t_ambiente_id],[t_documento_id],[impuesto_id],[impuesto_nombre],[impuesto_codigo],[impuesto_monto]) VALUES (?,?,?,?,?,?)'];
         foreach (leerNotas     ($xml, $env, $documentId) as $key => $nota)     $target[] = [$nota,     'INSERT INTO [dbo].[t_factura_notas] ([t_ambiente_id],[t_documento_id],[nota_id],[nota_valor]) VALUES (?,?,?,?)'];
-        foreach (leerLineas    ($xml, $env, $documentId) as $key => $linea)    $target[] = [$linea,    'INSERT INTO [dbo].[t_factura_item]([t_ambiente_id],[t_documento_id],[item_id],[item_codigo],[item_nombre],[item_unidad],[item_cantidad],[valor_unitario],[valor_descuento],[valor_venta],[precio_unitario_facturado],[precio_unitario_referencial],[impuesto_igv_monto],[impuesto_igv_codigo],[impuesto_isc_monto],[impuesto_isc_codigo],[impuesto_oth_monto]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
+        $lineas = leerLineas   ($xml, $env, $documentId);  
+        foreach ($lineas       ($xml, $env, $documentId) as $key => $linea)    $target[] = [$linea,    'INSERT INTO [dbo].[t_factura_item]([t_ambiente_id],[t_documento_id],[item_id],[item_codigo],[item_nombre],[item_unidad],[item_cantidad],[valor_unitario],[valor_descuento],[valor_venta],[precio_unitario_facturado],[precio_unitario_referencial],[impuesto_igv_monto],[impuesto_igv_codigo],[impuesto_isc_monto],[impuesto_isc_codigo],[impuesto_oth_monto]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
+
+        //en base a las lineas arreglar la cabecera con un update
+        
+
     }
 
     $conn = db_connect();
