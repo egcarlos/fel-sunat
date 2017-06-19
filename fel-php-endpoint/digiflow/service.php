@@ -18,7 +18,7 @@ function leerInvoice($xml, $env, $documentId) {
         $fecha,
         null, //por determinar de donde leer corresponde a la factura de anticipo
         $header->TpoMoneda,
-        $header->MntNeto + $header->MntExe + $header->MntExo, //suma total de las lineas pagables sin considerar IGV
+        floatval(''.$header->MntNeto) + floatval(''.$header->MntExe) + floatval(''.$header->MntExo), //suma total de las lineas pagables sin considerar IGV
         null, //descuento POR DETERMINAR
         0.00, //total de cargos POR DETERMINAR
         null, //total prepagado POR DETERMINAR
