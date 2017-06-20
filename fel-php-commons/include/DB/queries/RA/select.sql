@@ -12,8 +12,8 @@ SELECT
     [E].[ubicacion_urbanizacion] AS [emisor_ubicacion_urbanizacion],
     [E].[ubicacion_direccion] AS [emisor_ubicacion_direccion],
     [E].[ubicacion_ubigeo] AS [emisor_ubicacion_ubigeo],
-	[B].[baja_fecha_emision],
-    [B].[baja_fecha_referencia]
+	CONVERT(varchar(10),[B].[baja_fecha_emision],120) AS [baja_fecha_emision],
+    CONVERT(varchar(10),[B].[baja_fecha_referencia],120) AS [baja_fecha_referencia]
 FROM
 	[dbo].[t_documento] as [D]
 INNER JOIN
