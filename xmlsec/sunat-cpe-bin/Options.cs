@@ -11,6 +11,7 @@ namespace CPE
         public const string Sign = "sign";
         public const string Ticket = "ticket";
         public const string Print = "print";
+        public const string Relay = "relay";
 
 		[Option('p', "platform", DefaultValue = "http://localhost/sunat-cpe")]
 		public string Platform { get; set; }
@@ -35,6 +36,9 @@ namespace CPE
 
         [Option('r', "printer")]
         public string Printer { get; set; }
+
+        [Option('t', "ticket")]
+        public string TicketNumber { get; set; }
 
         [HelpOption]
 		public string GetUsage()

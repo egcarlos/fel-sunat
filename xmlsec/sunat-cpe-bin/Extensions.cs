@@ -16,6 +16,11 @@ namespace CPE
 			return items.Contains(item);
 		}
 
+        public static bool IsSummary(this string documentType)
+        {
+            return documentType.In("RA", "RR", "RC");
+        }
+
 		public static string AsDeclareTarget(this string documentType, CPE.Platform.Settings settings)
 		{
 			if (documentType.In("01", "03", "07", "08", "RC", "RA"))

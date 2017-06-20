@@ -51,6 +51,18 @@ namespace CPE.Client
             var response = Proxy.sendBill(documentId + ".zip", content);
             return response;
         }
+
+        public string DeclareSummary(string documentId, byte[] content)
+        {
+            var response = Proxy.sendSummary(documentId + ".zip", content);
+            return response;
+        }
+
+        public byte[] QueryTicket(String ticket)
+        {
+            var response = Proxy.getStatus(ticket);
+            return response.content;
+        }
     }
 
     public class QueryClientManager : ClientManager<Query.billService, Query.billServiceClient>

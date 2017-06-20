@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using System.Text;
-using System.Threading.Tasks;
 using CommandLine;
-using CommandLine.Text;
 using System.ServiceModel;
 using System.IO;
 using CPE.Client.Xmlsec;
-using Microsoft.Win32;
-using System.Diagnostics;
 
 namespace CPE.Bin
 {
@@ -53,6 +48,9 @@ namespace CPE.Bin
                 case Options.Print:
                     Print();
                     break;
+                case Options.Relay:
+                    Relay();
+                    break;
             }
         }
 
@@ -85,36 +83,76 @@ namespace CPE.Bin
         void Query()
         {
             Log("Using settings", CurrentSettings);
-            var manager = new CPE.Client.QueryClientManager(CurrentSettings.QueryPath, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
-            try
+            var type = Options.Document.Split('-')[1];
+            if (type.IsSummary())
             {
-                var response = manager.GetCDR(Options.Document);
-                Log("Status Code: " + response.statusCode);
-                var ccdr = response.content;
-                HandleCompressedCDR(ccdr);
+                var endpoint = type.AsDeclareTarget(CurrentSettings);
+                var manager = new CPE.Client.DeclareClientManager(endpoint, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
+                try
+                {
+                    var data = manager.QueryTicket(Options.TicketNumber);
+                    HandleCompressedCDR(data);
+                }
+                finally
+                {
+                    Log("Request:", manager.Behaviors.Messages.Request);
+                    Log("Reply:", manager.Behaviors.Messages.Reply);
+                }
             }
-            catch (FaultException ex)
+            else
             {
-                Platform.UpdateError(Options.Environment, Options.Document, ex.Code.Name, ex.Message);
+                var manager = new CPE.Client.QueryClientManager(CurrentSettings.QueryPath, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
+                try
+                {
+                    var response = manager.GetCDR(Options.Document);
+                    Log("Status Code: " + response.statusCode);
+                    var ccdr = response.content;
+                    HandleCompressedCDR(ccdr);
+                }
+                catch (FaultException ex)
+                {
+                    Platform.UpdateError(Options.Environment, Options.Document, ex.Code.Name, ex.Message);
+                }
+                finally
+                {
+                    Log("Request:", manager.Behaviors.Messages.Request);
+                    Log("Reply:", manager.Behaviors.Messages.Reply);
+                }
             }
-            finally
-            {
-                Log("Request:", manager.Behaviors.Messages.Request);
-                Log("Reply:", manager.Behaviors.Messages.Reply);
-            }
+        }
+
+        void Relay()
+        {
+            Log("Using settings", CurrentSettings);
+            var requestFile = LoadRequestFile();
+            SendFileToSunat(requestFile);
         }
 
         void Declare()
         {
             Log("Using settings", CurrentSettings);
-            string endpoint = Options.Document.Split('-')[1].AsDeclareTarget(CurrentSettings);
+            var requestFile = GetRequestFile();
+            SendFileToSunat(requestFile);
+        }
+
+        void SendFileToSunat(byte[] requestFile)
+        {
+            var type = Options.Document.Split('-')[1];
+            string endpoint = type.AsDeclareTarget(CurrentSettings);
             var manager = new CPE.Client.DeclareClientManager(endpoint, CurrentSettings.SunatUser, CurrentSettings.SunatPass);
-            byte[] requestFile = GetRequestFile();
             try
             {
                 var name = FileNamePart();
-                byte[] ccdr = manager.Declare(name, requestFile);
-                HandleCompressedCDR(ccdr);
+                if (type.IsSummary())
+                {
+                    var ticket = manager.DeclareSummary(name, requestFile);
+                    HandleTicket(ticket);
+                }
+                else
+                {
+                    byte[] ccdr = manager.Declare(name, requestFile);
+                    HandleCompressedCDR(ccdr);
+                }
             }
             catch (FaultException ex)
             {
@@ -128,7 +166,6 @@ namespace CPE.Bin
                 Log("Request:", manager.Behaviors.Messages.Request);
                 Log("Reply:", manager.Behaviors.Messages.Reply);
             }
-            
         }
 
         void Sign()
@@ -144,6 +181,15 @@ namespace CPE.Bin
             //descargar las facturas en PDF
             var pdf_bytes = Platform.GetPDF(Options.Environment, Options.Document);
             var file = PersistPDF(Options.Document + ".pdf", pdf_bytes);
+        }
+
+        /// <summary>
+        /// Carga el archivo firmado desde la ruta de trabajo del disco duro.
+        /// </summary>
+        /// <returns></returns>
+        byte[] LoadRequestFile()
+        {
+            return LoadFile(Options.Document + ".request.zip");
         }
 
         byte[] GetRequestFile()
@@ -179,6 +225,11 @@ namespace CPE.Bin
             Log("Response Code: " + responseCode, "Description: " + description);
         }
 
+        void HandleTicket (string ticket)
+        {
+            Platform.UpdateTicket(CurrentSettings.Enviroment, Options.Document, ticket);
+        }
+
         byte[] Compress(byte[] data, string entry)
         {
             return null;
@@ -187,6 +238,11 @@ namespace CPE.Bin
         void PersistFile(string name, byte[] data)
         {
             File.WriteAllBytes(Path.Combine(Options.Workdir, Options.Environment, "xml", name), data);
+        }
+
+        byte[] LoadFile(string name)
+        {
+            return File.ReadAllBytes(Path.Combine(Options.Workdir, Options.Environment, "xml", name));
         }
 
         string PersistPDF(string name, byte[] data)
@@ -199,7 +255,10 @@ namespace CPE.Bin
         string FileNamePart()
         {
             string[] tokens = Options.Document.Split('-');
-            tokens[3] = tokens[3].PadLeft(tokens[1].StartsWith("R") ? 3 : 8, '0');
+            if (!tokens[1].StartsWith("R"))            
+            {
+                tokens[3] = tokens[3].PadLeft(8, '0');
+            }
             var name = string.Join("-", tokens);
             return name;
         }

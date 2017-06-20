@@ -1,6 +1,6 @@
 SELECT
     [D].[comprobante_tipo] AS [baja_tipo],
-	[D].[comprobante_serie] + '-' + RIGHT('000'+cast([D].[comprobante_numero] as nvarchar), 3) AS [baja_serie_numero],
+	[D].[comprobante_serie] + '-' + cast([D].[comprobante_numero] as nvarchar) AS [baja_serie_numero],
     [E].[documento_tipo] AS [emisor_documento_tipo],
 	[E].[documento_numero] AS [emisor_documento_numero],
 	[E].[razon_social] AS [emisor_razon_social],

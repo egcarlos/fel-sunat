@@ -7,5 +7,5 @@ SELECT
 FROM
     [dbo].[t_baja_detalle] AS [D]
 WHERE
-	[D].[t_ambiente_id]  = 'desa' and
-	[D].[t_documento_id] = '20100318696-RR-20170424-1'
+	[D].[t_ambiente_id]  = :t_ambiente_id and
+	[D].[t_documento_id] = :t_documento_id
