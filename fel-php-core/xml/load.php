@@ -21,7 +21,7 @@ function load_document ($id, $env) {
     } elseif ($id_map[1]==='20') {
         return db_load_document($env, $id, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
-        //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
+        return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
         //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
     }
