@@ -88,6 +88,11 @@ function load_document ($id, $env) {
             $codigo_de_barras .= '|' . $document['respuesta']['firma_valor'];
             //datos adicionales al documento
             $document['codigo_de_barras'] = render_pdf_417($codigo_de_barras);
+            foreach ($document['notas'] as $key => $nota) {
+                if ($nota['id']=='1000') {
+                    $document['monto_en_letras'] = $nota['valor'];
+                }
+            }
         }
     }
     return $document;
@@ -140,9 +145,4 @@ for ($k=0; $k< $p; $k=$k+1) {
         $html2pdf->writeHTML($rendered);
     }
 }
-
-
-
-
-
 $html2pdf->Output($_REQUEST['name'].'.pdf');
