@@ -5,13 +5,19 @@ use \Doctrine\DBAL\DriverManager;
 use \ForceUTF8\Encoding;
 
 function db_connect () {
-    $connectionParams = array(
-        'dbname' => 'fel_sunat',
-        'user' => 'fel_sunat',
-        'password' => 'fel_sunat',
-        'host' => 'localhost',
-        'driver' => 'pdo_sqlsrv'
-    );
+    //lookup for defaults overrides
+    if (file_exists(dirname(__FILE__).'/settings.json')) {
+        $connectionParams = json_decode(file_get_contents(dirname(__FILE__).'/settings.json'), true);
+    } else {
+        $connectionParams = [
+            'dbname' => 'fel_sunat',
+            'user' => 'fel_sunat',
+            'password' => 'fel_sunat',
+            'host' => 'localhost',
+            'driver' => 'pdo_sqlsrv'
+        ];
+    }
+
     $config = new \Doctrine\DBAL\Configuration();
     $conn = DriverManager::getConnection($connectionParams, $config);
     return $conn;

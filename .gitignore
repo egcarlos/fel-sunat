@@ -63,3 +63,4 @@ fel-php-commons/composer.phar
 fel-php-commons/vendor/**
 fel-php-commons/include/digiflow/classes/**
 logs/**
+fel-php-commons/include/DB/settings.json
