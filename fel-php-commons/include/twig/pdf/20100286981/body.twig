@@ -21,6 +21,12 @@
             <tr style="text-align:center">
                 <td colspan="2" style="padding:5 0 5 0;border-bottom:solid 1px #000000;border-left:solid 1px #000000;">
                     {% for nota in notas %}
+                        {% if nota.id == 'X006' %}
+                            {{ nota.valor }}
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                    {% for nota in notas %}
                         {% if nota.id == 'X003' %}
                             {{ nota.valor }}
                         {% endif %}
@@ -46,10 +52,6 @@
                 <td style="text-align:center;border-left:solid 1px #000000;">
                     {{ item.cantidad }}
                 </td>
-                <!--
-                <td style="text-align:center">
-                    {{ item.unidad }}
-                </td>-->
                 <td style="text-align:center">
                     {{ item.datos.codigo }}
                 </td>                
@@ -75,8 +77,8 @@
                 </td>
             </tr>
             {% endfor %}
-            {% if items|length < 10 %}
-            {% for i in (items|length + 1)..10 %}
+            {% if items|length < 8 %}
+            {% for i in (items|length + 1)..8 %}
             <tr>
                 <td colspan="7" style="border-left:solid 1px #000000;border-right:solid 1px #000000;">&nbsp;</td>
             </tr>
@@ -84,12 +86,11 @@
             {% endif %}
         </tbody>
     </table>
-    {% if not retencion.observaciones is null %}
-    <br />
-    <div style="width:100%"><strong>Observaciones:</strong>&nbsp;"{{ retencion.observaciones }}"</div>
-    {% endif %}
-
+    {% for nota in notas %}
+        {% if nota.id == 'X007' %}
+            <div style="width:100%">{{ nota.valor }}</div>
+        {% endif %}
+    {% endfor %}
     {% if not monto_en_letras is null %}
-    <br />
     <div style="width:100%"><strong>SON:</strong>&nbsp;{{ monto_en_letras }} SOLES</div>
     {% endif %}

@@ -35,18 +35,16 @@
 
     </tr>
     <tr>
-        {% for nota in notas %}
-            {% if nota.id == 'X001' %}
-                <td style="font-weight:bold;">Ruta:</td>
-                <td style="">{{ nota.valor }}</td>
-            {% endif %}
-        {% endfor %}
-        {% for nota in notas %}
-            {% if nota.id == 'X002' %}
-                <td style="font-weight:bold;">Orden:</td>
-                <td style="">{{ nota.valor }}</td>
-            {% endif %}
-        {% endfor %}
+        <td style="font-weight:bold;">Cod. Cliente:</td>
+        <td>
+        {% for nota in notas %}{% if nota.id == 'X005' %}{{ nota.valor }}{% endif %}{% endfor %}
+        </td>
+        <td style="font-weight:bold;">Ruta:</td>
+        <td>
+        {% for nota in notas %}{% if nota.id == 'X001' %}{{ nota.valor }}{% endif %}{% endfor %}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        {% for nota in notas %}{% if nota.id == 'X002' %}{{ nota.valor }}{% endif %}{% endfor %}
+        </td>
     </tr>
 
 

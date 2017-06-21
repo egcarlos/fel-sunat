@@ -80,6 +80,9 @@ function leerNotas($env, $documentId, $line2) {
     $notas[] = [$env,$documentId,'X002', $line2[6]];
     $notas[] = [$env,$documentId,'X003', $line2[7]];
     $notas[] = [$env,$documentId,'X004', $line2[8]];
+    $notas[] = [$env,$documentId,'X005', $line2[9]];
+    $notas[] = [$env,$documentId,'X006', $line2[10]];
+    $notas[] = [$env,$documentId,'X007', $line2[11]];
     return $notas;
 }
 
@@ -203,6 +206,7 @@ $app->post('/pipes', function (Request $request, Response $response) {
     }
 
     $db->executeUpdate('EXEC [dbo].[SP_SIGN_DOCUMENT] @env = ?, @documentId = ?',[ $env, $documentId ]);
+    $db->executeUpdate('EXEC [dbo].[SP_PRINT_DOCUMENT] @env = ?, @documentId = ?',[ $env, $documentId ]);
 
     $response = $response->withHeader('Content-Type','text/plain');
     $response->getBody()->write("$documentId");
