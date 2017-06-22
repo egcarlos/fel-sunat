@@ -77,13 +77,13 @@ function load_document ($id, $env) {
             $document['monto_en_letras'] = strtoupper((new EnLetras())->ValorEnLetras($document['retencion']['total']['retencion']['monto'],"")); 
         } elseif ($document['type'] == '01' || $document['type'] == '03') {
             //armado del codigo de barras
-            $codigo_de_barras = $document['documento']['tipo'];
+            $codigo_de_barras = $document['type'];
             $codigo_de_barras .= '|' . $document['documento']['numero'];
-            $codigo_de_barras .= '|0.00';
-            $codigo_de_barras .= '|' . $document['retencion']['total']['retencion']['monto'];
+            $codigo_de_barras .= '|IGV';
+            $codigo_de_barras .= '|TOTAL';
             $codigo_de_barras .= '|' . $document['documento']['fecha_emision'];
-            $codigo_de_barras .= '|' . $document['proveedor']['documento']['tipo'];
-            $codigo_de_barras .= '|' . $document['proveedor']['documento']['numero'];
+            $codigo_de_barras .= '|' . $document['cliente']['documento']['tipo'];
+            $codigo_de_barras .= '|' . $document['cliente']['documento']['numero'];
             $codigo_de_barras .= '|' . $document['respuesta']['firma_hash'];
             $codigo_de_barras .= '|' . $document['respuesta']['firma_valor'];
             //datos adicionales al documento
