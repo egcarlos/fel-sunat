@@ -35,6 +35,5 @@ SELECT
 FROM
     [dbo].[t_resumen_detalle] as [D]
 WHERE
-    [D].[resumen_serie_numero] = :documento_serie_numero AND
-    [D].[emisor_documento_tipo] = :emisor_documento_tipo AND
-    [D].[emisor_documento_numero] = :emisor_documento_numero
+    [D].[t_ambiente_id] = :t_ambiente_id and
+	[D].[t_documento_id] = :t_documento_id
