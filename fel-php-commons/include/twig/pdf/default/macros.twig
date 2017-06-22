@@ -19,3 +19,33 @@
     {% if test %}{{a}}{% else %}{{b}}{% endif %}
 {% endmacro %}
 {% macro irregular_date(date) %}{{ date|slice(8, 2) }}/{{ date|slice(5, 2) }}/{{ date|slice(0, 4) }}{% endmacro %}
+{% macro expanded_date(date) %}
+    {% set edate = date|split('-') %}
+    {{ edate[2] }} de 
+    {% if edate[1] == '01' %}
+        Enero
+    {% elseif edate[1] == '02' %}
+        Febrero
+    {% elseif edate[1] == '03' %}
+        Marzo
+    {% elseif edate[1] == '04' %}
+        Abril
+    {% elseif edate[1] == '05' %}
+        Mayo
+    {% elseif edate[1] == '06' %}
+        Junio
+    {% elseif edate[1] == '06' %}
+        Julio
+    {% elseif edate[1] == '08' %}
+        Agosto
+    {% elseif edate[1] == '09' %}
+        Septiembre
+    {% elseif edate[1] == '10' %}
+        Octubre
+    {% elseif edate[1] == '11' %}
+        Noviembre
+    {% elseif edate[1] == '12' %}
+        Diciembre
+    {% endif %}
+    de {{ edate[0] }}
+{% endmacro %}

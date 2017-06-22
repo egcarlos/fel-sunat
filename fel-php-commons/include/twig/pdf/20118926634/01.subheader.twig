@@ -1,0 +1,39 @@
+{% import 'default/macros.twig' as tool %}
+<table style="width:100%;border:none;padding:1mm 1mm 1mm 1mm;font-size:12" cellspacing="0">
+    <tr>
+        <td style="width: 15%;font-weight:bold;">Fecha de emisi&oacute;n:</td>
+        <td style="width: 35%;">{{ tool.expanded_date(documento.fecha_emision) }}</td>
+        <td style="width: 15%;font-weight:bold;">Moneda:</td>
+        <td style="width: 35%;">{{ tool.fel_document_currency_name(documento.moneda) }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">
+            {% if cliente.documento.tipo == '1' %}
+                Señor(a):
+            {% else %}
+                Señores:
+            {% endif %}
+        </td>
+        <td>{{cliente.datos.razon_social}}</td>
+        <td style="width: 15%;font-weight:bold;">
+            {% if cliente.documento.tipo == '1' %}
+                DNI:
+            {% elseif cliente.documento.tipo == '6' %}
+                RUC:
+            {% else %}
+                Doc.:
+            {% endif %}
+        </td>
+        <td>{{ cliente.documento.numero }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Dirección:</td>
+        <td colspan="3" >{{ cliente.ubicacion.direccion }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;">Gu&iacute;a del Rem.</td>
+        <td>-</td>
+        <td style="font-weight:bold;">Gu&iacute;a del Trans.</td>
+        <td>-</td>
+    </tr>
+</table>

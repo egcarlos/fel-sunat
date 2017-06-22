@@ -1,0 +1,123 @@
+{% import 'default/macros.twig' as tool %}
+    <style type="text/css">
+        td.left {
+            border-left:solid 1px #000000;
+        }
+        td.right {
+            border-right:solid 1px #000000;
+        }
+        td.bottom {
+            border-bottom:solid 1px #000000;
+        }
+        td.monto {
+            text-align:right;padding:0 6 0 0;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+    <table cellspacing="0" style="width:100%;font-size:11;">
+        <thead style="color:white;">
+            <tr style="text-align:center;background:black">
+                <th style="border:solid 1px #000000;width:15%;padding:5 0 5 0" >C</th>
+                <th style="border:solid 1px #000000;width:55%;padding:5 0 5 0" >Descripción</th>
+                <th style="border:solid 1px #000000;width:15%;padding:5 0 5 0" >Precio Unitario</th>
+                <th style="border:solid 1px #000000;width:15%;padding:5 0 5 0" >Importe</th>
+            </tr>
+        </thead>
+        <tfoot>
+            {% for monto in montos %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left monto">
+                    {% if monto.id == '1001' %}
+                        Op. Gravadas
+                    {% elseif monto.id == '1002' %}
+                        Op. Inafectas
+                    {% elseif monto.id == '1003' %}
+                        Op. Exoneradas
+                    {% elseif monto.id == '1004' %}
+                        Op. Gratuitas
+                    {% endif %}
+                </td>
+                <td class="right monto">{{ monto.valor.pagable }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left  monto bold" style="padding: 5 6 5 0">Sub Total</td>
+                <td class="right monto bold" style="padding: 5 6 5 0">{{ total.lineas }}</td>
+            </tr>
+            {% for impuesto in impuestos %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left monto">
+                    {% if impuesto.id == '1000' %}
+                        IGV
+                    {% elseif monto.id == '2000' %}
+                        ISC
+                    {% elseif monto.id == '9999' %}
+                        Otros
+                    {% endif %}
+                </td>
+                <td class="right monto">{{ impuesto.monto }}</td>
+            </tr>
+            {% endfor %}
+            {% if total.descuento != '' %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left monto">
+                    Descuentos
+                </td>
+                <td class="right monto">{{ total.descuento }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left monto">
+                    Cargos
+                </td>
+                <td class="right monto">{{ total.cargo }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="left  bottom monto bold" style="padding: 5 6 5 0">Total a pagar</td>
+                <td class="right bottom monto bold" style="padding: 5 6 5 0">{{ total.pagable }}</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr><td class="left right" colspan="4">&nbsp;</td></tr>
+            {% for item in items %}
+            <tr>
+                <td class="left" style="text-align:center;">
+                    {{ item.cantidad }}
+                </td>                
+                <td style="text-align:center">
+                    {{ item.datos.descripcion | replace({'<BR/>':'<br />'}) }}
+                </td>
+                <td style="text-align:center">
+                    {{ item.precio_unitario.facturado }}
+                </td>
+                <td class="right monto">
+                    {{ item.valor_venta }}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr><td colspan="4" class="left right bottom">&nbsp;</td></tr>
+        </tbody>
+    </table>
+    {% if not retencion.observaciones is null %}
+    <br />
+    <div style="width:100%"><strong>Observaciones:</strong>&nbsp;"{{ retencion.observaciones }}"</div>
+    {% endif %}
+
+    {% if not monto_en_letras is null %}
+    <br />
+    <div style="width:100%"><strong>SON:</strong>&nbsp;{{ monto_en_letras }} SOLES</div>
+    {% endif %}
