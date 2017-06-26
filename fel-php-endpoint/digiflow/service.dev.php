@@ -133,7 +133,7 @@ function putCustomerETDLoadXML($args) {
     $xml = simplexml_load_string($xml_request);
     
     //valores calculados documentId y trakcId
-    $env = 'live';
+    $env = 'dev';
     $header = $xml->camposEncabezado;
     $tipo = ''.$header->TipoDTE;
     $fecha = $header->FchEmis;
