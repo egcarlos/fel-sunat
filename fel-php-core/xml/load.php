@@ -17,7 +17,7 @@ function load_document ($id, $env) {
         return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
-        //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
+        return db_load_document($env, $id, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
     } elseif ($id_map[1]==='20') {
         return db_load_document($env, $id, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {

@@ -2,11 +2,9 @@ SELECT
 	[impuesto_id],
 	[impuesto_nombre],
 	[impuesto_codigo],
-	[impuesto_monto]
+	cast([impuesto_monto] as numeric(14,2)) as [impuesto_monto]
 FROM
 	[t_nota_impuestos]
 WHERE
-    [nota_serie_numero] = :documento_serie_numero AND
-    [emisor_documento_tipo] = :emisor_documento_tipo AND
-    [nota_tipo_documento] = :documento_tipo AND
-    [emisor_documento_numero] = :emisor_documento_numero
+    [t_ambiente_id] = :t_ambiente_id AND
+    [t_documento_id] = :t_documento_id
