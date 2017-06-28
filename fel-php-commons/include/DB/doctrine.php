@@ -113,8 +113,11 @@ function expand_row ($mapping, $row) {
         //sin el primer cero cuando son menores a 1 (por ejemplo .57), se esta agregando el primer cero para resolver
         //el caso de recepcion con sunat. Si el tag no tiene el sufijo monto entonces se debe arreglar en la capa de
         //aplicacion o formatear en la capa de datos.
-        if (in_array($tag, ['monto', 'pagable', 'facturado', 'referencial', 'valor_unitario', 'valor_venta', 'cargo', 'descuento']) && starts_with($value, '.')) {
-            $value = '0'.$value;
+        //if (in_array($tag, ['monto', 'pagable', 'facturado', 'referencial', 'valor_unitario', 'valor_venta', 'cargo', 'descuento']) && starts_with($value, '.')) {
+        //    $value = '0'.$value;
+        //}
+        if (floatval($value) < 1 && starts_with($value, '.')) {
+            $value = $value = '0'.$value;
         }
         $current_holder[$tag] = Encoding::toUTF8(trim_to_null($value));
         

@@ -23,7 +23,7 @@ function load_document ($id, $env) {
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
         return db_load_document($env, $id, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
-        //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
+        return db_load_document($env, $id, $conn, 'RC', 'select', ['items']);
     }
 }
 

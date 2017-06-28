@@ -10,7 +10,7 @@ SELECT
     [E].[ubicacion_distrito] as [emisor_ubicacion_distrito],
     [E].[ubicacion_urbanizacion] as [emisor_ubicacion_urbanizacion],
     [E].[ubicacion_direccion] as [emisor_ubicacion_direccion],
-    [E].[ubicacion_direccion] as [emisor_ubicacion_ubigeo],
+    [E].[ubicacion_ubigeo] as [emisor_ubicacion_ubigeo],
     [F].[cliente_documento_tipo],
     [F].[cliente_documento_numero],
     [F].[cliente_razon_social],

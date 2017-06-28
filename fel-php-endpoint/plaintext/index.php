@@ -20,7 +20,7 @@ function fix_date($date) {
     return $date;
 }
 
-function leerInvoice ($env, $documentId, $date, $line1, $line2) {
+function leerInvoice ($env, $documentId, $date, $line1, $line2, $descuento_global) {
     $free = $line2[0]==='GR';
     return [
         $env,
@@ -29,7 +29,7 @@ function leerInvoice ($env, $documentId, $date, $line1, $line2) {
         null,
         $line2[1],
         $free?0:$line2[2],
-        null,
+        $descuento_global?$descuento_global:null,
         0.00,
         null,
         $free?0:$line2[4],
@@ -97,7 +97,25 @@ function leerLineas($env, $documentId, $line2, $lines) {
     foreach ($lines as $key => $line) {
         if($line==='') continue;
         $item = explode('|', $line);
-        $items[] = [$env,$documentId,$item[0],$item[1],$item[2].' ('.$item[3].')','NIU',$item[4],$free?0:$item[5],null,$free?0:$item[6],$free?0:$item[5],$free?$item[5]:null,$free?0:$item[7],$free?13:($exem?20:10),null,null,null];
+        $items[] = [
+            $env,
+            $documentId,
+            $item[0],
+            $item[1],
+            $item[2].' ('.$item[3].')',
+            'NIU',
+            $item[4],
+            $free?0:$item[5],
+            null,
+            $free?0:$item[6],
+            $free?0:$item[5],
+            $free?$item[5]:null,
+            $free?0:$item[7],
+            $free?13:($exem?20:10),
+            null,
+            null,
+            null
+        ];
     }
     return $items;
 }
@@ -173,6 +191,7 @@ $app->post('/pipes', function (Request $request, Response $response) {
     if ($tipo === '01' || $tipo === '03' || $tipo === '07' || $tipo === '08') {
         $items_start = 2;
         $table_group = 'factura';
+        $descuento_global = false;
         if ($lines[2][0]=='N') {
             $table_group = 'nota';
             $items_start = 3;
@@ -185,9 +204,12 @@ $app->post('/pipes', function (Request $request, Response $response) {
             foreach ($guias as $key => $guia) {
                 $f_target[]=[[$env, $documentId, $guia], 'INSERT INTO [dbo].[t_factura_guias] ([t_ambiente_id],[t_documento_id],[guia_id]) VALUES (?,?,?)'];
             }
+        } elseif ($lines[2][0]=='D') {
+            $items_start = 3;
+            $descuento_global = explode('|', $lines[2])[1];
         }
         array_splice($lines, 0, $items_start);//no hay una tercera línea
-        $target[] = [leerInvoice($env, $documentId, $date, $line1, $line2), 'INSERT INTO [dbo].[t_'.$table_group.']([t_ambiente_id],[t_documento_id],['.$table_group.'_fecha_emision],['.$table_group.'_tipo_transaccion],['.$table_group.'_moneda],[total_lineas],[total_descuento],[total_cargo],[total_prepagado],[total_pagable],[cliente_documento_tipo],[cliente_documento_numero],[cliente_razon_social],[cliente_nombre_comercial],[cliente_ubicacion_pais],[cliente_ubicacion_departamento],[cliente_ubicacion_provincia],[cliente_ubicacion_distrito],[cliente_ubicacion_urbanizacion],[cliente_ubicacion_direccion],[cliente_ubicacion_ubigeo]) VALUES (?,?,CONVERT(datetime, ?, 20),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
+        $target[] = [leerInvoice($env, $documentId, $date, $line1, $line2, $descuento_global), 'INSERT INTO [dbo].[t_'.$table_group.']([t_ambiente_id],[t_documento_id],['.$table_group.'_fecha_emision],['.$table_group.'_tipo_transaccion],['.$table_group.'_moneda],[total_lineas],[total_descuento],[total_cargo],[total_prepagado],[total_pagable],[cliente_documento_tipo],[cliente_documento_numero],[cliente_razon_social],[cliente_nombre_comercial],[cliente_ubicacion_pais],[cliente_ubicacion_departamento],[cliente_ubicacion_provincia],[cliente_ubicacion_distrito],[cliente_ubicacion_urbanizacion],[cliente_ubicacion_direccion],[cliente_ubicacion_ubigeo]) VALUES (?,?,CONVERT(datetime, ?, 20),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'];
         foreach (leerMontos    ($env, $documentId, $line2) as $key => $monto)    $target[] = [$monto,    'INSERT INTO [dbo].[t_'.$table_group.'_montos]([t_ambiente_id],[t_documento_id],[monto_id],[monto_valor_pagable]) VALUES (?,?,?,?)'];
         foreach (leerImpuestos ($env, $documentId, $line2) as $key => $impuesto) $target[] = [$impuesto, 'INSERT INTO [dbo].[t_'.$table_group.'_impuestos] ([t_ambiente_id],[t_documento_id],[impuesto_id],[impuesto_nombre],[impuesto_codigo],[impuesto_monto]) VALUES (?,?,?,?,?,?)'];
         foreach (leerNotas     ($env, $documentId, $line2) as $key => $nota)     $target[] = [$nota,     'INSERT INTO [dbo].[t_'.$table_group.'_notas] ([t_ambiente_id],[t_documento_id],[nota_id],[nota_valor]) VALUES (?,?,?,?)'];
