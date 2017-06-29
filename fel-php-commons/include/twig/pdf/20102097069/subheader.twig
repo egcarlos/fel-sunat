@@ -2,9 +2,9 @@
 <table style="width:100%;border:none;padding:1mm 1mm 1mm 1mm;font-size:12" cellspacing="0">
     <tr>
         <td style="width: 15%;font-weight:bold;">Fecha de emisi&oacute;n:</td>
-        <td style="width: 35%;">{{ tool.expanded_date(documento.fecha_emision) }}</td>
+        <td style="width: 50%;">{{ tool.expanded_date(documento.fecha_emision) }}</td>
         <td style="width: 15%;font-weight:bold;">Moneda:</td>
-        <td style="width: 35%;">{{ tool.fel_document_currency_name(documento.moneda) }}</td>
+        <td style="width: 20%;">{{ tool.fel_document_currency_name(documento.moneda) }}</td>
     </tr>
     <tr>
         <td style="font-weight:bold;">
@@ -28,6 +28,16 @@
     </tr>
     <tr>
         <td style="font-weight:bold;">Dirección:</td>
-        <td colspan="3" >{{ cliente.ubicacion.direccion }}</td>
+        <td>{{ cliente.ubicacion.direccion }}</td>
+        {% if facturas != null %}
+        <td style="font-weight:bold;">Referencia:</td>
+        <td>
+            {% if facturas[0].tipo == '01' %}
+                Factura
+            {% else %}
+                Boleta
+            {% endif %} 
+            {{ facturas[0].serie_numero }}</td>
+        {% endif %}
     </tr>
 </table>

@@ -22,29 +22,31 @@ function render_pdf_417($data) {
     return $image;
 }
 
-function load_document ($id, $env) {
+function load_document ($id, $env, $conn) {
     if (is_null($id) || is_null($env)) {
         return null;
     }
-    
-    $conn = db_connect();
-
     $id_map = preg_split('/-/', $id);
     //TODO reparar el error cuando el id no esta completo
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
-    $document = null;
+
     if ($id_map[1]==='01' || $id_map[1]==='03'){
-        $document = db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
-        //return db_load_document($id_map, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
+        return db_load_document($env, $id, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);
     } elseif ($id_map[1]==='20') {
-        $document = db_load_document($env, $id, $conn, '20', 'select', ['items']);
+        return db_load_document($env, $id, $conn, '20', 'select', ['items']);
     } elseif ($id_map[1]==='RA' || $id_map[1]==='RR') {
-        //return db_load_document($id_map, $conn, 'RA', 'select', ['items']);
+        return db_load_document($env, $id, $conn, 'RA', 'select', ['items']);
     } elseif ($id_map[1]==='RC') {
-        //return db_load_document($id_map, $conn, 'RC', 'select', ['items']);
+        return db_load_document($env, $id, $conn, 'RC', 'select', ['items']);
     }
+}
+
+function load_document_1 ($id, $env, $conn) {
+    $document = load_document($id, $env, $conn);
+    $id_map = preg_split('/-/', $id);
     if(! is_null($document)) {
         //usado para el ruteo de los templates
         $document['id'] = $id;
@@ -120,13 +122,13 @@ $html2pdf->pdf->SetDisplayMode('fullpage');
 $logger->addInfo("$p");
 
 
-
+$conn = db_connect();
 for ($k=0; $k< $p; $k=$k+1) {
     $idn = explode('-', $id);
     $idn[3] = $idn[3]+$k;
     $idn = implode('-', $idn);
     $logger->addInfo("$env $idn");
-    $document = load_document ($idn, $env);
+    $document = load_document_1($idn, $env, $conn);
     if (is_null($document)) {
         continue;
     }

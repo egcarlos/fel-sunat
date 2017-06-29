@@ -775,8 +775,8 @@ class SummaryBuilder extends UBLBuilder {
                     ->append('cbc:LineID', $item['id'])
                     ->append('cbc:DocumentTypeCode', $item['rango']['tipo'])
                     ->append('sac:DocumentSerialID', $item['rango']['serie'])
-                    ->append('sac:StartDocumentNumberID', $item['id'])
-                    ->append('sac:EndDocumentNumberID', $item['id'])
+                    ->append('sac:StartDocumentNumberID', $item['rango']['inicio'])
+                    ->append('sac:EndDocumentNumberID', $item['rango']['fin'])
                     ->append('sac:TotalAmount', $item['total']['venta'])->attribute('currencyID', $item['rango']['moneda'])
             ;
             foreach ($item['montos'] as $m => $monto) {
