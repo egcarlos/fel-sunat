@@ -31,7 +31,7 @@ function load_document ($id, $env, $conn) {
     $id =  $id_map[0].'-'.$id_map[1].'-'.$id_map[2].'-'.ltrim($id_map[3], '0');
 
     if ($id_map[1]==='01' || $id_map[1]==='03'){
-        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
+        return db_load_document($env, $id, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items', 'guias']);
         //return db_load_document($id_map, $conn, '01', 'select', ['montos', 'notas', 'impuestos', 'items']);
     } elseif ($id_map[1]==='07' || $id_map[1]==='08') {
         return db_load_document($env, $id, $conn, '07', 'select', ['montos', 'notas', 'impuestos', 'items', 'facturas']);

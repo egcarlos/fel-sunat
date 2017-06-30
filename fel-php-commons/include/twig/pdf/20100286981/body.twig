@@ -1,5 +1,16 @@
 {% import 'default/macros.twig' as tool %}
-
+    {% for nota in notas %}
+        {% if (nota.id == 'X007') and (nota.valor != '') %}
+            <div style="width:100%">Observación: {{ nota.valor }}</div>
+        {% endif %}
+    {% endfor %}
+    {% if guias != null %}
+        <div>Guías: 
+            {% for guia in guias %}
+                {{ guia.serie_numero}}&nbsp;
+            {% endfor %}
+        </div>
+    {% endif %}
     <table cellspacing="0" style="width:100%;font-size:11;">
         <thead>
             <tr style="text-align:center;">
@@ -86,11 +97,6 @@
             {% endif %}
         </tbody>
     </table>
-    {% for nota in notas %}
-        {% if nota.id == 'X007' %}
-            <div style="width:100%">{{ nota.valor }}</div>
-        {% endif %}
-    {% endfor %}
     {% if not monto_en_letras is null %}
     <div style="width:100%"><strong>SON:</strong>&nbsp;{{ monto_en_letras }} SOLES</div>
     {% endif %}
