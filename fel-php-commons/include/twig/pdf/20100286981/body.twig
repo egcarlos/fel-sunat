@@ -98,5 +98,5 @@
         </tbody>
     </table>
     {% if not monto_en_letras is null %}
-    <div style="width:100%"><strong>SON:</strong>&nbsp;{{ monto_en_letras }} SOLES</div>
+    <div style="width:100%"><strong>SON:</strong>&nbsp;{{ monto_en_letras }} {{ tool.fel_document_currency_name(documento.moneda)|upper }}</div>
     {% endif %}
